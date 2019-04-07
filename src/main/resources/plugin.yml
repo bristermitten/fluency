@@ -1,0 +1,5 @@
+name: SpigotMenusPlugin
+version: @version@
+main: me.bristermitten.spigotmenus.SpigotMenusPlugin
+authors: [BristerMitten]
+website: http://bristermitten.me
