@@ -11,12 +11,12 @@ import java.util.function.Consumer;
 @Getter
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class ClickEvent {
+public class NamedClickEvent implements Consumer<MenuClickEvent> {
 
     private final String alias;
     private Consumer<MenuClickEvent> onClick;
 
-    public ClickEvent(Consumer<MenuClickEvent> onClick) {
+    public NamedClickEvent(Consumer<MenuClickEvent> onClick) {
         this.alias = UUID.randomUUID().toString();
         this.onClick = onClick;
     }
@@ -26,5 +26,10 @@ public class ClickEvent {
             onClick = ClickEvents.DO_NOTHING.onClick;
         }
         this.onClick = onClick;
+    }
+
+    @Override
+    public void accept(MenuClickEvent menuClickEvent) {
+        onClick.accept(menuClickEvent);
     }
 }

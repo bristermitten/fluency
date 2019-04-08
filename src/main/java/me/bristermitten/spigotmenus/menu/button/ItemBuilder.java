@@ -23,6 +23,19 @@ public class ItemBuilder {
         this.type = type;
     }
 
+    public ItemBuilder(ItemStack copy) {
+        this.amount = copy.getAmount();
+        this.type = copy.getType();
+        this.data = copy.getDurability();
+        if (copy.hasItemMeta()) {
+            ItemMeta itemMeta = copy.getItemMeta();
+            if (itemMeta.hasLore())
+                this.lore = itemMeta.getLore();
+            if (itemMeta.hasDisplayName())
+                this.name = itemMeta.getDisplayName();
+        }
+    }
+
     public ItemBuilder setAmount(int amount) {
         this.amount = amount;
         return this;

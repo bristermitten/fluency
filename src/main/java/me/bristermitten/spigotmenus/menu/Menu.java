@@ -1,15 +1,21 @@
 package me.bristermitten.spigotmenus.menu;
 
+import lombok.Getter;
 import lombok.val;
 import me.bristermitten.spigotmenus.menu.button.MenuButton;
+import me.bristermitten.spigotmenus.menu.button.MenuButtons;
 import me.bristermitten.spigotmenus.menu.page.Page;
 import me.bristermitten.spigotmenus.util.Chat;
+import me.bristermitten.spigotmenus.util.dataclass.FixedCapacityLinkedList;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Objects;
 
@@ -17,9 +23,10 @@ import static me.bristermitten.spigotmenus.util.Constants.MAX_INV_SIZE;
 import static me.bristermitten.spigotmenus.util.Constants.MAX_PAGE_SIZE;
 
 public class Menu {
+    @Getter
     private final LinkedList<MenuButton> buttons;
     private final LinkedList<Menu> pages;
-    protected Inventory inventory;
+    Inventory inventory;
 
 
     //MENU INFO
@@ -32,7 +39,7 @@ public class Menu {
 
         this.title = title;
         this.size = size;
-        this.buttons = new LinkedList<>(Arrays.asList(buttons));
+        this.buttons = new FixedCapacityLinkedList<>(size, Arrays.asList(buttons));
         this.pages = new LinkedList<>();
         this.pages.add(this);
         updateInfo();
@@ -46,7 +53,8 @@ public class Menu {
             }
             size = MAX_INV_SIZE;
         }
-        this.inventory = Bukkit.createInventory(inventory.getHolder(), size, Chat.color(title));
+        this.inventory = Bukkit.createInventory(new MenuHolder(this), size, Chat.color(title));
+
         for (int i = 0; i < buttons.size(); i++) {
             MenuButton menuButton = buttons.get(i);
             ItemStack item = menuButton == null ? null : menuButton.getItem();
@@ -54,17 +62,50 @@ public class Menu {
         }
     }
 
-    private void addPage() {
+    public Page addPage() {
         int pageNumber = pages.size();
-        Page page = new Page(title + "Page " + pageNumber, size);
-        val lastButton = pages.getLast().buttons.getLast();
+        Page page = createNewPage(pageNumber);
+
+        //copy over previous button if it exists
+        Menu lastPage = pages.getLast();
+        val lastButton = lastPage.buttons.getLast();
         if (lastButton != null) {
+            page.addButton(lastButton, lastPage.size - 1);
         }
+
+        //add next page button
+        lastPage.addButton(MenuButtons.NEXT_PAGE, lastPage.size - 1);
         pages.add(page);
+        return page;
+    }
+
+    private Page createNewPage(int pageNumber) {
+        Page page = new Page(title + "Page " + pageNumber, size, this);
+        page.addButton(MenuButtons.PREVIOUS_PAGE);
+        return page;
     }
 
     public void addButton(MenuButton button) {
-        buttons.add(button);
+        addButton(button, firstEmpty());
+    }
+
+    private int firstEmpty() {
+        int firstEmpty = inventory.firstEmpty();
+        Iterator<Menu> pageIterator = pages.iterator();
+        pageIterator.next(); //we've already counted the first page
+        while (firstEmpty == -1 && pageIterator.hasNext()) {
+            Menu page = pageIterator.next();
+            int pageFirstEmpty = page.firstEmpty();
+            if (pageFirstEmpty == -1) {
+                continue;
+            }
+            return firstEmpty + pageFirstEmpty;
+        }
+        return firstEmpty;
+    }
+
+    public void addButton(MenuButton button, int slot) {
+        buttons.set(slot, button);
     }
 
     private int pagesNeeded(int size) {
@@ -81,5 +122,9 @@ public class Menu {
 
     public MenuButton getButton(int slot) {
         return buttons.get(slot);
+    }
+
+    public void open(Player whoClicked) {
+        whoClicked.openInventory(inventory);
     }
 }

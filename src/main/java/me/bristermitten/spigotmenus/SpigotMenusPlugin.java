@@ -1,18 +1,26 @@
 package me.bristermitten.spigotmenus;
 
-import lombok.Getter;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader;
 
-public final class SpigotMenusPlugin extends JavaPlugin {
+import java.io.File;
 
-    @Getter
-    private static MenuManager menuManager;
+public class SpigotMenusPlugin extends JavaPlugin {
+
+    public SpigotMenusPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
+        super(loader, description, dataFolder, file);
+    }
+
+    public SpigotMenusPlugin() {
+    }
 
 
     @Override
     public void onEnable() {
         getLogger().info("SpigotMenus plugin loaded - using this for MenuManager!");
-        menuManager = new MenuManager(this);
+        Bukkit.getPluginManager().registerEvents(new MenuListener(this), this);
     }
 
     @Override
