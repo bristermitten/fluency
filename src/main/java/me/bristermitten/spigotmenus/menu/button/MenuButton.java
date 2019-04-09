@@ -9,6 +9,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -51,5 +52,12 @@ public class MenuButton {
                 sa.set(sa.get().replace(s, o.toString()));
         });
         return string;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", MenuButton.class.getSimpleName() + "[", "]")
+                .add("item=" + item)
+                .toString();
     }
 }
