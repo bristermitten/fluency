@@ -5,6 +5,7 @@ import be.seeseemelk.mockbukkit.ServerMock;
 import me.bristermitten.spigotmenus.menu.Menu;
 import me.bristermitten.spigotmenus.menu.MenuClickEvent;
 import me.bristermitten.spigotmenus.menu.button.MenuButton;
+import me.bristermitten.spigotmenus.menu.button.MenuButtons;
 import me.bristermitten.spigotmenus.menu.button.builder.MenuButtonBuilder;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.ClickType;
@@ -54,5 +55,17 @@ public class MenuTest {
         when(mock.getClick()).thenReturn(ClickType.LEFT);
         menu.getButton(0).getOnClick().accept(mock);
         assertEquals("clicked", log.toString());
+        log = new StringWriter();
     }
+
+
+    @Test
+    public void testMenu_pageAdded_whenFull() {
+        for (int i = 0; i < 9; i++) {
+            menu.addButton(new MenuButtonBuilder().setType(Material.STONE).buildButton());
+        }
+        assertEquals(menu.getButton(8), MenuButtons.NEXT_PAGE);
+    }
+
+
 }

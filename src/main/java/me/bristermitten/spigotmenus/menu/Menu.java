@@ -9,7 +9,6 @@ import me.bristermitten.spigotmenus.util.Chat;
 import me.bristermitten.spigotmenus.util.dataclass.FixedCapacityLinkedList;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -26,9 +25,11 @@ public class Menu {
     @Getter
     private final LinkedList<MenuButton> buttons;
     private final LinkedList<Menu> pages;
+    /**
+     * Local maximum size for pagination. Means a menu can have max n rows and still have pages added
+     */
+    private final int maxSize;
     Inventory inventory;
-
-
     //MENU INFO
     private String title;
     private int size;
@@ -39,6 +40,7 @@ public class Menu {
 
         this.title = title;
         this.size = size;
+        this.maxSize = size;
         this.buttons = new FixedCapacityLinkedList<>(size, Arrays.asList(buttons));
         this.pages = new LinkedList<>();
         this.pages.add(this);
@@ -46,12 +48,12 @@ public class Menu {
     }
 
     private void updateInfo() {
-        if (size > MAX_INV_SIZE) {
+        if (size > maxSize) {
             int pagesAmount = pagesNeeded(size);
             for (int i = 0; i < pagesAmount; i++) {
                 addPage();
             }
-            size = MAX_INV_SIZE;
+            size = maxSize;
         }
         this.inventory = Bukkit.createInventory(new MenuHolder(this), size, Chat.color(title));
 
@@ -85,10 +87,6 @@ public class Menu {
         return page;
     }
 
-    public void addButton(MenuButton button) {
-        addButton(button, firstEmpty());
-    }
-
     private int firstEmpty() {
         int firstEmpty = inventory.firstEmpty();
         Iterator<Menu> pageIterator = pages.iterator();
@@ -101,11 +99,21 @@ public class Menu {
             }
             return firstEmpty + pageFirstEmpty;
         }
+        if (firstEmpty == -1) {
+            addPage();
+            return firstEmpty();
+        }
         return firstEmpty;
     }
 
+    public void addButton(MenuButton button) {
+        addButton(button, firstEmpty());
+    }
+
+
     public void addButton(MenuButton button, int slot) {
         buttons.set(slot, button);
+        updateInfo();
     }
 
     private int pagesNeeded(int size) {
