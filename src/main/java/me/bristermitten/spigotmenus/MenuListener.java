@@ -27,6 +27,13 @@ public class MenuListener implements Listener {
         if (clickedInventory != null && clickedInventory.getHolder() instanceof MenuHolder) {
             MenuClickEvent event = convertEvent(e);
             Bukkit.getPluginManager().callEvent(event);
+            if (event.getClickedButton() == null) {
+                return;
+            }
+            event.getClickedButton().getOnClick().accept(event);
+            if (event.isCancelled()) {
+                e.setCancelled(true);
+            }
         }
     }
 
