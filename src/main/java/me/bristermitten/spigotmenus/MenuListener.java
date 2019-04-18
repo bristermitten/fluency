@@ -16,6 +16,7 @@ public class MenuListener implements Listener {
 
     public MenuListener(JavaPlugin plugin) {
         this.plugin = plugin;
+        Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
