@@ -16,6 +16,7 @@ public class MenuListener implements Listener {
 
     public MenuListener(JavaPlugin plugin) {
         this.plugin = plugin;
+        Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
@@ -27,6 +28,13 @@ public class MenuListener implements Listener {
         if (clickedInventory != null && clickedInventory.getHolder() instanceof MenuHolder) {
             MenuClickEvent event = convertEvent(e);
             Bukkit.getPluginManager().callEvent(event);
+            if (event.getClickedButton() == null) {
+                return;
+            }
+            event.getClickedButton().getOnClick().accept(event);
+            if (event.isCancelled()) {
+                e.setCancelled(true);
+            }
         }
     }
 

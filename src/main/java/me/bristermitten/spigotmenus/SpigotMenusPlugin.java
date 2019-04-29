@@ -13,14 +13,14 @@ public class SpigotMenusPlugin extends JavaPlugin {
         super(loader, description, dataFolder, file);
     }
 
-    public SpigotMenusPlugin() {
+    protected SpigotMenusPlugin() {
     }
 
 
     @Override
     public void onEnable() {
         getLogger().info("SpigotMenus plugin loaded - using this for MenuManager!");
-        Bukkit.getPluginManager().registerEvents(new MenuListener(this), this);
+        new MenuListener(this);
     }
 
     @Override

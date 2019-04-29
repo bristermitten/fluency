@@ -5,16 +5,17 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ItemBuilder {
     private String name;
-    private Material type;
-    private int amount;
-    private short data;
-    private List<String> lore;
+    private Material type = Material.AIR;
+    private int amount = 1;
+    private short data = 0;
+    private List<String> lore = new ArrayList<>();
 
     public ItemBuilder() {
     }

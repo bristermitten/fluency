@@ -135,4 +135,8 @@ public class Menu {
     public void open(Player whoClicked) {
         whoClicked.openInventory(inventory);
     }
+
+    public LinkedList<Menu> getPages() {
+        return pages;
+    }
 }
