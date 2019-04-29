@@ -9,7 +9,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -18,13 +17,15 @@ import java.util.stream.Collectors;
 public class MenuButton {
     private final ItemStack item;
     private final Consumer<MenuClickEvent> onClick;
+    private Map<String, Object> injectedData;
 
     /**
      * Inject data into this button, essentially replacing any lore or title placeholders
      *
-     * @param inject
+     * @param inject data to inject
      */
     public void injectData(Map<String, Object> inject) {
+        injectedData.putAll(inject);
         MenuButtonBuilder buttonBuilder = new MenuButtonBuilder(item);
         buttonBuilder.onAnyClick().thenAction(onClick);
         /* copy over onClick. Technically it might not be onAnyClick but this ensures the Consumer will always
@@ -44,12 +45,20 @@ public class MenuButton {
         }
     }
 
+    public Object getInjectedData(String key) {
+        return getInjectedData(key, null);
+    }
+
+    public Object getInjectedData(String key, Object defaultValue) {
+        return injectedData.getOrDefault(key, defaultValue);
+    }
+
     private String replaceString(String string, Map<String, Object> data) {
-        AtomicReference<String> sa = new AtomicReference<>(string);
+        String[] sa = {string};
         data.forEach((s, o) -> {
             if (o != null)
-                sa.set(sa.get().replace(s, o.toString()));
+                sa[0] = (sa[0].replace(s, o.toString()));
         });
-        return string;
+        return sa[0];
     }
 }
