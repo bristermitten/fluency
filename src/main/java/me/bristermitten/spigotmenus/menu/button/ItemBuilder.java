@@ -3,81 +3,73 @@ package me.bristermitten.spigotmenus.menu.button;
 import me.bristermitten.spigotmenus.util.Chat;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Simple builder class for a {@link ItemStack}
+ * This is different to typical builder classes as it builds the data on the fly,
+ * with an existing {@link ItemStack}.
+ * This means that calling a method on {@link ItemBuilder} also affects the
+ * underlying {@link ItemStack} UNLESS {@link ItemBuilder#ItemBuilder(ItemStack, boolean)}
+ * is called with {@code true}
+ */
 public class ItemBuilder {
-    private String name;
-    private Material type = Material.AIR;
-    private int amount = 1;
-    private short data = 0;
-    private List<String> lore = new ArrayList<>();
+    private ItemStack itemStack;
 
     public ItemBuilder() {
+        this.itemStack = new ItemStack(Material.AIR);
     }
 
     public ItemBuilder(Material type) {
-        this.type = type;
+        this.itemStack = new ItemStack(type);
     }
 
     public ItemBuilder(ItemStack copy) {
-        this.amount = copy.getAmount();
-        this.type = copy.getType();
-        this.data = copy.getDurability();
-        if (copy.hasItemMeta()) {
-            ItemMeta itemMeta = copy.getItemMeta();
-            if (itemMeta.hasLore())
-                this.lore = itemMeta.getLore();
-            if (itemMeta.hasDisplayName())
-                this.name = itemMeta.getDisplayName();
-        }
+        this(copy, false);
+    }
+
+    public ItemBuilder(ItemStack copy, boolean clone) {
+        this.itemStack = clone ? copy.clone() : copy;
     }
 
     public ItemBuilder setAmount(int amount) {
-        this.amount = amount;
+        this.itemStack.setAmount(amount);
         return this;
     }
 
     public ItemBuilder setData(short data) {
-        this.data = data;
+        this.itemStack.setDurability(data);
         return this;
     }
 
     public ItemBuilder setLore(List<String> lore) {
-        this.lore = lore;
+        this.itemStack.getItemMeta().setLore(lore.stream().map(Chat::color).collect(Collectors.toList()));
         return this;
     }
 
     public ItemBuilder setName(String name) {
-        this.name = name;
+        this.itemStack.getItemMeta().setDisplayName(Chat.color(name));
         return this;
     }
 
     public ItemBuilder setType(Material type) {
-        this.type = type;
+        this.itemStack.setType(type);
         return this;
     }
 
     public ItemBuilder addLore(String... lore) {
-        this.lore.addAll(Arrays.asList(lore));
+        List<String> currentLore = this.itemStack.getItemMeta().getLore();
+        List<String> newLore = Arrays.stream(lore).map(Chat::color).collect(Collectors.toList());
+        if (currentLore == null) currentLore = newLore;
+        else currentLore.addAll(newLore);
+        setLore(currentLore);
         return this;
     }
 
     public ItemStack build() {
-        ItemStack item = new ItemStack(type, amount, data);
-        ItemMeta itemMeta = item.getItemMeta();
-        if (name != null) {
-            itemMeta.setDisplayName(Chat.color(name));
-        }
-        if (lore != null) {
-            itemMeta.setLore(lore.stream().map(Chat::color).collect(Collectors.toList()));
-        }
-        item.setItemMeta(itemMeta);
-        return item;
-
+        return this.itemStack;
     }
 }

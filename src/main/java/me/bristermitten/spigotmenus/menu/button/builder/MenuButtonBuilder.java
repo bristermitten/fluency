@@ -36,9 +36,9 @@ import java.util.function.Consumer;
 
 public class MenuButtonBuilder extends ItemBuilder {
 
-    Consumer<MenuClickEvent> onClick;
-    LinkedList<Object> injectedData = new LinkedList<>();
-    Map<String, Object> injectedDataMap = new LinkedHashMap<>();
+    private Consumer<MenuClickEvent> onClick;
+    private LinkedList<Object> injectedData = new LinkedList<>();
+    private Map<String, Object> injectedDataMap = new LinkedHashMap<>();
     private Map<ClickType, MenuButtonClickEventBuilder> clickBuilders = new HashMap<>();
 
     public MenuButtonBuilder() {
@@ -47,6 +47,10 @@ public class MenuButtonBuilder extends ItemBuilder {
 
     public MenuButtonBuilder(ItemStack item) {
         super(item);
+    }
+
+    public MenuButtonBuilder(ItemStack item, boolean clone) {
+        super(item, clone);
     }
 
     public MenuButtonClickEventBuilder onAnyClick() {
