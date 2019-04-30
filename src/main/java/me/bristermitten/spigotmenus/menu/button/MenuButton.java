@@ -1,7 +1,7 @@
 package me.bristermitten.spigotmenus.menu.button;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import me.bristermitten.spigotmenus.menu.MenuClickEvent;
 import me.bristermitten.spigotmenus.menu.button.builder.MenuButtonBuilder;
 import org.bukkit.inventory.ItemStack;
@@ -10,11 +10,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
 public class MenuButton {
     private final ItemStack item;
