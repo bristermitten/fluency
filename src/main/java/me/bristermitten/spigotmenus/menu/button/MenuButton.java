@@ -7,6 +7,7 @@ import me.bristermitten.spigotmenus.menu.button.builder.MenuButtonBuilder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 public class MenuButton {
     private final ItemStack item;
     private final Consumer<MenuClickEvent> onClick;
-    private Map<String, Object> injectedData;
+    private final Map<String, Object> injectedData = new HashMap<>();
 
     /**
      * Inject data into this button, essentially replacing any lore or title placeholders
