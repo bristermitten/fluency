@@ -27,6 +27,7 @@ package me.bristermitten.spigotmenus.menu.button.builder;
 import me.bristermitten.spigotmenus.menu.MenuClickEvent;
 import me.bristermitten.spigotmenus.menu.button.ItemBuilder;
 import me.bristermitten.spigotmenus.menu.button.MenuButton;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -90,6 +91,7 @@ public class MenuButtonBuilder extends ItemBuilder {
 
     private Consumer<MenuClickEvent> buildAllEvents() {
         return e -> {
+            System.out.println(ReflectionToStringBuilder.toString(e));
             MenuButtonClickEventBuilder click = clickBuilders.get(e.getClick());
             if (click != null) click.build().accept(e);
         };
