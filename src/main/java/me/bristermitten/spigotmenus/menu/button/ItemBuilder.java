@@ -22,7 +22,7 @@ public class ItemBuilder {
     private ItemStack itemStack;
 
     public ItemBuilder() {
-        this.itemStack = new ItemStack(Material.AIR);
+        this.itemStack = new ItemStack(Material.STONE);
     }
 
     public ItemBuilder(Material type) {
@@ -60,10 +60,7 @@ public class ItemBuilder {
 
     private void getItemMetaAndPerformOperation(Consumer<ItemMeta> itemMetaConsumer) {
         ItemMeta meta = this.itemStack.getItemMeta();
-        if (meta == null) {
-            System.out.println(this.itemStack);
-            return;
-        }
+        if (meta == null) return;
         itemMetaConsumer.accept(meta);
         this.itemStack.setItemMeta(meta);
     }
