@@ -60,7 +60,10 @@ public class ItemBuilder {
 
     private void getItemMetaAndPerformOperation(Consumer<ItemMeta> itemMetaConsumer) {
         ItemMeta meta = this.itemStack.getItemMeta();
-        if (meta == null) return;
+        if (meta == null) {
+            System.out.println(this.itemStack);
+            return;
+        }
         itemMetaConsumer.accept(meta);
         this.itemStack.setItemMeta(meta);
     }
