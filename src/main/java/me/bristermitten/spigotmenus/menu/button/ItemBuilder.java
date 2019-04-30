@@ -7,6 +7,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -47,17 +48,21 @@ public class ItemBuilder {
     }
 
     public ItemBuilder setLore(List<String> lore) {
-        ItemMeta itemMeta = this.itemStack.getItemMeta();
-        itemMeta.setLore(lore.stream().map(Chat::color).collect(Collectors.toList()));
-        this.itemStack.setItemMeta(itemMeta);
+        getItemMetaAndPerformOperation(m ->
+                m.setLore(lore.stream().map(Chat::color).collect(Collectors.toList())));
         return this;
     }
 
     public ItemBuilder setName(String name) {
-        ItemMeta itemMeta = this.itemStack.getItemMeta();
-        itemMeta.setDisplayName(Chat.color(name));
-        this.itemStack.setItemMeta(itemMeta);
+        getItemMetaAndPerformOperation(m -> m.setDisplayName(Chat.color(name)));
         return this;
+    }
+
+    private void getItemMetaAndPerformOperation(Consumer<ItemMeta> itemMetaConsumer) {
+        ItemMeta meta = this.itemStack.getItemMeta();
+        if (meta == null) return;
+        itemMetaConsumer.accept(meta);
+        this.itemStack.setItemMeta(meta);
     }
 
     public ItemBuilder setType(Material type) {
