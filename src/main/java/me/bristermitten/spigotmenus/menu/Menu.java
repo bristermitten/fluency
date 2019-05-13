@@ -139,4 +139,16 @@ public class Menu {
     public LinkedList<Menu> getPages() {
         return pages;
     }
+
+    public Menu setTitle(String newTitle) {
+        this.title = newTitle;
+        updateInfo();
+        return this;
+    }
+
+    public Menu setSize(int newSize) {
+        this.size = newSize;
+        updateInfo();
+        return this;
+    }
 }

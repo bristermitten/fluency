@@ -1,6 +1,5 @@
 package me.bristermitten.spigotmenus;
 
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.java.JavaPluginLoader;
@@ -21,6 +20,7 @@ public class SpigotMenusPlugin extends JavaPlugin {
     public void onEnable() {
         getLogger().info("SpigotMenus plugin loaded - using this for MenuManager!");
         new MenuListener(this);
+
     }
 
     @Override

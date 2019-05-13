@@ -37,6 +37,7 @@ import java.util.function.Consumer;
 
 public class MenuButtonBuilder extends ItemBuilder {
 
+    private MenuBuilder returnTo;
     private Consumer<MenuClickEvent> onClick;
     private LinkedList<Object> injectedData = new LinkedList<>();
     private Map<String, Object> injectedDataMap = new LinkedHashMap<>();
@@ -53,6 +54,21 @@ public class MenuButtonBuilder extends ItemBuilder {
     public MenuButtonBuilder(ItemStack item, boolean clone) {
         super(item, clone);
     }
+
+    MenuButtonBuilder(MenuBuilder returnTo) {
+        this.returnTo = returnTo;
+    }
+
+    MenuButtonBuilder(MenuBuilder returnTo, ItemStack item) {
+        super(item);
+        this.returnTo = returnTo;
+    }
+
+    MenuButtonBuilder(MenuBuilder returnTo, ItemStack item, boolean clone) {
+        super(item, clone);
+        this.returnTo = returnTo;
+    }
+
 
     public MenuButtonClickEventBuilder onAnyClick() {
         MenuButtonClickEventBuilder b = new MenuButtonClickEventBuilder(this);
@@ -87,6 +103,12 @@ public class MenuButtonBuilder extends ItemBuilder {
         MenuButton menuButton = new MenuButton(build, buildAllEvents());
         menuButton.injectData(combineInjectMapAndList());
         return menuButton;
+    }
+
+    public MenuBuilder buildAndAddToMenu() {
+        Objects.requireNonNull(returnTo);
+        returnTo.addButton(buildButton());
+        return returnTo;
     }
 
     private Consumer<MenuClickEvent> buildAllEvents() {

@@ -13,10 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class MenuListener implements Listener {
     private static boolean registered;
 
-    private final JavaPlugin plugin;
-
     public MenuListener(JavaPlugin plugin) {
-        this.plugin = plugin;
         if (!registered) {
             Bukkit.getPluginManager().registerEvents(this, plugin);
             registered = true;
