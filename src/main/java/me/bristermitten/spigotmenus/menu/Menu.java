@@ -7,6 +7,7 @@ import me.bristermitten.spigotmenus.menu.button.MenuButtons;
 import me.bristermitten.spigotmenus.menu.page.Page;
 import me.bristermitten.spigotmenus.util.Chat;
 import me.bristermitten.spigotmenus.util.dataclass.FixedCapacityLinkedList;
+import me.bristermitten.spigotmenus.util.dataclass.PageList;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -24,7 +25,7 @@ import static me.bristermitten.spigotmenus.util.Constants.MAX_PAGE_SIZE;
 public class Menu {
     @Getter
     private final LinkedList<MenuButton> buttons;
-    private final LinkedList<Menu> pages;
+    private final PageList pages;
     /**
      * Local maximum size for pagination. Means a menu can have max n rows and still have pages added
      */
@@ -33,7 +34,6 @@ public class Menu {
     //MENU INFO
     private String title;
     private int size;
-
     public Menu(String title, int size, MenuButton... buttons) {
         Objects.requireNonNull(title, "title");
         Validate.isTrue(size > 0, "size is negative");
@@ -42,9 +42,36 @@ public class Menu {
         this.size = size;
         this.maxSize = size;
         this.buttons = new FixedCapacityLinkedList<>(size, Arrays.asList(buttons));
-        this.pages = new LinkedList<>();
-        this.pages.add(this);
+        this.pages = new PageList(this);
         updateInfo();
+    }
+
+    @Override
+    public String toString() {
+        return "Menu{" +
+                "buttons=" + buttons +
+                ", pages=" + pages +
+                ", maxSize=" + maxSize +
+                ", title='" + title + '\'' +
+                ", size=" + size +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Menu menu = (Menu) o;
+        return maxSize == menu.maxSize &&
+                size == menu.size &&
+                buttons.equals(menu.buttons) &&
+                title.equals(menu.title) &&
+                pages.equals(menu.pages);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(buttons, pages, maxSize, title, size);
     }
 
     private void updateInfo() {

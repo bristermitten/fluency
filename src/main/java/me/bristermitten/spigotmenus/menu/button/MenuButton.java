@@ -7,10 +7,7 @@ import me.bristermitten.spigotmenus.menu.button.builder.MenuButtonBuilder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -20,6 +17,7 @@ public class MenuButton {
     private final ItemStack item;
     private final Consumer<MenuClickEvent> onClick;
     private final Map<String, Object> injectedData = new HashMap<>();
+
 
     /**
      * Inject data into this button, essentially replacing any lore or title placeholders
@@ -69,5 +67,19 @@ public class MenuButton {
         return new StringJoiner(", ", MenuButton.class.getSimpleName() + "[", "]")
                 .add("item=" + item)
                 .toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MenuButton that = (MenuButton) o;
+        return item.isSimilar(that.item) &&
+                injectedData.equals(that.injectedData);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(item, injectedData);
     }
 }
