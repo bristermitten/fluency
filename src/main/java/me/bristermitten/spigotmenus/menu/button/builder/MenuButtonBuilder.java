@@ -70,7 +70,7 @@ public class MenuButtonBuilder extends ItemBuilder {
         this.returnTo = returnTo;
     }
 
-    public MenuButtonBuilder(MenuBuilder returnTo, int returnSlot) {
+    MenuButtonBuilder(MenuBuilder returnTo, int returnSlot) {
         this.returnTo = returnTo;
         this.returnSlot = returnSlot;
     }
