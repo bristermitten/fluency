@@ -42,6 +42,7 @@ public class MenuButtonBuilder extends ItemBuilder {
     private LinkedList<Object> injectedData = new LinkedList<>();
     private Map<String, Object> injectedDataMap = new LinkedHashMap<>();
     private Map<ClickType, MenuButtonClickEventBuilder> clickBuilders = new HashMap<>();
+    private int returnSlot = -1;
 
     public MenuButtonBuilder() {
         super();
@@ -69,6 +70,10 @@ public class MenuButtonBuilder extends ItemBuilder {
         this.returnTo = returnTo;
     }
 
+    public MenuButtonBuilder(MenuBuilder returnTo, int returnSlot) {
+        this.returnTo = returnTo;
+        this.returnSlot = returnSlot;
+    }
 
     public MenuButtonClickEventBuilder onAnyClick() {
         MenuButtonClickEventBuilder b = new MenuButtonClickEventBuilder(this);
@@ -107,7 +112,9 @@ public class MenuButtonBuilder extends ItemBuilder {
 
     public MenuBuilder buildAndAddToMenu() {
         Objects.requireNonNull(returnTo);
-        returnTo.addButton(buildButton());
+        if (returnSlot == -1)
+            returnTo.addButton(buildButton());
+        else returnTo.addButton(buildButton(), returnSlot);
         return returnTo;
     }
 

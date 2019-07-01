@@ -45,6 +45,10 @@ public class MenuBuilder {
         return new MenuButtonBuilder(this, item, clone);
     }
 
+    public MenuButtonBuilder buildButton(int slot) {
+        return new MenuButtonBuilder(this, slot);
+    }
+
     private void tryCreate() {
         if (menu == null) { //only if called from constructor
             if (title == null || size == null) {
