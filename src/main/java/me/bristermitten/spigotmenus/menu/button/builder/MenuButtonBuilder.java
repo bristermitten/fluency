@@ -113,7 +113,6 @@ public class MenuButtonBuilder extends ItemBuilder {
 
     private Consumer<MenuClickEvent> buildAllEvents() {
         return e -> {
-            System.out.println(ReflectionToStringBuilder.toString(e));
             MenuButtonClickEventBuilder click = clickBuilders.get(e.getClick());
             if (click != null) click.build().accept(e);
         };
