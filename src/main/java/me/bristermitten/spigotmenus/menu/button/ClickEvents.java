@@ -33,4 +33,6 @@ public class ClickEvents {
         }
         changed.open(e.getWhoClicked());
     }
+
+//    public static
 }
