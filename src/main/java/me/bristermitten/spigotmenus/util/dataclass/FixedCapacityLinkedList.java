@@ -3,10 +3,11 @@ package me.bristermitten.spigotmenus.util.dataclass;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Extension of LinkedList with a fixed capacity of elements.
- * This ensures that {@link java.util.List#set(int, Object)}
+ * This ensures that {@link List#set(int, Object)}
  * can be called without an {@link IndexOutOfBoundsException}
  * However, a drawback of this is that the internal array must be a fixed,
  * unchanging size. LinkedLists use Nodes, not an array, but it's the best analogy.
@@ -31,7 +32,7 @@ public class FixedCapacityLinkedList<E> extends LinkedList<E> {
     }
 
     public FixedCapacityLinkedList(int maxCapacity, Collection<E> copyOf) {
-        this.maxCapacity=maxCapacity;
+        this.maxCapacity = maxCapacity;
         if (copyOf.size() > maxCapacity) {
             throw new IllegalArgumentException("Collection to copy exceeds maximum capacity");
         }
