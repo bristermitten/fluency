@@ -70,6 +70,15 @@ public class MenuBuilder {
         return this;
     }
 
+    public MenuBuilder backgroundButton(MenuButton button) {
+        for (int i = 0; i < size; i++) {
+            if (menu.getButton(i) == null) {
+                menu.addButton(button, i);
+            }
+        }
+        return this;
+    }
+
     public Menu build() {
         return menu;
     }
