@@ -15,7 +15,7 @@ public class MenuBuilder {
     private String title;
     private Integer size;
 
-    public MenuBuilder(String title, int size) {
+    public MenuBuilder(int size, String title) {
         this.title = title;
         this.size = size;
         tryCreate();
@@ -54,7 +54,7 @@ public class MenuBuilder {
             if (title == null || size == null) {
                 return;
             }
-            menu = new Menu(title, size);
+            menu = new Menu(size, title);
         }
         menu.setTitle(title);
         menu.setSize(size);

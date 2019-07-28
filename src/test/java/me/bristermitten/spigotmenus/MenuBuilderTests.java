@@ -22,16 +22,16 @@ public class MenuBuilderTests {
 
     @Test
     public void testSimpleCreate() {
-        Menu test = new MenuBuilder("Test", 9).build();
-        Menu test2 = new Menu("Test", 9);
+        Menu test = new MenuBuilder(9, "Test").build();
+        Menu test2 = new Menu(9, "Test");
         assertEquals(test, test2);
     }
 
     @Test
     public void testAddingButtons() {
-        Menu test = new MenuBuilder("Test", 9).buildButton().setType(Material.STONE)
+        Menu test = new MenuBuilder(9, "Test").buildButton().setType(Material.STONE)
                 .buildAndAddToMenu().build();
-        Menu test2 = new Menu("Test", 9);
+        Menu test2 = new Menu(9, "Test");
         test2.addButton(new MenuButtonBuilder().setType(Material.STONE).buildButton());
 
         System.out.println(test.getButton(0).equals(test2.getButton(0)));

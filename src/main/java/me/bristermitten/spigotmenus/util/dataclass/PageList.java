@@ -1,16 +1,18 @@
 package me.bristermitten.spigotmenus.util.dataclass;
 
 import me.bristermitten.spigotmenus.menu.Menu;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.function.Consumer;
 
 /**
  * A custom implementation of {@link LinkedList} used for
  * managing a list of pages and a main menu.
  * However, to avoid {@link StackOverflowError} exceptions we don't use
- * the main menu in {@link this#equals(Object)} as the only use case would be
+ * the main menu in {@link PageList#equals(Object)} as the only use case would be
  * in {@link Menu#equals(Object)}
  */
 public class PageList extends LinkedList<Menu> {
@@ -23,6 +25,7 @@ public class PageList extends LinkedList<Menu> {
         return listIterator(1);
     }
 
+    @NotNull
     @Override
     public Iterator<Menu> iterator() {
         return listIterator();
@@ -66,5 +69,14 @@ public class PageList extends LinkedList<Menu> {
             hashCode = 31 * hashCode + (obj == null ? 0 : obj.hashCode());
         }
         return hashCode;
+    }
+
+    @Override
+    public void forEach(Consumer<? super Menu> action) {
+        subList(1, size()).forEach(action);
+    }
+
+    public int lastSlot() {
+        return stream().mapToInt(Menu::getSize).sum();
     }
 }

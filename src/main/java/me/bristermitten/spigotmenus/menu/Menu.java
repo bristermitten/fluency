@@ -1,12 +1,10 @@
 package me.bristermitten.spigotmenus.menu;
 
-import lombok.Getter;
-import lombok.val;
 import me.bristermitten.spigotmenus.menu.button.MenuButton;
 import me.bristermitten.spigotmenus.menu.button.MenuButtons;
 import me.bristermitten.spigotmenus.menu.page.Page;
 import me.bristermitten.spigotmenus.util.Chat;
-import me.bristermitten.spigotmenus.util.dataclass.FixedCapacityLinkedList;
+import me.bristermitten.spigotmenus.util.dataclass.FixedCapacityArrayList;
 import me.bristermitten.spigotmenus.util.dataclass.PageList;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -14,168 +12,146 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Objects;
-
-import static me.bristermitten.spigotmenus.util.Constants.MAX_INV_SIZE;
-import static me.bristermitten.spigotmenus.util.Constants.MAX_PAGE_SIZE;
+import java.util.stream.Collectors;
 
 public class Menu {
-    @Getter
-    private final LinkedList<MenuButton> buttons;
+    protected final List<MenuButton> buttons;
     private final PageList pages;
-    /**
-     * Local maximum size for pagination. Means a menu can have max n rows and still have pages added
-     */
     private final int maxSize;
-    Inventory inventory;
-    //MENU INFO
+
+    protected Inventory inventory;
+
+    //LegacyMenu Info
     private String title;
     private int size;
-    public Menu(String title, int size, MenuButton... buttons) {
+
+    public Menu(int size, String title) {
         Objects.requireNonNull(title, "title");
         Validate.isTrue(size > 0, "size is negative");
 
         this.title = title;
         this.size = size;
         this.maxSize = size;
-        this.buttons = new FixedCapacityLinkedList<>(size, Arrays.asList(buttons));
+        this.buttons = new FixedCapacityArrayList<>(size);
         this.pages = new PageList(this);
-        updateInfo();
+        update();
     }
 
-    @Override
-    public String toString() {
-        return "Menu{" +
-                "buttons=" + buttons +
-                ", pages=" + pages +
-                ", maxSize=" + maxSize +
-                ", title='" + title + '\'' +
-                ", size=" + size +
-                '}';
+    public int getMaxSize() {
+        return maxSize;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Menu menu = (Menu) o;
-        return maxSize == menu.maxSize &&
-                size == menu.size &&
-                buttons.equals(menu.buttons) &&
-                title.equals(menu.title) &&
-                pages.equals(menu.pages);
+    public List<MenuButton> getButtons() {
+        return buttons;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(buttons, pages, maxSize, title, size);
+    public Menu addButton(MenuButton button) {
+        return addButton(button, pagedFirstEmpty());
     }
 
-    private void updateInfo() {
-        if (size > maxSize) {
-            int pagesAmount = pagesNeeded(size);
-            for (int i = 0; i < pagesAmount; i++) {
-                addPage();
-            }
-            size = maxSize;
+    private int pagedFirstEmpty() {
+        int firstEmpty = inventory.firstEmpty();
+        if (firstEmpty != -1) return firstEmpty;
+        firstEmpty = 0;
+        ListIterator<Menu> pageIterator = pages.pageIterator();
+        if (pageIterator.hasNext()) {
+            do {
+                Menu next = pageIterator.next();
+                int tempFirstEmpty = next.inventory.firstEmpty();
+                if (tempFirstEmpty == -1) {
+                    firstEmpty += next.maxSize;
+                } else return firstEmpty + tempFirstEmpty;
+            } while (firstEmpty == -1 && pageIterator.hasNext());
         }
-        this.inventory = Bukkit.createInventory(new MenuHolder(this), size, Chat.color(title));
+        Page newPage = addPage();
+        System.out.println(pages.stream().mapToLong(p->p.getButtons().size()).sum());
+        return firstEmpty + newPage.inventory.firstEmpty();
+    }
 
+    private Page addPage() {
+        Menu last = pages.getLast();
+        Page page = new Page(maxSize, title, this);
+        page.addButtonLocally(MenuButtons.PREVIOUS_PAGE, 0);
+
+        MenuButton lastButton = last.buttons.get(last.buttons.size() - 1);
+        if (lastButton != null)
+            page.addButton(lastButton);
+        last.addButtonLocally(MenuButtons.NEXT_PAGE, last.maxSize - 1);
+        pages.add(page);
+        return page;
+    }
+
+    public Menu addButton(MenuButton button, int slot) {
+        Menu page = pageFor(slot);
+        System.out.println("slot = " + slot);
+        page.buttons.set(slot, button);
+        page.update();
+        return this;
+    }
+
+    public Menu addButtonLocally(MenuButton button, int slot) {
+        buttons.set(slot, button);
+        update();
+        return this;
+    }
+
+    private void update() {
+        update(true);
+    }
+
+    private void update(boolean updateSub) {
+        this.inventory = Bukkit.createInventory(new MenuHolder(this), size, Chat.color(title));
         for (int i = 0; i < buttons.size(); i++) {
             MenuButton menuButton = buttons.get(i);
             ItemStack item = menuButton == null ? null : menuButton.getItem();
             this.inventory.setItem(i, item);
         }
+        if (updateSub)
+            this.pages.forEach(page -> update(false));
     }
 
-    public Page addPage() {
-        int pageNumber = pages.size();
-        Page page = createNewPage(pageNumber);
-
-        //copy over previous button if it exists
-        Menu lastPage = pages.getLast();
-        val lastButton = lastPage.buttons.getLast();
-        if (lastButton != null) {
-            page.addButton(lastButton, lastPage.size - 1);
-        }
-
-        //add next page button
-        lastPage.addButton(MenuButtons.NEXT_PAGE, lastPage.size - 1);
-        pages.add(page);
-        return page;
+    private Menu pageFor(int slot) {
+        if (slot < size) return this;
+        if (slot >= pages.lastSlot())
+            throw new IndexOutOfBoundsException("LegacyMenu cannot fit slot " + slot + ", max slot: " + pages.lastSlot());
+        int index = slot / maxSize - 1;
+        return pages.get(index);
     }
 
-    private Page createNewPage(int pageNumber) {
-        Page page = new Page(title + "Page " + pageNumber, size, this);
-        page.addButton(MenuButtons.PREVIOUS_PAGE);
-        return page;
+    public PageList getPages() {
+        return pages;
     }
 
-    private int firstEmpty() {
-        int firstEmpty = inventory.firstEmpty();
-        Iterator<Menu> pageIterator = pages.iterator();
-        pageIterator.next(); //we've already counted the first page
-        while (firstEmpty == -1 && pageIterator.hasNext()) {
-            Menu page = pageIterator.next();
-            int pageFirstEmpty = page.firstEmpty();
-            if (pageFirstEmpty == -1) {
-                continue;
-            }
-            return firstEmpty + pageFirstEmpty;
-        }
-        if (firstEmpty == -1) {
-            addPage();
-            return firstEmpty();
-        }
-        return firstEmpty;
+    public int getSize() {
+        return size;
     }
 
-    public void addButton(MenuButton button) {
-        addButton(button, firstEmpty());
-    }
-
-
-    public void addButton(MenuButton button, int slot) {
-        buttons.set(slot, button);
-        updateInfo();
-    }
-
-    private int pagesNeeded(int size) {
-        if (size >= MAX_INV_SIZE) {
-            return 1;
-        }
-        int pagesAmount = 0;
-        while (size >= MAX_PAGE_SIZE) {
-            size -= MAX_PAGE_SIZE;
-            pagesAmount++;
-        }
-        return pagesAmount;
-    }
-
-    public MenuButton getButton(int slot) {
-        return buttons.get(slot);
+    public void setSize(int size) {
+        this.size = size;
+        pages.forEach(p -> p.setSize(size));
+        update();
     }
 
     public void open(Player whoClicked) {
         whoClicked.openInventory(inventory);
     }
 
-    public LinkedList<Menu> getPages() {
-        return pages;
+    public void setTitle(String title) {
+        this.title = title;
+        pages.forEach(p -> p.setTitle(title));
+        update();
     }
 
-    public Menu setTitle(String newTitle) {
-        this.title = newTitle;
-        updateInfo();
-        return this;
+    public MenuButton getButton(int i) {
+        Menu menu = pageFor(i);
+        int slot = i - pages.indexOf(menu) * maxSize;
+        return menu.buttons.get(slot);
     }
 
-    public Menu setSize(int newSize) {
-        this.size = newSize;
-        updateInfo();
-        return this;
+    public List<MenuButton> getAllButtons() {
+        return pages.stream().flatMap(m -> m.getButtons().stream()).collect(Collectors.toList());
     }
 }

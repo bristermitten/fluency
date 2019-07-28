@@ -15,6 +15,9 @@ import org.junit.runners.MethodSorters;
 import org.mockito.Mockito;
 
 import java.io.StringWriter;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.bukkit.event.inventory.ClickType.LEFT;
 import static org.junit.Assert.assertEquals;
@@ -38,7 +41,7 @@ public class MenuTest {
 
     @Before
     public void initMenu() {
-        menu = new Menu("Test Menu", 9);
+        menu = new Menu(9, "Test LegacyMenu");
     }
 
     @After
@@ -49,7 +52,7 @@ public class MenuTest {
     @Test
     public void testMenuAddButton() {
         menu.addButton(testButton);
-        assertEquals(menu.getButton(0), testButton);
+        assertEquals(testButton, menu.getButton(0));
     }
 
     @Test
@@ -70,6 +73,25 @@ public class MenuTest {
             menu.addButton(testButton);
         }
         assertEquals(MenuButtons.NEXT_PAGE, menu.getButton(8));
+        assertEquals(2, menu.getPages().size());
+    }
+
+    @Test
+    public void testMenu_pageAdded_retainsButtons() {
+        List<MenuButton> buttons = IntStream.range(0, 10).mapToObj(i -> new MenuButtonBuilder().setType(Material.STONE).setName(String.valueOf(i)).buildButton()).collect(Collectors.toList());
+        for (MenuButton button : buttons) {
+            menu.addButton(button);
+        }
+        List<MenuButton> allButtons = menu.getAllButtons();
+        assertEquals(buttons.get(0), allButtons.get(0));
+        assertEquals(buttons.get(1), allButtons.get(1));
+        assertEquals(buttons.get(2), allButtons.get(2));
+        assertEquals(buttons.get(3), allButtons.get(3));
+        assertEquals(buttons.get(4), allButtons.get(4));
+        assertEquals(buttons.get(5), allButtons.get(5));
+        assertEquals(buttons.get(6), allButtons.get(6));
+        assertEquals(buttons.get(7), allButtons.get(7));
+        assertEquals(buttons.get(8), allButtons.get(8));
     }
 
     @Test

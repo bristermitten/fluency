@@ -1,24 +1,18 @@
 package me.bristermitten.spigotmenus.menu.page;
 
 import me.bristermitten.spigotmenus.menu.Menu;
-
-import java.util.LinkedList;
+import me.bristermitten.spigotmenus.util.dataclass.PageList;
 
 public class Page extends Menu {
-    private final Menu firstPage;
+    private final Menu mainMenu;
 
-    public Page(String title, int size, Menu firstPage) {
-        super(title, size);
-        this.firstPage = firstPage;
+    public Page(int size, String title, Menu mainMenu) {
+        super(size, title);
+        this.mainMenu = mainMenu;
     }
 
     @Override
-    public Page addPage() {
-        return firstPage.addPage();
-    }
-
-    @Override
-    public LinkedList<Menu> getPages() {
-        return firstPage.getPages();
+    public PageList getPages() {
+        return mainMenu.getPages();
     }
 }
