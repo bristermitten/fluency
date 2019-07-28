@@ -3,6 +3,7 @@ package me.bristermitten.spigotmenus.menu.button.builder;
 import me.bristermitten.spigotmenus.menu.Menu;
 import me.bristermitten.spigotmenus.menu.button.ItemBuilder;
 import me.bristermitten.spigotmenus.menu.button.MenuButton;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 /**

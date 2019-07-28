@@ -1,11 +1,9 @@
 package me.bristermitten.spigotmenus.menu;
 
-import lombok.Getter;
 import me.bristermitten.spigotmenus.menu.button.MenuButton;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-@Getter
 public class MenuClickEvent extends InventoryClickEvent {
 
     private final Menu menu;
@@ -17,5 +15,17 @@ public class MenuClickEvent extends InventoryClickEvent {
         this.menu = menu;
         this.clickedButton = clickedButton;
         this.whoClicked = (Player) parent.getWhoClicked();
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public MenuButton getClickedButton() {
+        return clickedButton;
+    }
+
+    public Player getWhoClicked() {
+        return whoClicked;
     }
 }

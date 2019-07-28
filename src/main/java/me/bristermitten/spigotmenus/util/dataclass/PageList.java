@@ -1,8 +1,6 @@
 package me.bristermitten.spigotmenus.util.dataclass;
 
 import me.bristermitten.spigotmenus.menu.Menu;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -25,7 +23,6 @@ public class PageList extends LinkedList<Menu> {
         return listIterator(1);
     }
 
-    @NotNull
     @Override
     public Iterator<Menu> iterator() {
         return listIterator();

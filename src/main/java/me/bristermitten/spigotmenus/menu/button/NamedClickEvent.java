@@ -1,24 +1,30 @@
 package me.bristermitten.spigotmenus.menu.button;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import me.bristermitten.spigotmenus.menu.MenuClickEvent;
 
 import java.util.UUID;
 import java.util.function.Consumer;
 
-@Getter
-@RequiredArgsConstructor
-@AllArgsConstructor
 public class NamedClickEvent implements Consumer<MenuClickEvent> {
-
     private final String alias;
     private Consumer<MenuClickEvent> onClick;
+
+    public NamedClickEvent(String alias, Consumer<MenuClickEvent> onClick) {
+        this.alias = alias;
+        this.onClick = onClick;
+    }
 
     public NamedClickEvent(Consumer<MenuClickEvent> onClick) {
         this.alias = UUID.randomUUID().toString();
         this.onClick = onClick;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public Consumer<MenuClickEvent> getOnClick() {
+        return onClick;
     }
 
     public void setOnClick(Consumer<MenuClickEvent> onClick) {

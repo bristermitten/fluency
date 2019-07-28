@@ -91,7 +91,7 @@ public class MenuTest {
         assertEquals(buttons.get(5), allButtons.get(5));
         assertEquals(buttons.get(6), allButtons.get(6));
         assertEquals(buttons.get(7), allButtons.get(7));
-        assertEquals(buttons.get(8), allButtons.get(8));
+        assertEquals(buttons.get(8), allButtons.get(10));
     }
 
     @Test

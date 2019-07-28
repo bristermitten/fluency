@@ -1,7 +1,5 @@
 package me.bristermitten.spigotmenus.menu.button;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import me.bristermitten.spigotmenus.menu.MenuClickEvent;
 import me.bristermitten.spigotmenus.menu.button.builder.MenuButtonBuilder;
 import org.bukkit.inventory.ItemStack;
@@ -11,13 +9,24 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
-@Getter
 public class MenuButton {
     private final ItemStack item;
     private final Consumer<MenuClickEvent> onClick;
     private final Map<String, Object> injectedData = new HashMap<>();
 
+    public MenuButton(ItemStack item, Consumer<MenuClickEvent> onClick) {
+        this.item = item;
+        this.onClick = onClick;
+    }
+
+
+    public ItemStack getItem() {
+        return item;
+    }
+
+    public Consumer<MenuClickEvent> getOnClick() {
+        return onClick;
+    }
 
     /**
      * Inject data into this button, essentially replacing any lore or title placeholders

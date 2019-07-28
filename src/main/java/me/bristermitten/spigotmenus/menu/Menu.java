@@ -13,8 +13,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Menu {
@@ -24,7 +24,7 @@ public class Menu {
 
     protected Inventory inventory;
 
-    //LegacyMenu Info
+    //Menu info
     private String title;
     private int size;
 
@@ -49,26 +49,18 @@ public class Menu {
     }
 
     public Menu addButton(MenuButton button) {
-        return addButton(button, pagedFirstEmpty());
+        MenuSlot slot = pagedFirstEmpty();
+        return pages.get(slot.pageIndex).addButtonLocally(button, slot.pageSlot);
     }
 
-    private int pagedFirstEmpty() {
-        int firstEmpty = inventory.firstEmpty();
-        if (firstEmpty != -1) return firstEmpty;
-        firstEmpty = 0;
-        ListIterator<Menu> pageIterator = pages.pageIterator();
-        if (pageIterator.hasNext()) {
-            do {
-                Menu next = pageIterator.next();
-                int tempFirstEmpty = next.inventory.firstEmpty();
-                if (tempFirstEmpty == -1) {
-                    firstEmpty += next.maxSize;
-                } else return firstEmpty + tempFirstEmpty;
-            } while (firstEmpty == -1 && pageIterator.hasNext());
+    private MenuSlot pagedFirstEmpty() {
+        Optional<Menu> first = pages.stream().filter(m -> m.inventory.firstEmpty() != -1).findFirst();
+        if (first.isPresent()) {
+            Menu menu = first.get();
+            return new MenuSlot(pages.indexOf(menu), menu.inventory.firstEmpty());
         }
         Page newPage = addPage();
-        System.out.println(pages.stream().mapToLong(p->p.getButtons().size()).sum());
-        return firstEmpty + newPage.inventory.firstEmpty();
+        return new MenuSlot(pages.indexOf(newPage),newPage.inventory.firstEmpty());
     }
 
     private Page addPage() {
@@ -86,10 +78,8 @@ public class Menu {
 
     public Menu addButton(MenuButton button, int slot) {
         Menu page = pageFor(slot);
-        System.out.println("slot = " + slot);
-        page.buttons.set(slot, button);
-        page.update();
-        return this;
+        return page.addButtonLocally(button, slot % page.maxSize);
+
     }
 
     public Menu addButtonLocally(MenuButton button, int slot) {
@@ -153,5 +143,15 @@ public class Menu {
 
     public List<MenuButton> getAllButtons() {
         return pages.stream().flatMap(m -> m.getButtons().stream()).collect(Collectors.toList());
+    }
+
+    private static class MenuSlot {
+        private final int pageIndex;
+        private final int pageSlot;
+
+        private MenuSlot(int pageIndex, int pageSlot) {
+            this.pageIndex = pageIndex;
+            this.pageSlot = pageSlot;
+        }
     }
 }
