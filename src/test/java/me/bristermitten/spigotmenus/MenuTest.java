@@ -39,6 +39,11 @@ public class MenuTest {
                 .thenAction(e -> log.write("clicked")).done().buildButton();
     }
 
+    @AfterClass
+    public void unload() {
+        MockBukkit.unload();
+    }
+
     @Before
     public void initMenu() {
         menu = new Menu(9, "Test LegacyMenu");

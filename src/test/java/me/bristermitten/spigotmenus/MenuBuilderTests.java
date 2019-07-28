@@ -6,6 +6,7 @@ import me.bristermitten.spigotmenus.menu.Menu;
 import me.bristermitten.spigotmenus.menu.button.builder.MenuBuilder;
 import me.bristermitten.spigotmenus.menu.button.builder.MenuButtonBuilder;
 import org.bukkit.Material;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -18,6 +19,12 @@ public class MenuBuilderTests {
     public static void init() {
         server = MockBukkit.mock();
         MockBukkit.load(SpigotMenusTestPlugin.class);
+    }
+
+    @AfterClass
+    public void unload() {
+        MockBukkit.unload();
+        server = null;
     }
 
     @Test
