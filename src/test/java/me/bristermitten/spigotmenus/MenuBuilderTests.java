@@ -22,7 +22,7 @@ public class MenuBuilderTests {
     }
 
     @AfterClass
-    public void unload() {
+    public static void unload() {
         MockBukkit.unload();
         server = null;
     }

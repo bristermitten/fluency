@@ -40,7 +40,7 @@ public class MenuTest {
     }
 
     @AfterClass
-    public void unload() {
+    public static void unload() {
         MockBukkit.unload();
     }
 
