@@ -145,6 +145,24 @@ public class Menu {
         return pages.stream().flatMap(m -> m.getButtons().stream()).collect(Collectors.toList());
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Menu menu = (Menu) o;
+        return getMaxSize() == menu.getMaxSize() &&
+                getSize() == menu.getSize() &&
+                getButtons().equals(menu.getButtons()) &&
+                getPages().equals(menu.getPages()) &&
+                title.equals(menu.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getButtons(), getPages(), getMaxSize(), title, getSize());
+    }
+
     private static class MenuSlot {
         private final int pageIndex;
         private final int pageSlot;
