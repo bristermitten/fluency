@@ -50,12 +50,21 @@ class MenuBuilderImpl implements MenuBuilder {
 
     @Override
     public MenuBuilder background(MenuButton button) {
-        return null;
+        menu.background(button);
+        return this;
+    }
+
+    @Override
+    public MenuBuilder skip() {
+        menu.distribution().skip();
+        return this;
     }
 
     @Override
     public ButtonBuilder buildBackground() {
-        return null;
+        ButtonBuilder builder = fluency.buildButton(this);
+        menu.background(builder.build());
+        return builder;
     }
 
     @Override
