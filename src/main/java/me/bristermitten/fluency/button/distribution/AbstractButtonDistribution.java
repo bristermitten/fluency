@@ -18,6 +18,7 @@ public abstract class AbstractButtonDistribution implements ButtonDistribution {
         Validate.isTrue(size % MENU_WIDTH == 0, "Size is not a multiple of 9");
         this.maxSize = size;
         this.height = size / MENU_WIDTH;
+        this.index = 0;
     }
 
     @Override
@@ -49,9 +50,10 @@ public abstract class AbstractButtonDistribution implements ButtonDistribution {
 
     @Override
     public ButtonDistribution copy() {
-        checkInit();
         try {
-            return getClass().newInstance();
+            AbstractButtonDistribution d = getClass().newInstance();
+            d.init(maxSize);
+            return d;
         } catch (ReflectiveOperationException e) {
             e.printStackTrace();
             return null;

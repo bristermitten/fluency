@@ -8,8 +8,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ColumnButtonDistributionTests {
     private static int size;
@@ -43,15 +47,13 @@ public class ColumnButtonDistributionTests {
         distribution.init(size);
         assertEquals(distribution, distribution.copy());
     }
+
     @Test
     public void testToArray() {
         distribution.init(size);
         int[][] a = distribution.toArray();
-        StringBuilder sb = new StringBuilder();
-        for(int[] s1 : a){
-            sb.append(Arrays.toString(s1)).append('\n');
-        }
-        String s = sb.toString();
-        System.out.println(s);
+
+        List<Integer> numbers = IntStream.range(0, 27).boxed().collect(Collectors.toList());
+        assertTrue(Arrays.stream(a).flatMapToInt(Arrays::stream).distinct().allMatch(numbers::contains));
     }
 }

@@ -34,4 +34,11 @@ public class ColumnButtonDistribution extends AbstractButtonDistribution {
     public boolean hasNext() {
         return index < maxSize - 1;
     }
+
+    @Override
+    public ButtonDistribution copy() {
+        ColumnButtonDistribution s = new ColumnButtonDistribution();
+        s.init(maxSize);
+        return s;
+    }
 }
