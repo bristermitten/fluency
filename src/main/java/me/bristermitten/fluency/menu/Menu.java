@@ -6,6 +6,7 @@ import me.bristermitten.fluency.button.MenuButton;
 import me.bristermitten.fluency.button.distribution.ButtonDistribution;
 import me.bristermitten.fluency.data.PageList;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -21,6 +22,7 @@ public class Menu {
     private String title;
     private int size;
     private ButtonDistribution distribution;
+    private MenuButton background;
 
     public Menu() {
         title = "Title";
@@ -39,7 +41,13 @@ public class Menu {
     private void updateMenu(boolean updatePages) {
         inventory = Bukkit.createInventory(new MenuHolder(this), size, Util.color(title));
         for (int i = 0; i < buttons.length; i++) {
-            inventory.setItem(i, buttons[i]);
+            MenuButton button = buttons[i];
+
+            if ((button == null || button.getType() == Material.AIR) && background != null) {
+                button = background;
+            }
+
+            inventory.setItem(i, button);
         }
         pages.forEachPage(p -> p.updateMenu(false));
     }
@@ -61,6 +69,11 @@ public class Menu {
         this.size = size;
         buttons = Arrays.copyOf(buttons, size);
         distribution.init(size);
+        updateMenu();
+    }
+
+    public void background(MenuButton background) {
+        this.background = background;
         updateMenu();
     }
 
@@ -100,7 +113,7 @@ public class Menu {
             MenuButton button = last.button(last.size - 1);
             if (button != null) {
                 e.addButton(button);
-                last.button(last.size-1, Fluency.PAGE_NEXT);
+                last.button(last.size - 1, Fluency.PAGE_NEXT);
             }
         }
         pages.add(e);

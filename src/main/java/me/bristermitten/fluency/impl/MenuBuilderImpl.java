@@ -2,6 +2,7 @@ package me.bristermitten.fluency.impl;
 
 import me.bristermitten.fluency.Fluency;
 import me.bristermitten.fluency.button.ButtonBuilder;
+import me.bristermitten.fluency.button.MenuButton;
 import me.bristermitten.fluency.button.distribution.ButtonDistribution;
 import me.bristermitten.fluency.menu.Menu;
 import me.bristermitten.fluency.menu.MenuBuilder;
@@ -39,6 +40,22 @@ class MenuBuilderImpl implements MenuBuilder {
         ButtonBuilder builder = fluency.buildButton(this);
         menu.addButton(builder.build());
         return builder;
+    }
+
+    @Override
+    public MenuBuilder addButton(MenuButton button) {
+        menu.addButton(button);
+        return this;
+    }
+
+    @Override
+    public MenuBuilder background(MenuButton button) {
+        return null;
+    }
+
+    @Override
+    public ButtonBuilder buildBackground() {
+        return null;
     }
 
     @Override
