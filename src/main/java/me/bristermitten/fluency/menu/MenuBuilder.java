@@ -18,6 +18,8 @@ public interface MenuBuilder extends FluentBuilder<Menu, MenuBuilder> {
 
     MenuBuilder background(MenuButton button);
 
+    MenuBuilder skip();
+
     ButtonBuilder buildBackground();
 
     @Override
