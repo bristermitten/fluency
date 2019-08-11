@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static me.bristermitten.fluency.button.distribution.ButtonDistribution.SIMPLE;
 
@@ -126,6 +127,10 @@ public class Menu {
 
     public PageList pages() {
         return pages;
+    }
+
+    public List<MenuButton> buttons() {
+        return Arrays.asList(buttons);
     }
 
     public void open(Player whoClicked) {
