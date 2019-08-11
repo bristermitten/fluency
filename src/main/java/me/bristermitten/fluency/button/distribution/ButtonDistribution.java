@@ -1,5 +1,7 @@
 package me.bristermitten.fluency.button.distribution;
 
+import java.util.function.Supplier;
+
 /**
  * Determines how buttons are distributed
  * Essentially, used for iterating over the slots in a menu, however not necessarily in order
@@ -9,11 +11,11 @@ public interface ButtonDistribution extends Iterable<Integer> {
     /**
      * Iterates in direct order
      */
-    ButtonDistribution SIMPLE = new SimpleButtonDistribution();
+    Supplier<ButtonDistribution> SIMPLE = SimpleButtonDistribution::new;
     /**
      * Iterates down in columns rather than rows
      */
-    ButtonDistribution COLUMNS = new ColumnButtonDistribution();
+    Supplier<ButtonDistribution> COLUMNS = ColumnButtonDistribution::new;
 
     /**
      * Initialize the distribution with the size of the menu it must distribute buttons for
@@ -39,8 +41,7 @@ public interface ButtonDistribution extends Iterable<Integer> {
 
     /**
      * Create a copy of this distribution
-     * Note that this will not copy over initialization status or current index,
-     * and therefore any copies must have {@link ButtonDistribution#init(int)} called
+     * Note that this will copy over initialization status, but not current index
      * <p>
      * In {@link AbstractButtonDistribution}, reflection is used to initialize subclasses, and so
      * implementations are recommended to override this method with a constructor

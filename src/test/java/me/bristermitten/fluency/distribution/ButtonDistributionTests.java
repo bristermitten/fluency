@@ -2,15 +2,18 @@ package me.bristermitten.fluency.distribution;
 
 import me.bristermitten.fluency.button.distribution.ButtonDistribution;
 import me.bristermitten.fluency.button.distribution.DistributionNotInitialisedException;
-import me.bristermitten.fluency.button.distribution.AbstractButtonDistribution;
+import me.bristermitten.fluency.button.distribution.SimpleButtonDistribution;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ButtonDistributionTests {
     private static int size;
@@ -23,7 +26,7 @@ public class ButtonDistributionTests {
 
     @Before
     public void init() {
-        distribution = new AbstractButtonDistribution();
+        distribution = new SimpleButtonDistribution();
     }
 
     @Test(expected = DistributionNotInitialisedException.class)
@@ -49,6 +52,7 @@ public class ButtonDistributionTests {
     public void testToArray() {
         distribution.init(size);
         int[][] a = distribution.toArray();
-        System.out.println(Arrays.stream(a).map(Arrays::toString).collect(Collectors.joining("\n")));
+        List<Integer> numbers = IntStream.range(0, 27).boxed().collect(Collectors.toList());
+        assertTrue(Arrays.stream(a).flatMapToInt(Arrays::stream).distinct().allMatch(numbers::contains));
     }
 }
