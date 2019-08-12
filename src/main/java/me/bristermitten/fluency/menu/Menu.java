@@ -122,8 +122,8 @@ public class Menu {
     }
 
     public boolean isFull() {
-        if (inventory == null) updateMenu();
-        return inventory.firstEmpty() == -1;
+        return Arrays.stream(buttons)
+                .anyMatch(b -> b.has() || b.get().equals(background.get()));
     }
 
     public Page addPage() {
