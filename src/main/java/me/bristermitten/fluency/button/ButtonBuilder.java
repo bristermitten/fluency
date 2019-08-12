@@ -2,6 +2,7 @@ package me.bristermitten.fluency.button;
 
 import me.bristermitten.fluency.FluentBuilder;
 import me.bristermitten.fluency.button.click.HandlerBuilder;
+import me.bristermitten.fluency.data.ButtonHolder;
 import me.bristermitten.fluency.menu.MenuBuilder;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -9,7 +10,7 @@ import org.bukkit.event.inventory.ClickType;
 
 import java.util.List;
 
-public interface ButtonBuilder extends FluentBuilder<MenuButton, MenuBuilder> {
+public interface ButtonBuilder extends FluentBuilder<ButtonHolder, MenuBuilder> {
     ButtonBuilder amount(int amount);
 
     ButtonBuilder type(Material type);
@@ -32,5 +33,5 @@ public interface ButtonBuilder extends FluentBuilder<MenuButton, MenuBuilder> {
 
     HandlerBuilder onClick(ClickType type);
 
-    MenuButton build();
+    ButtonHolder build();
 }
