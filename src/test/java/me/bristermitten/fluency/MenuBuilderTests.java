@@ -100,5 +100,8 @@ public class MenuBuilderTests {
                 .addButton(build).build();
 
         assertEquals(build, menu.button(0));
+
+        menu.addPage();
+        assertEquals(Fluency.PAGE_NEXT, menu.button(8));
     }
 }
