@@ -45,7 +45,7 @@ class MenuBuilderImpl implements MenuBuilder {
     @Override
     public ButtonBuilder buildButton() {
         ButtonBuilder builder = fluency.buildButton(this);
-        menu.addButton(builder.build());
+        menu.addButton(builder.buildHolder());
         return builder;
     }
 
@@ -70,7 +70,7 @@ class MenuBuilderImpl implements MenuBuilder {
     @Override
     public ButtonBuilder buildBackground() {
         ButtonBuilder builder = fluency.buildButton(this);
-        menu.background(builder.build());
+        menu.background(builder.buildHolder());
         return builder;
     }
 
