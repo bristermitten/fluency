@@ -18,6 +18,11 @@ public interface ButtonDistribution extends Iterable<Integer> {
     Supplier<ButtonDistribution> COLUMNS = ColumnButtonDistribution::new;
 
     /**
+     * Iterates starting from the center and expanding outwards
+     */
+    Supplier<ButtonDistribution> CENTERED = CenteredButtonDistribution::new;
+
+    /**
      * Initialize the distribution with the size of the menu it must distribute buttons for
      * This method must be called before any others
      */
