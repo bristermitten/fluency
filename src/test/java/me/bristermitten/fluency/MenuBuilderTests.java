@@ -1,7 +1,6 @@
 package me.bristermitten.fluency;
 
 import me.bristermitten.fluency.button.MenuButton;
-import me.bristermitten.fluency.button.click.Handlers;
 import me.bristermitten.fluency.button.click.MenuClickEvent;
 import me.bristermitten.fluency.menu.Menu;
 import org.bukkit.entity.Player;
@@ -105,8 +104,8 @@ public class MenuBuilderTests {
         menu.addPage();
         assertEquals(Fluency.PAGE_NEXT, menu.button(8));
 
-        MenuClickEvent mock = mock(MenuClickEvent.class);
-        when(mock.menu()).thenReturn(menu);
-        Handlers.NEXT_PAGE.accept(mock);
+//        MenuClickEvent mock = mock(MenuClickEvent.class);
+//        when(mock.menu()).thenReturn(menu);
+//        Handlers.NEXT_PAGE.accept(mock);
     }
 }
