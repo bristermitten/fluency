@@ -23,6 +23,6 @@ public class ClickListener implements Listener {
         MenuButton button = holder.menu().button(e.getSlot());
         if (button == null) return;
         button.handler().accept(event);
-        e.setCancelled(e.isCancelled());
+        e.setCancelled(event.isCancelled());
     }
 }
