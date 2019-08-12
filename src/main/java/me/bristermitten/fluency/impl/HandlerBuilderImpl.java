@@ -122,7 +122,7 @@ public class HandlerBuilderImpl implements HandlerBuilder {
     }
 
     @Override
-    public ClickHandler build() {
+    public ActionList build() {
         return actions;
     }
 

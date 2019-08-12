@@ -13,7 +13,6 @@ public class Handlers {
     private static void changePage(MenuClickEvent e, int change) {
         PageList pages = e.menu().pages();
         int i = pages.indexOf(e.menu());
-        System.out.println(i);
         int newIndex = i + change;
         if (newIndex < 0 || newIndex >= pages.size()) return;
         Menu menu = pages.get(newIndex);

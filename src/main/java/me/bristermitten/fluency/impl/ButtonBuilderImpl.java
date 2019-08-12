@@ -4,6 +4,8 @@ import me.bristermitten.fluency.Fluency;
 import me.bristermitten.fluency.Util;
 import me.bristermitten.fluency.button.ButtonBuilder;
 import me.bristermitten.fluency.button.MenuButton;
+import me.bristermitten.fluency.button.click.ActionList;
+import me.bristermitten.fluency.button.click.ClickHandler;
 import me.bristermitten.fluency.button.click.HandlerBuilder;
 import me.bristermitten.fluency.data.ButtonHolder;
 import me.bristermitten.fluency.menu.MenuBuilder;
@@ -106,7 +108,13 @@ class ButtonBuilderImpl implements ButtonBuilder {
     @Override
     public HandlerBuilder onClick() {
         HandlerBuilder handlerBuilder = fluency.buildHandler(this);
-        transform(b -> b.handler(handlerBuilder.build()));
+        transform(b -> {
+            ClickHandler build = handlerBuilder.build();
+            if (b.handler() instanceof ActionList && build instanceof ActionList) {
+                ((ActionList) b.handler()).addAll((ActionList) build);
+            } else
+                b.handler(build);
+        });
         return handlerBuilder;
     }
 
@@ -114,7 +122,13 @@ class ButtonBuilderImpl implements ButtonBuilder {
     public HandlerBuilder onClick(ClickType type) {
         HandlerBuilder handlerBuilder = fluency.buildHandler(this);
         handlerBuilder.whenClickType(type);
-        transform(b -> b.handler(handlerBuilder.build()));
+        transform(b -> {
+            ClickHandler build = handlerBuilder.build();
+            if (b.handler() instanceof ActionList && build instanceof ActionList) {
+                ((ActionList) b.handler()).addAll((ActionList) build);
+            } else
+                b.handler(build);
+        });
         return handlerBuilder;
     }
 
