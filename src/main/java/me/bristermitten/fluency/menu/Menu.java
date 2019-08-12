@@ -36,7 +36,9 @@ public class Menu {
 
         background = new ButtonHolder();
         buttons = new ButtonHolder[size];
-        Arrays.fill(buttons, new ButtonHolder());
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i] = new ButtonHolder();
+        }
     }
 
     private void updateMenu() {
@@ -49,10 +51,7 @@ public class Menu {
             ButtonHolder button = buttons[i];
             if (button == null) continue;
             MenuButton b = button.get();
-            if (background.has()) {
-                if (b == null || b.getType() == Material.AIR)
-                    b = background.get();
-            }
+            if (background.has() && (b == null || b.getType() == Material.AIR)) b = background.get();
             inventory.setItem(i, b);
         }
         pages.forEachPage(p -> p.updateMenu(false));
@@ -107,7 +106,9 @@ public class Menu {
             addPage().addButton(button);
             return;
         }
-        buttons[distribution.nextSlot()].set(button);
+        int i = distribution.nextSlot();
+        ButtonHolder dis = buttons[i];
+        dis.set(button);
         updateMenu();
     }
 

@@ -80,6 +80,7 @@ public class MenuBuilderTests {
         });
         build.open(p);
     }
+
     @Test
     public void testBackground() {
         Menu build = fluency.buildMenu().size(36).title("Test Menu")
@@ -90,5 +91,14 @@ public class MenuBuilderTests {
         MenuClickEvent e = mock(MenuClickEvent.class);
 
         System.out.println(build.button(3));
+    }
+
+    @Test
+    public void testAddPredefinedButton() {
+        MenuButton build = fluency.buildButton().type(STONE).build();
+        Menu menu = fluency.buildMenu().size(9).title("Test Menu")
+                .addButton(build).build();
+
+        assertEquals(build, menu.button(0));
     }
 }
