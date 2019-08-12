@@ -27,7 +27,7 @@ public class CenteredButtonDistribution extends AbstractButtonDistribution {
 
     public void init(int size) {
         super.init(size);
-        this.index = this.centerSlot = (MENU_WIDTH * ((height + 1) / 2) - 1) / 2;
+        this.index = this.centerSlot = (size + 1) / 2 - 1;
         distance = 1;
     }
 
@@ -38,7 +38,7 @@ public class CenteredButtonDistribution extends AbstractButtonDistribution {
             return index;
         }
         index = direction.move(centerSlot, distance);
-        direction = direction.inverse();
+        direction = direction.next();
         toggleCount++;
         if (toggleCount >= 2) {
             distance++;
@@ -77,7 +77,7 @@ public class CenteredButtonDistribution extends AbstractButtonDistribution {
             }
 
             @Override
-            public Direction inverse() {
+            public Direction next() {
                 return RIGHT;
             }
         },
@@ -88,13 +88,35 @@ public class CenteredButtonDistribution extends AbstractButtonDistribution {
             }
 
             @Override
-            public Direction inverse() {
+            public Direction next() {
+                return LEFT;
+            }
+        },
+        UP {
+            @Override
+            public int move(int current, int mod) {
+                return current - MENU_WIDTH;
+            }
+
+            @Override
+            public Direction next() {
+                return RIGHT;
+            }
+        },
+        DOWN {
+            @Override
+            public int move(int current, int mod) {
+                return current + MENU_WIDTH;
+            }
+
+            @Override
+            public Direction next() {
                 return LEFT;
             }
         };
 
         public abstract int move(int current, int mod);
 
-        public abstract Direction inverse();
+        public abstract Direction next();
     }
 }
