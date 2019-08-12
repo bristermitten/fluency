@@ -5,6 +5,7 @@ import me.bristermitten.fluency.Util;
 import me.bristermitten.fluency.button.ButtonBuilder;
 import me.bristermitten.fluency.button.MenuButton;
 import me.bristermitten.fluency.button.click.HandlerBuilder;
+import me.bristermitten.fluency.data.ButtonHolder;
 import me.bristermitten.fluency.menu.MenuBuilder;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -19,29 +20,35 @@ import java.util.function.Consumer;
 class ButtonBuilderImpl implements ButtonBuilder {
     private final Fluency fluency;
     private final MenuBuilder parent;
-    private MenuButton button;
+    private ButtonHolder button;
 
     public ButtonBuilderImpl(Fluency fluency, MenuBuilder parent) {
         this.fluency = fluency;
         this.parent = parent;
-        this.button = new MenuButton();
+        this.button = new ButtonHolder(new MenuButton());
     }
 
     @Override
     public ButtonBuilder amount(int amount) {
-        button.setAmount(amount);
+        transform(b -> b.setAmount(amount));
         return this;
     }
 
     @Override
     public ButtonBuilder type(Material type) {
-        button.setType(type);
+        transform(b -> b.setType(type));
         return this;
+    }
+
+    private void transform(Consumer<MenuButton> c) {
+        MenuButton menuButton = button.get();
+        c.accept(menuButton);
+        button.set(menuButton);
     }
 
     @Override
     public ButtonBuilder data(short data) {
-        button.setDurability(data);
+        transform(b -> b.setDurability(data));
         return this;
     }
 
@@ -82,20 +89,23 @@ class ButtonBuilderImpl implements ButtonBuilder {
 
     @Override
     public ButtonBuilder enchant(Enchantment e, int level) {
-        button.addEnchantment(e, level);
+        transform(b -> b.addEnchantment(e, level));
         return this;
     }
 
     private void transformMeta(Consumer<ItemMeta> f) {
-        ItemMeta itemMeta = button.getItemMeta();
-        f.accept(itemMeta);
-        button.setItemMeta(itemMeta);
+        transform(b -> {
+            ItemMeta itemMeta = b.getItemMeta();
+            f.accept(itemMeta);
+            b.setItemMeta(itemMeta);
+        });
+
     }
 
     @Override
     public HandlerBuilder onClick() {
         HandlerBuilder handlerBuilder = fluency.buildHandler(this);
-        button.handler(handlerBuilder.build());
+        transform(b -> b.handler(handlerBuilder.build()));
         return handlerBuilder;
     }
 
@@ -103,7 +113,7 @@ class ButtonBuilderImpl implements ButtonBuilder {
     public HandlerBuilder onClick(ClickType type) {
         HandlerBuilder handlerBuilder = fluency.buildHandler(this);
         handlerBuilder.whenClickType(type);
-        button.handler(handlerBuilder.build());
+        transform(b -> b.handler(handlerBuilder.build()));
         return handlerBuilder;
     }
 
@@ -113,7 +123,7 @@ class ButtonBuilderImpl implements ButtonBuilder {
     }
 
     @Override
-    public MenuButton build() {
+    public ButtonHolder build() {
         return button;
     }
 

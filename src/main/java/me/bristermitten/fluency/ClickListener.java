@@ -1,5 +1,6 @@
 package me.bristermitten.fluency;
 
+import me.bristermitten.fluency.button.MenuButton;
 import me.bristermitten.fluency.button.click.MenuClickEvent;
 import me.bristermitten.fluency.menu.MenuHolder;
 import org.bukkit.entity.Player;
@@ -16,7 +17,10 @@ public class ClickListener implements Listener {
             return;
         }
         MenuHolder holder = (MenuHolder) e.getClickedInventory().getHolder();
+        if (holder == null) return;
         MenuClickEvent event = new MenuClickEvent(e, (Player) e.getWhoClicked(), holder.menu());
-        holder.menu().button(e.getSlot()).handler().accept(event);
+        MenuButton button = holder.menu().button(e.getSlot());
+        if (button == null) return;
+        button.handler().accept(event);
     }
 }

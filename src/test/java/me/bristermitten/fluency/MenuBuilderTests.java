@@ -3,7 +3,9 @@ package me.bristermitten.fluency;
 import me.bristermitten.fluency.button.MenuButton;
 import me.bristermitten.fluency.button.click.MenuClickEvent;
 import me.bristermitten.fluency.menu.Menu;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +17,7 @@ import static org.bukkit.Material.AIR;
 import static org.bukkit.Material.STONE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -70,5 +73,11 @@ public class MenuBuilderTests {
         when(e.getWhoClicked()).thenReturn(p);
         build.button(0).handler().accept(e);
         Mockito.verify(p).sendMessage("Clicked");
+        when(p.openInventory(any(Inventory.class))).then(a -> {
+            Object argument = a.getArguments()[0];
+            System.out.println(ReflectionToStringBuilder.toString(argument));
+            return null;
+        });
+        build.open(p);
     }
 }

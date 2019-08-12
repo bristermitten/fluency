@@ -4,6 +4,7 @@ import me.bristermitten.fluency.Fluency;
 import me.bristermitten.fluency.Util;
 import me.bristermitten.fluency.button.MenuButton;
 import me.bristermitten.fluency.button.distribution.ButtonDistribution;
+import me.bristermitten.fluency.data.ButtonHolder;
 import me.bristermitten.fluency.data.PageList;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -12,6 +13,7 @@ import org.bukkit.inventory.Inventory;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static me.bristermitten.fluency.button.distribution.ButtonDistribution.SIMPLE;
 
@@ -19,11 +21,11 @@ public class Menu {
     private static final int MENU_WIDTH = 9;
     private final PageList pages;
     Inventory inventory;
-    private MenuButton[] buttons;
+    private ButtonHolder[] buttons;
     private String title;
     private int size;
     private ButtonDistribution distribution;
-    private MenuButton background;
+    private ButtonHolder background;
 
     public Menu() {
         title = "Title";
@@ -32,7 +34,9 @@ public class Menu {
         distribution = SIMPLE.get();
         distribution.init(size);
 
-        buttons = new MenuButton[size];
+        background = new ButtonHolder();
+        buttons = new ButtonHolder[size];
+        Arrays.fill(buttons, new ButtonHolder());
     }
 
     private void updateMenu() {
@@ -42,13 +46,14 @@ public class Menu {
     private void updateMenu(boolean updatePages) {
         inventory = Bukkit.createInventory(new MenuHolder(this), size, Util.color(title));
         for (int i = 0; i < buttons.length; i++) {
-            MenuButton button = buttons[i];
-
-            if ((button == null || button.getType() == Material.AIR) && background != null) {
-                button = background;
+            ButtonHolder button = buttons[i];
+            if (button == null) continue;
+            MenuButton b = button.get();
+            if (background.has()) {
+                if (b == null || b.getType() == Material.AIR)
+                    b = background.get();
             }
-
-            inventory.setItem(i, button);
+            inventory.setItem(i, b);
         }
         pages.forEachPage(p -> p.updateMenu(false));
     }
@@ -74,6 +79,11 @@ public class Menu {
     }
 
     public void background(MenuButton background) {
+        this.background.set(background);
+        updateMenu();
+    }
+
+    public void background(ButtonHolder background) {
         this.background = background;
         updateMenu();
     }
@@ -88,11 +98,20 @@ public class Menu {
     }
 
     public void button(int slot, MenuButton button) {
-        buttons[slot] = button;
+        buttons[slot].set(button);
         updateMenu();
     }
 
     public void addButton(MenuButton button) {
+        if (!distribution.hasNext() && isFull()) {
+            addPage().addButton(button);
+            return;
+        }
+        buttons[distribution.nextSlot()].set(button);
+        updateMenu();
+    }
+
+    public void addButton(ButtonHolder button) {
         if (!distribution.hasNext() && isFull()) {
             addPage().addButton(button);
             return;
@@ -122,7 +141,7 @@ public class Menu {
     }
 
     public MenuButton button(int i) {
-        return buttons[i];
+        return buttons[i].get();
     }
 
     public PageList pages() {
@@ -130,7 +149,7 @@ public class Menu {
     }
 
     public List<MenuButton> buttons() {
-        return Arrays.asList(buttons);
+        return Arrays.stream(buttons).map(ButtonHolder::get).collect(Collectors.toList());
     }
 
     public void open(Player whoClicked) {
