@@ -21,8 +21,10 @@ public class Fluency {
 
         Bukkit.getPluginManager().registerEvents(new ClickListener(), plugin);
 
-        PAGE_PREVIOUS = buildButton().type(Material.REDSTONE).build();
-        PAGE_NEXT = buildButton().type(Material.EMERALD).build();
+        PAGE_PREVIOUS = buildButton().type(Material.REDSTONE)
+                .onClick().previousPage().done().build();
+        PAGE_NEXT = buildButton().type(Material.EMERALD)
+                .onClick().nextPage().done().build();
     }
 
     public static Fluency create(Plugin plugin) {
