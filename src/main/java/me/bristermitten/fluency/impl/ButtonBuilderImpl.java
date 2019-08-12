@@ -26,6 +26,7 @@ class ButtonBuilderImpl implements ButtonBuilder {
         this.fluency = fluency;
         this.parent = parent;
         this.button = new ButtonHolder(new MenuButton());
+        amount(1);
     }
 
     @Override

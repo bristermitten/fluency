@@ -3,7 +3,6 @@ package me.bristermitten.fluency;
 import me.bristermitten.fluency.button.MenuButton;
 import me.bristermitten.fluency.button.click.MenuClickEvent;
 import me.bristermitten.fluency.menu.Menu;
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.junit.After;
@@ -64,20 +63,23 @@ public class MenuBuilderTests {
 
     @Test
     public void testChaining() {
-        Player p = mock(Player.class);
         Menu build = fluency.buildMenu().size(36).title("Test Menu")
                 .buildButton().type(STONE).amount(12).onClick().sendMessage("Clicked").done().done()
                 .build();
 
         MenuClickEvent e = mock(MenuClickEvent.class);
+
+        Player p = mock(Player.class);
         when(e.getWhoClicked()).thenReturn(p);
         build.button(0).handler().accept(e);
         Mockito.verify(p).sendMessage("Clicked");
         when(p.openInventory(any(Inventory.class))).then(a -> {
             Object argument = a.getArguments()[0];
-            System.out.println(ReflectionToStringBuilder.toString(argument));
+            Inventory i = (Inventory) argument;
+            assertEquals(STONE, i.getItem(0).getType());
             return null;
         });
         build.open(p);
     }
+    
 }
