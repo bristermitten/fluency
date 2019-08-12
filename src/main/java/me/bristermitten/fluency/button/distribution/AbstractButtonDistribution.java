@@ -2,7 +2,9 @@ package me.bristermitten.fluency.button.distribution;
 
 
 import org.apache.commons.lang.Validate;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -79,6 +81,7 @@ public abstract class AbstractButtonDistribution implements ButtonDistribution {
         ButtonDistribution copy = copy();
 
         int[] arr = new int[maxSize];
+        Arrays.fill(arr, -1);
         int x = 0;
         while (copy.hasNext()) {
             int i = copy.nextSlot();
@@ -91,6 +94,7 @@ public abstract class AbstractButtonDistribution implements ButtonDistribution {
         return arr2;
     }
 
+    @NotNull
     @Override
     public Iterator<Integer> iterator() {
         return new Iterator<Integer>() {
