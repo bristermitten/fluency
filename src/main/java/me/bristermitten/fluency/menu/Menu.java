@@ -127,18 +127,18 @@ public class Menu {
     }
 
     public Page addPage() {
-        Page e = new Page(this);
-        e.addButton(Fluency.PAGE_PREVIOUS);
+        Page page = new Page(this);
+        page.addButton(Fluency.PAGE_PREVIOUS);
         Menu last = pages.getLast();
         if (last != null) {
             MenuButton button = last.button(last.size - 1);
             if (button != null) {
-                e.addButton(button);
-                last.button(last.size - 1, Fluency.PAGE_NEXT);
+                page.addButton(button);
             }
+            last.button(last.size - 1, Fluency.PAGE_NEXT);
         }
-        pages.add(e);
-        return e;
+        pages.add(page);
+        return page;
     }
 
     public MenuButton button(int i) {

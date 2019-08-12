@@ -22,7 +22,7 @@ public class Fluency {
         Bukkit.getPluginManager().registerEvents(new ClickListener(), plugin);
 
         PAGE_PREVIOUS = buildButton().type(Material.REDSTONE).build();
-        PAGE_PREVIOUS = buildButton().type(Material.EMERALD).build();
+        PAGE_NEXT = buildButton().type(Material.EMERALD).build();
     }
 
     public static Fluency create(Plugin plugin) {
