@@ -141,7 +141,9 @@ public class Menu {
     }
 
     public MenuButton button(int i) {
-        return buttons[i].get();
+        ButtonHolder button = buttons[i];
+        if (!button.has() && background.has()) return background.get();
+        return button.get();
     }
 
     public PageList pages() {

@@ -81,5 +81,5 @@ public class MenuBuilderTests {
         });
         build.open(p);
     }
-    
+
 }
