@@ -12,8 +12,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.bukkit.Material.AIR;
-import static org.bukkit.Material.STONE;
+import static org.bukkit.Material.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -81,5 +80,15 @@ public class MenuBuilderTests {
         });
         build.open(p);
     }
+    @Test
+    public void testBackground() {
+        Menu build = fluency.buildMenu().size(36).title("Test Menu")
+                .buildButton().type(STONE).amount(12).onClick().sendMessage("Clicked").done().done()
+                .buildBackground().type(REDSTONE).onClick().cancel().done().done()
+                .build();
 
+        MenuClickEvent e = mock(MenuClickEvent.class);
+
+        System.out.println(build.button(3));
+    }
 }
