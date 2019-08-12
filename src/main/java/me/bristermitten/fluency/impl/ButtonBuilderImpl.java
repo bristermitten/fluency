@@ -11,6 +11,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
@@ -65,6 +66,7 @@ class ButtonBuilderImpl implements ButtonBuilder {
     public ButtonBuilder addLore(String lore) {
         transformMeta(m -> {
             List<String> l = m.getLore();
+            if (l == null) l = new ArrayList<>();
             l.add(Util.color(lore));
             m.setLore(l);
         });
