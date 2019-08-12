@@ -4,7 +4,9 @@ public class SimpleButtonDistribution extends AbstractButtonDistribution {
     @Override
     public ButtonDistribution copy() {
         SimpleButtonDistribution s = new SimpleButtonDistribution();
-        s.init(maxSize);
+        if (isInit()) {
+            s.init(maxSize);
+        }
         return s;
     }
 }

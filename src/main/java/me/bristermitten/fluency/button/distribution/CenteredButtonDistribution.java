@@ -60,6 +60,15 @@ public class CenteredButtonDistribution extends AbstractButtonDistribution {
     }
 
 
+    @Override
+    public ButtonDistribution copy() {
+        CenteredButtonDistribution b = new CenteredButtonDistribution();
+        if (isInit()) {
+            b.init(maxSize);
+        }
+        return b;
+    }
+
     protected enum Direction {
         LEFT {
             @Override

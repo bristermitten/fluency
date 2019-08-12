@@ -5,8 +5,12 @@ import me.bristermitten.fluency.button.ButtonBuilder;
 import me.bristermitten.fluency.button.MenuButton;
 import me.bristermitten.fluency.button.distribution.ButtonDistribution;
 
+import java.util.function.Supplier;
+
 public interface MenuBuilder extends FluentBuilder<Menu, MenuBuilder> {
     MenuBuilder distributed(ButtonDistribution distribution);
+
+    MenuBuilder distributed(Supplier<ButtonDistribution> distribution);
 
     MenuBuilder title(String title);
 

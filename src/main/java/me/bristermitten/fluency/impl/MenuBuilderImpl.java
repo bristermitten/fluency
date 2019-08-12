@@ -7,6 +7,8 @@ import me.bristermitten.fluency.button.distribution.ButtonDistribution;
 import me.bristermitten.fluency.menu.Menu;
 import me.bristermitten.fluency.menu.MenuBuilder;
 
+import java.util.function.Supplier;
+
 class MenuBuilderImpl implements MenuBuilder {
     private final Fluency fluency;
     private Menu menu;
@@ -14,6 +16,11 @@ class MenuBuilderImpl implements MenuBuilder {
     public MenuBuilderImpl(Fluency fluency) {
         this.fluency = fluency;
         this.menu = new Menu();
+    }
+
+    @Override
+    public MenuBuilder distributed(Supplier<ButtonDistribution> distribution) {
+        return distributed(distribution.get());
     }
 
     @Override

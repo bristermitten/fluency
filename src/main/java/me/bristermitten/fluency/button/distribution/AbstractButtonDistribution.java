@@ -47,14 +47,19 @@ public abstract class AbstractButtonDistribution implements ButtonDistribution {
     }
 
     protected void checkInit() {
-        if (maxSize == -1) throw new DistributionNotInitialisedException();
+        if (!isInit()) throw new DistributionNotInitialisedException();
+    }
+
+    protected boolean isInit() {
+        return maxSize != -1;
     }
 
     @Override
     public ButtonDistribution copy() {
         try {
             AbstractButtonDistribution d = getClass().newInstance();
-            d.init(maxSize);
+            if (isInit())
+                d.init(maxSize);
             return d;
         } catch (ReflectiveOperationException e) {
             e.printStackTrace();
