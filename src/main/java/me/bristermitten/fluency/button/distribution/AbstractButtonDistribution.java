@@ -57,7 +57,7 @@ public abstract class AbstractButtonDistribution implements ButtonDistribution {
     @Override
     public ButtonDistribution copy() {
         try {
-            AbstractButtonDistribution d = getClass().newInstance();
+            AbstractButtonDistribution d = getClass().getConstructor().newInstance();
             if (isInit())
                 d.init(maxSize);
             return d;
