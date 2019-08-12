@@ -153,6 +153,7 @@ public class Menu {
     }
 
     public void open(Player whoClicked) {
+        updateMenu();
         whoClicked.openInventory(inventory);
     }
 
