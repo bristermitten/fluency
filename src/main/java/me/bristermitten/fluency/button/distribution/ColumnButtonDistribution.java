@@ -38,7 +38,9 @@ public class ColumnButtonDistribution extends AbstractButtonDistribution {
     @Override
     public ButtonDistribution copy() {
         ColumnButtonDistribution s = new ColumnButtonDistribution();
-        s.init(maxSize);
+        if (isInit()) {
+            s.init(maxSize);
+        }
         return s;
     }
 }

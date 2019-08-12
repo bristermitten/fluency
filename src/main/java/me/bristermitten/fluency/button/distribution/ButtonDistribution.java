@@ -47,6 +47,7 @@ public interface ButtonDistribution extends Iterable<Integer> {
     /**
      * Create a copy of this distribution
      * Note that this will copy over initialization status, but not current index
+     *
      * <p>
      * In {@link AbstractButtonDistribution}, reflection is used to initialize subclasses, and so
      * implementations are recommended to override this method with a constructor
