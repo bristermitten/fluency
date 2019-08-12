@@ -51,4 +51,6 @@ public interface ButtonDistribution extends Iterable<Integer> {
     ButtonDistribution copy();
 
     int[][] toArray();
+
+
 }
