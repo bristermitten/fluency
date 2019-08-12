@@ -5,6 +5,7 @@ import me.bristermitten.fluency.Util;
 import me.bristermitten.fluency.button.ButtonBuilder;
 import me.bristermitten.fluency.button.click.*;
 import me.bristermitten.fluency.menu.Menu;
+import org.bukkit.event.inventory.ClickType;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -84,6 +85,11 @@ public class HandlerBuilderImpl implements HandlerBuilder {
         actions.add(current);
         current.addCondition(e -> condition);
         return this;
+    }
+
+    @Override
+    public HandlerBuilder whenClickType(ClickType type) {
+        return when(e -> e.getClick() == type);
     }
 
     @Override

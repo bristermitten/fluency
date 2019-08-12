@@ -3,6 +3,7 @@ package me.bristermitten.fluency.button.click;
 import me.bristermitten.fluency.FluentBuilder;
 import me.bristermitten.fluency.button.ButtonBuilder;
 import me.bristermitten.fluency.menu.Menu;
+import org.bukkit.event.inventory.ClickType;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -26,6 +27,8 @@ public interface HandlerBuilder extends FluentBuilder<ClickHandler, ButtonBuilde
     HandlerBuilder nextPage();
 
     HandlerBuilder previousPage();
+
+    HandlerBuilder whenClickType(ClickType type);
 
     HandlerBuilder when(boolean condition);
 

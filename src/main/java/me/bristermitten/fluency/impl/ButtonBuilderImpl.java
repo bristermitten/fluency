@@ -8,6 +8,7 @@ import me.bristermitten.fluency.button.click.HandlerBuilder;
 import me.bristermitten.fluency.menu.MenuBuilder;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
@@ -92,6 +93,14 @@ class ButtonBuilderImpl implements ButtonBuilder {
     @Override
     public HandlerBuilder onClick() {
         HandlerBuilder handlerBuilder = fluency.buildHandler(this);
+        button.handler(handlerBuilder.build());
+        return handlerBuilder;
+    }
+
+    @Override
+    public HandlerBuilder onClick(ClickType type) {
+        HandlerBuilder handlerBuilder = fluency.buildHandler(this);
+        handlerBuilder.whenClickType(type);
         button.handler(handlerBuilder.build());
         return handlerBuilder;
     }
