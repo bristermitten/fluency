@@ -123,9 +123,15 @@ class ButtonBuilderImpl implements ButtonBuilder {
     }
 
     @Override
-    public ButtonHolder build() {
+    public MenuButton build() {
+        return button.get();
+    }
+
+    @Override
+    public ButtonHolder buildHolder() {
         return button;
     }
+
 
     @Override
     public MenuBuilder done() {

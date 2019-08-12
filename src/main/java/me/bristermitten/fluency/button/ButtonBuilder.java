@@ -10,7 +10,7 @@ import org.bukkit.event.inventory.ClickType;
 
 import java.util.List;
 
-public interface ButtonBuilder extends FluentBuilder<ButtonHolder, MenuBuilder> {
+public interface ButtonBuilder extends FluentBuilder<MenuButton, MenuBuilder> {
     ButtonBuilder amount(int amount);
 
     ButtonBuilder type(Material type);
@@ -33,5 +33,7 @@ public interface ButtonBuilder extends FluentBuilder<ButtonHolder, MenuBuilder> 
 
     HandlerBuilder onClick(ClickType type);
 
-    ButtonHolder build();
+    MenuButton build();
+
+    ButtonHolder buildHolder();
 }
