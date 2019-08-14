@@ -13,10 +13,10 @@ public class ClickListener implements Listener {
     public void onClick(InventoryClickEvent e) {
         if (e instanceof MenuClickEvent) return;
         if (!(e.getWhoClicked() instanceof Player)) return;
-        if (!(e.getClickedInventory().getHolder() instanceof MenuHolder)) {
-            return;
-        }
         if (e.getClickedInventory() == null) return;
+        if (!(e.getClickedInventory().getHolder() instanceof MenuHolder)) return;
+
+        
         MenuHolder holder = (MenuHolder) e.getClickedInventory().getHolder();
         if (holder == null) return;
         MenuClickEvent event = new MenuClickEvent(e, (Player) e.getWhoClicked(), holder.menu());
