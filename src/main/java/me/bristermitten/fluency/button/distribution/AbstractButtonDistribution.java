@@ -26,7 +26,7 @@ public abstract class AbstractButtonDistribution implements ButtonDistribution {
     @Override
     public void skip() {
         checkInit();
-        index += 2;
+        index += 1;
     }
 
     @Override
