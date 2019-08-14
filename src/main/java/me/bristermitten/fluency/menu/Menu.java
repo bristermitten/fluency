@@ -122,8 +122,18 @@ public class Menu {
     }
 
     public boolean isFull() {
-        return Arrays.stream(buttons)
-                .anyMatch(b -> b.has() || b.get().equals(background.get()));
+        if (background.has()) {
+            for (ButtonHolder button : buttons) {
+                if (!button.has()) return false;
+                return button.get().equals(background.get());
+            }
+        } else {
+            for (ButtonHolder button : buttons) {
+                if (!button.has()) return false;
+            }
+            return true;
+        }
+        return true;
     }
 
     public Page addPage() {
