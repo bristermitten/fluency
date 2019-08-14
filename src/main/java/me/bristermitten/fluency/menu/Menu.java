@@ -20,12 +20,12 @@ import static me.bristermitten.fluency.button.distribution.ButtonDistribution.SI
 public class Menu {
     private static final int MENU_WIDTH = 9;
     private final PageList pages;
+    protected ButtonHolder background;
     Inventory inventory;
     private ButtonHolder[] buttons;
     private String title;
     private int size;
     private ButtonDistribution distribution;
-    private ButtonHolder background;
 
     public Menu() {
         title = "Title";
@@ -102,6 +102,9 @@ public class Menu {
     }
 
     public void addButton(MenuButton button) {
+        System.out.println(distribution.currentSlot());
+        System.out.println(distribution.hasNext());
+        System.out.println(isFull());
         if (!distribution.hasNext() && isFull()) {
             addPage().addButton(button);
             return;
@@ -182,3 +185,4 @@ public class Menu {
                 '}';
     }
 }
+

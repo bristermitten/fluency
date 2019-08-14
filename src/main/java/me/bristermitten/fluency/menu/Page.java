@@ -10,6 +10,7 @@ public class Page extends Menu {
         this.size(parent.size());
         this.title(parent.title());
         this.distribution(parent.distribution().copy());
+        this.background(parent.background);
     }
 
     @Override
