@@ -104,7 +104,7 @@ public class Menu {
     public void addButton(MenuButton button) {
         if (!distribution.hasNext() && isFull()) {
             Menu last = pages.getLast();
-            if (last.isFull()) {
+            if (last == this || last.isFull()) {
                 last = addPage();
             }
             last.addButton(button);
@@ -119,7 +119,7 @@ public class Menu {
     public void addButton(ButtonHolder button) {
         if (!distribution.hasNext() && isFull()) {
             Menu last = pages.getLast();
-            if (last.isFull()) {
+            if (last == this || last.isFull()) {
                 last = addPage();
             }
             last.addButton(button);
