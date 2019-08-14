@@ -30,11 +30,12 @@ public interface ButtonDistribution extends Iterable<Integer> {
 
     /**
      * Skip one or many slots. This is difficult to describe as different implementations are driven by this method.
-     * General contract is that 1 call should change the internal index by at least 1, and cause a gap between slots of at least 1
+     * General contract is that 1 call should change the internal index by at least 1,
+     * being functionally equivalent to adding an empty button
      * For example, in {@link SimpleButtonDistribution}, skip() results in this (simplified for clarity)
      * Key: + = selected slot, - = empty slot, * = filled slot
      * [+][-][-][-] becomes
-     * [-][-][+][-]
+     * [-][+][][-]
      */
     void skip();
 
