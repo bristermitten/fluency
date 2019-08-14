@@ -102,11 +102,12 @@ public class Menu {
     }
 
     public void addButton(MenuButton button) {
-        System.out.println(distribution.currentSlot());
-        System.out.println(distribution.hasNext());
-        System.out.println(isFull());
         if (!distribution.hasNext() && isFull()) {
-            addPage().addButton(button);
+            Menu last = pages.getLast();
+            if (last.isFull()) {
+                last = addPage();
+            }
+            last.addButton(button);
             return;
         }
         int i = distribution.nextSlot();
@@ -117,7 +118,11 @@ public class Menu {
 
     public void addButton(ButtonHolder button) {
         if (!distribution.hasNext() && isFull()) {
-            addPage().addButton(button);
+            Menu last = pages.getLast();
+            if (last.isFull()) {
+                last = addPage();
+            }
+            last.addButton(button);
             return;
         }
         buttons[distribution.nextSlot()] = button;
