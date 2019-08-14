@@ -4,7 +4,7 @@ import java.util.function.Supplier;
 
 /**
  * Determines how buttons are distributed
- * Essentially, used for iterating over the slots in a menu, however not necessarily in order
+ * Essentially, used for iterating over the slots in a menu, however not necessarily in direct order
  */
 public interface ButtonDistribution extends Iterable<Integer> {
 
@@ -31,9 +31,9 @@ public interface ButtonDistribution extends Iterable<Integer> {
     /**
      * Skip one or many slots. This is difficult to describe as different implementations are driven by this method.
      * General contract is that 1 call should change the internal index by at least 1, and cause a gap between slots of at least 1
-     * For example, in {@link AbstractButtonDistribution}, skip() results in this (simplified for clarity)
-     * Key: + = selected slot, - =empty slot, * = filled slot
-     * [+][-][-][-] becoming
+     * For example, in {@link SimpleButtonDistribution}, skip() results in this (simplified for clarity)
+     * Key: + = selected slot, - = empty slot, * = filled slot
+     * [+][-][-][-] becomes
      * [-][-][+][-]
      */
     void skip();
@@ -46,7 +46,7 @@ public interface ButtonDistribution extends Iterable<Integer> {
 
     /**
      * Create a copy of this distribution
-     * Note that this will copy over initialization status, but not current index
+     * Note that this will copy over initialization status and size, but not current index, which will be reset
      *
      * <p>
      * In {@link AbstractButtonDistribution}, reflection is used to initialize subclasses, and so

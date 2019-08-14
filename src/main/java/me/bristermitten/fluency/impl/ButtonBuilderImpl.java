@@ -4,8 +4,6 @@ import me.bristermitten.fluency.Fluency;
 import me.bristermitten.fluency.Util;
 import me.bristermitten.fluency.button.ButtonBuilder;
 import me.bristermitten.fluency.button.MenuButton;
-import me.bristermitten.fluency.button.click.ActionList;
-import me.bristermitten.fluency.button.click.ClickHandler;
 import me.bristermitten.fluency.button.click.HandlerBuilder;
 import me.bristermitten.fluency.data.ButtonHolder;
 import me.bristermitten.fluency.menu.MenuBuilder;
@@ -23,12 +21,15 @@ class ButtonBuilderImpl implements ButtonBuilder {
     private final Fluency fluency;
     private final MenuBuilder parent;
     private ButtonHolder button;
+    private HandlerBuilder handlerBuilder;
 
     public ButtonBuilderImpl(Fluency fluency, MenuBuilder parent) {
         this.fluency = fluency;
         this.parent = parent;
         this.button = new ButtonHolder(new MenuButton());
         amount(1);
+        this.handlerBuilder = fluency.buildHandler(this);
+        button.get().handler(handlerBuilder.build());
     }
 
     @Override
@@ -107,28 +108,28 @@ class ButtonBuilderImpl implements ButtonBuilder {
 
     @Override
     public HandlerBuilder onClick() {
-        HandlerBuilder handlerBuilder = fluency.buildHandler(this);
-        transform(b -> {
-            ClickHandler build = handlerBuilder.build();
-            if (b.handler() instanceof ActionList && build instanceof ActionList) {
-                ((ActionList) b.handler()).addAll((ActionList) build);
-            } else
-                b.handler(build);
-        });
+//        HandlerBuilder handlerBuilder = fluency.buildHandler(this);
+//        transform(b -> {
+//            ClickHandler build = handlerBuilder.build();
+//            if (b.handler() instanceof ActionList && build instanceof ActionList) {
+//                ((ActionList) b.handler()).addAll((ActionList) build);
+//            } else
+//                b.handler(build);
+//        });
         return handlerBuilder;
     }
 
     @Override
     public HandlerBuilder onClick(ClickType type) {
-        HandlerBuilder handlerBuilder = fluency.buildHandler(this);
+//        HandlerBuilder handlerBuilder = fluency.buildHandler(this);
         handlerBuilder.whenClickType(type);
-        transform(b -> {
-            ClickHandler build = handlerBuilder.build();
-            if (b.handler() instanceof ActionList && build instanceof ActionList) {
-                ((ActionList) b.handler()).addAll((ActionList) build);
-            } else
-                b.handler(build);
-        });
+//        transform(b -> {
+//            ClickHandler build = handlerBuilder.build();
+//            if (b.handler() instanceof ActionList && build instanceof ActionList) {
+//                ((ActionList) b.handler()).addAll((ActionList) build);
+//            } else
+//                b.handler(build);
+//        });
         return handlerBuilder;
     }
 
