@@ -3,6 +3,8 @@ package me.bristermitten.fluency.click;
 import me.bristermitten.fluency.BukkitMock;
 import me.bristermitten.fluency.Fluency;
 import me.bristermitten.fluency.button.ButtonBuilder;
+import me.bristermitten.fluency.button.MenuButton;
+import me.bristermitten.fluency.button.click.ActionList;
 import me.bristermitten.fluency.button.click.ClickHandler;
 import me.bristermitten.fluency.button.click.MenuClickEvent;
 import org.bukkit.event.inventory.ClickType;
@@ -37,15 +39,32 @@ public class ClickBuilderTests {
 
         ClickHandler handler = buttonBuilder.build().handler();
         handler.accept(mock);
-
         assertEquals(String.valueOf(new char[]{(char) 1, (char) 2}), writer.toString());
 
         writer.getBuffer().delete(0, writer.getBuffer().capacity());
+
 
         mock = mock(MenuClickEvent.class);
         when(mock.getClick()).thenReturn(LEFT);
         handler.accept(mock);
 
         assertEquals(String.valueOf((char) 1), writer.toString());
+    }
+
+
+    @Test
+    public void testConditionalAndOtherwise() {
+        boolean test = false;
+        StringWriter writer = new StringWriter();
+        MenuButton button = fluency.buildButton().onClick().when(test).action(e -> writer.write(1))
+                .otherwise().action(e -> writer.write(2)).done().build();
+
+        MenuClickEvent mock = mock(MenuClickEvent.class);
+        ClickHandler handler = button.handler();
+        ActionList actions = (ActionList) handler;
+
+        handler.accept(mock);
+
+        assertEquals(String.valueOf(new char[]{(char) 2}), writer.toString());
     }
 }

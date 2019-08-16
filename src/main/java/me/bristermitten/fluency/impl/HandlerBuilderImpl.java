@@ -21,69 +21,75 @@ public class HandlerBuilderImpl implements HandlerBuilder {
         this.fluency = fluency;
         this.parent = parent;
         actions = new ActionList();
-        current = new ClickAction();
-        actions.add(current);
     }
 
     @Override
     public HandlerBuilder cancel() {
+        addIfNecessary();
         current.addRun(Handlers.CANCEL);
         return this;
     }
 
+    private void addIfNecessary() {
+        if (current == null) {
+            current = new ClickAction();
+            actions.add(current);
+        }
+    }
+
     @Override
     public HandlerBuilder closeMenu() {
+        addIfNecessary();
         current.addRun(e -> e.getWhoClicked().closeInventory());
         return this;
     }
 
     @Override
     public HandlerBuilder openMenu(Menu m) {
+        addIfNecessary();
         current.addRun(e -> m.open(e.getWhoClicked()));
         return this;
     }
 
     @Override
     public HandlerBuilder openMenu(Supplier<Menu> m) {
+        addIfNecessary();
         current.addRun(e -> m.get().open(e.getWhoClicked()));
         return this;
     }
 
     @Override
     public HandlerBuilder sendMessage(String message) {
+        addIfNecessary();
         current.addRun(e -> e.getWhoClicked().sendMessage(Util.color(message)));
         return this;
     }
 
     @Override
     public HandlerBuilder sendMessage(Function<MenuClickEvent, String> message) {
+        addIfNecessary();
         current.addRun(e -> e.getWhoClicked().sendMessage(Util.color(message.apply(e))));
         return this;
     }
 
     @Override
     public HandlerBuilder action(ClickHandler event) {
+        addIfNecessary();
         current.addRun(event);
         return this;
     }
 
     @Override
     public HandlerBuilder nextPage() {
+        addIfNecessary();
         current.addRun(Handlers.NEXT_PAGE);
         return this;
     }
 
     @Override
     public HandlerBuilder previousPage() {
+        addIfNecessary();
         current.addRun(Handlers.PREVIOUS_PAGE);
-        return this;
-    }
-
-    @Override
-    public HandlerBuilder when(boolean condition) {
-        current = new ClickAction();
-        actions.add(current);
-        current.addCondition(e -> condition);
         return this;
     }
 
@@ -93,18 +99,21 @@ public class HandlerBuilderImpl implements HandlerBuilder {
     }
 
     @Override
+    public HandlerBuilder when(boolean condition) {
+        return when(() -> condition);
+    }
+
+
+    @Override
     public HandlerBuilder when(Supplier<Boolean> condition) {
-        current = new ClickAction();
-        actions.add(current);
-        current.addCondition(e -> condition.get());
-        return this;
+        return when(e -> condition.get());
     }
 
     @Override
     public HandlerBuilder when(Predicate<MenuClickEvent> condition) {
         current = new ClickAction();
-        actions.add(current);
         current.addCondition(condition);
+        actions.add(current);
         return this;
     }
 

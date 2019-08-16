@@ -19,15 +19,23 @@ public class ClickAction implements ClickHandler {
     @Override
     public void accept(MenuClickEvent e) {
         for (Predicate<MenuClickEvent> condition : conditions) {
-            if (!condition.test(e)) return;
+            boolean test = condition.test(e);
+            if (!test) return;
         }
         run.forEach(h -> h.accept(e));
     }
 
     public ClickAction copySwapConditions() {
-        ClickAction clickAction = new ClickAction();
-        conditions.stream().map(Predicate::negate).forEach(p -> clickAction.conditions.add(p));
-        clickAction.run.addAll(run);
-        return clickAction;
+        ClickAction copy = new ClickAction();
+        conditions.stream().map(Predicate::negate).forEach(copy::addCondition);
+        return copy;
+    }
+
+    @Override
+    public String toString() {
+        return "ClickAction{" +
+                "conditions=" + conditions +
+                ", run=" + run +
+                '}';
     }
 }
