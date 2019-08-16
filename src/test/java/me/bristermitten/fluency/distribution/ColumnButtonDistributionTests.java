@@ -39,7 +39,7 @@ public class ColumnButtonDistributionTests {
         distribution.init(size);
         assertEquals(0, distribution.nextSlot());
         distribution.skip();
-        assertEquals(2, distribution.currentSlot());
+        assertEquals(1, distribution.currentSlot());
     }
 
     @Test

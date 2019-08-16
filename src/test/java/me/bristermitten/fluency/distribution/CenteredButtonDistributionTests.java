@@ -33,8 +33,19 @@ public class CenteredButtonDistributionTests {
     public void testSimpleStartCenter() {
         distribution.init(size);
         assertEquals(4, distribution.nextSlot());
+
+
         int[][] array = distribution.toArray();
         List<Integer> numbers = IntStream.range(0, 27).boxed().collect(Collectors.toList());
         assertTrue(Arrays.stream(array).flatMapToInt(Arrays::stream).distinct().allMatch(numbers::contains));
+    }
+
+    @Test
+    public void testSkip() {
+        distribution.init(size);
+        distribution.skip();
+        assertEquals(3, distribution.nextSlot());
+        assertEquals(5, distribution.nextSlot());
+
     }
 }

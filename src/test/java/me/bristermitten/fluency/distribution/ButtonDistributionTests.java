@@ -39,7 +39,7 @@ public class ButtonDistributionTests {
         distribution.init(size);
         assertEquals(0, distribution.nextSlot());
         distribution.skip();
-        assertEquals(3, distribution.nextSlot());
+        assertEquals(2, distribution.nextSlot());
     }
 
     @Test
