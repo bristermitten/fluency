@@ -28,19 +28,20 @@ public class CenteredButtonDistribution extends AbstractButtonDistribution {
     public void init(int size) {
         super.init(size);
         this.index = this.centerSlot = (size + 1) / 2 - 1;
-        distance = 1;
+        distance = 0;
+        toggleCount = 1;
+        direction = Direction.LEFT;
     }
 
     @Override
     public int nextSlot() {
-        if (direction == null) {
-            direction = Direction.LEFT;
-            return index;
-        }
+//        if (direction == null) {
+//            direction = Direction.LEFT;
+//            return index;
+//        }
         index = direction.move(centerSlot, distance);
         direction = direction.next();
-        toggleCount++;
-        if (toggleCount >= 2) {
+        if (toggleCount++ >= 2) {
             distance++;
             toggleCount = 0;
         }
@@ -49,6 +50,7 @@ public class CenteredButtonDistribution extends AbstractButtonDistribution {
 
     @Override
     public void skip() {
+        toggleCount--;
         distance++;
     }
 
