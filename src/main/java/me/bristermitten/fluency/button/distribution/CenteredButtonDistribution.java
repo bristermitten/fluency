@@ -41,7 +41,7 @@ public class CenteredButtonDistribution extends AbstractButtonDistribution {
 //        }
         index = direction.move(centerSlot, distance);
         direction = direction.next();
-        if (toggleCount++ >= 2) {
+        if (++toggleCount >= 2) {
             distance++;
             toggleCount = 0;
         }
