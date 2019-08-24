@@ -43,6 +43,12 @@ class MenuBuilderImpl implements MenuBuilder {
     }
 
     @Override
+    public MenuBuilder maxStackSize(int maxStackSize) {
+        menu.maxStackSize(maxStackSize);
+        return this;
+    }
+
+    @Override
     public ButtonBuilder buildButton() {
         ButtonBuilder builder = fluency.buildButton(this);
         menu.addButton(builder.buildHolder());
