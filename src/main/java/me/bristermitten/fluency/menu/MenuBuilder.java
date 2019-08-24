@@ -16,6 +16,8 @@ public interface MenuBuilder extends FluentBuilder<Menu, MenuBuilder> {
 
     MenuBuilder size(int size);
 
+    MenuBuilder maxStackSize(int maxStackSize);
+
     ButtonBuilder buildButton();
 
     MenuBuilder addButton(MenuButton button);

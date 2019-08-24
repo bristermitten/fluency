@@ -27,6 +27,8 @@ public class Menu {
     private int size;
     private ButtonDistribution distribution;
 
+    private int maxStackSize = 64;
+
     public Menu() {
         title = "Title";
         size = MENU_WIDTH * 6;
@@ -47,11 +49,15 @@ public class Menu {
 
     private void updateMenu(boolean updatePages) {
         inventory = Bukkit.createInventory(new MenuHolder(this), size, Util.color(title));
+        inventory.setMaxStackSize(maxStackSize);
         for (int i = 0; i < buttons.length; i++) {
             ButtonHolder button = buttons[i];
             if (button == null) continue;
             MenuButton b = button.get();
             if (background.has() && (b == null || b.getType() == Material.AIR)) b = background.get();
+            if (b.getAmount() >= b.getMaxStackSize()) {
+                inventory.setMaxStackSize(maxStackSize);
+            }
             inventory.setItem(i, b);
         }
         pages.forEachPage(p -> p.updateMenu(false));
@@ -75,6 +81,14 @@ public class Menu {
         buttons = Arrays.copyOf(buttons, size);
         distribution.init(size);
         updateMenu();
+    }
+
+    public int maxStackSize() {
+        return maxStackSize;
+    }
+
+    public void maxStackSize(int maxStackSize) {
+        this.maxStackSize = maxStackSize;
     }
 
     public void background(MenuButton background) {
