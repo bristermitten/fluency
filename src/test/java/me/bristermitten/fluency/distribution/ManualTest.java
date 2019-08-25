@@ -1,7 +1,11 @@
 package me.bristermitten.fluency.distribution;
 
+import me.bristermitten.fluency.BukkitMock;
+import me.bristermitten.fluency.Fluency;
 import me.bristermitten.fluency.button.distribution.ButtonDistribution;
 import me.bristermitten.fluency.button.distribution.ManualButtonDistribution;
+import me.bristermitten.fluency.menu.MenuBuilder;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,11 +17,19 @@ import static org.junit.Assert.assertEquals;
 public class ManualTest {
     private ButtonDistribution distribution;
     private Iterable<Integer> slots;
+    private Fluency fluency;
+
+    @After
+    public void tearDown() {
+        BukkitMock.stop();
+    }
 
     @Before
     public void init() {
         slots = Arrays.asList(1, 2, 3, 4, 5, 6);
         distribution = new ManualButtonDistribution(slots);
+        BukkitMock.init();
+        fluency = Fluency.create(null);
     }
 
     @Test
@@ -34,4 +46,10 @@ public class ManualTest {
         assertArrayEquals(new int[]{-1, 0, 1, 2, 3, 4, 5, -1, -1}, ints[0]);
     }
 
+    @Test
+    public void testFluentDistribution() {
+        MenuBuilder builder = fluency.buildMenu()
+                .size(3 * 9).title("Test Menu")
+                .distributed(distribution);
+    }
 }

@@ -1,5 +1,6 @@
 package me.bristermitten.fluency.button.distribution;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 /**
@@ -8,8 +9,13 @@ import java.util.Iterator;
  */
 public class ManualButtonDistribution extends AbstractButtonDistribution {
     private Iterator<Integer> iterator;
+    private Iterable<Integer> origIter;
     private Iterator<Integer> original;
     private boolean cachedIndex = false;
+
+    public ManualButtonDistribution(Integer... slots) {
+        this(Arrays.asList(slots));
+    }
 
     public ManualButtonDistribution(Iterator<Integer> iterator) {
         this.iterator = iterator;
@@ -18,6 +24,7 @@ public class ManualButtonDistribution extends AbstractButtonDistribution {
     public ManualButtonDistribution(Iterable<Integer> slots) {
         this.iterator = slots.iterator();
         this.original = slots.iterator();
+        this.origIter = slots;
     }
 
     private ManualButtonDistribution() {
@@ -37,7 +44,7 @@ public class ManualButtonDistribution extends AbstractButtonDistribution {
     @Override
     public int nextSlot() {
         if (cachedIndex) {
-            cachedIndex= false;
+            cachedIndex = false;
             return index;
         }
         return index = iterator.next();
@@ -53,8 +60,11 @@ public class ManualButtonDistribution extends AbstractButtonDistribution {
     @Override
     public ButtonDistribution copy() {
         ManualButtonDistribution integers = new ManualButtonDistribution();
-        if (isInit() && original != null) {
-            integers = new ManualButtonDistribution(original);
+        if (origIter != null) {
+            return new ManualButtonDistribution(origIter);
+        }
+        if (original != null) {
+            return new ManualButtonDistribution(original);
         }
         return integers;
     }
