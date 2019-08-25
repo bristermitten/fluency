@@ -22,10 +22,12 @@ class ButtonBuilderImpl implements ButtonBuilder {
     private final MenuBuilder parent;
     private ButtonHolder button;
     private HandlerBuilder handlerBuilder;
+    private List<Consumer<ItemMeta>> queuedTasks;
 
     public ButtonBuilderImpl(Fluency fluency, MenuBuilder parent) {
         this.parent = parent;
         this.button = new ButtonHolder(new MenuButton());
+        this.queuedTasks = new ArrayList<>();
         this.handlerBuilder = fluency.buildHandler(this);
         button.get().handler(handlerBuilder.build());
         amount(1);
@@ -58,11 +60,7 @@ class ButtonBuilderImpl implements ButtonBuilder {
     @Override
     public ButtonBuilder name(String name) {
         Objects.requireNonNull(name);
-        transformMeta(m -> {
-            m.setDisplayName(
-                    Util.color(name)
-            );
-        });
+        transformMeta(m -> m.setDisplayName(Util.color(name)));
         return this;
     }
 
@@ -104,10 +102,15 @@ class ButtonBuilderImpl implements ButtonBuilder {
     private void transformMeta(Consumer<ItemMeta> f) {
         transform(b -> {
             ItemMeta itemMeta = b.getItemMeta();
+            if (itemMeta == null) {
+                queuedTasks.add(f);
+                return;
+            }
+            queuedTasks.forEach(q -> q.accept(itemMeta));
+            queuedTasks.clear();
             f.accept(itemMeta);
             b.setItemMeta(itemMeta);
         });
-
     }
 
     @Override
