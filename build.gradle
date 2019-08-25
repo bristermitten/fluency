@@ -19,7 +19,7 @@ dependencies {
     implementation 'com.github.knightzmc:jui:4aec24a9fb'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile 'com.github.knightzmc:MockBukkit:bb6c2ceacafbbb1728261dbb017cadd26f4289f3'
+    testCompile 'com.github.knightzmc:MockBukkit:93d0bc30c74894d0e127808d80ea1df93061701b'
     testImplementation 'org.jline:jline:3.11.0'
     testCompile "org.mockito:mockito-core:2.26.0"
 }

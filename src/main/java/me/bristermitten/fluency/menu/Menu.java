@@ -7,7 +7,6 @@ import me.bristermitten.fluency.button.distribution.ButtonDistribution;
 import me.bristermitten.fluency.data.ButtonHolder;
 import me.bristermitten.fluency.data.PageList;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -16,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static me.bristermitten.fluency.button.distribution.ButtonDistribution.SIMPLE;
+import static org.bukkit.Material.AIR;
 
 public class Menu {
     private static final int MENU_WIDTH = 9;
@@ -53,9 +53,13 @@ public class Menu {
         for (int i = 0; i < buttons.length; i++) {
             ButtonHolder button = buttons[i];
             if (button == null) continue;
+            if (!button.has() && !background.has()) continue;
             MenuButton b = button.get();
-            if (background.has() && (b == null || b.getType() == Material.AIR)) b = background.get();
-            if (b.getAmount() >= b.getMaxStackSize()) {
+            if (b == null || b.getType() == AIR && !background.has()) continue;
+            if (b.getType() == AIR) b = background.get();
+
+            if (b.getAmount() >=
+                    b.getMaxStackSize()) {
                 inventory.setMaxStackSize(maxStackSize);
             }
             inventory.setItem(i, b);

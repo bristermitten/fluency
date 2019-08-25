@@ -9,8 +9,7 @@ import java.util.Iterator;
 public class ManualButtonDistribution extends AbstractButtonDistribution {
     private Iterator<Integer> iterator;
     private Iterator<Integer> original;
-
-    private int current;
+    private boolean cachedIndex = false;
 
     public ManualButtonDistribution(Iterator<Integer> iterator) {
         this.iterator = iterator;
@@ -27,7 +26,7 @@ public class ManualButtonDistribution extends AbstractButtonDistribution {
 
     @Override
     public void skip() {
-        current = iterator.next();
+        index = iterator.next();
     }
 
     @Override
@@ -37,12 +36,18 @@ public class ManualButtonDistribution extends AbstractButtonDistribution {
 
     @Override
     public int nextSlot() {
-        return current = iterator.next();
+        if (cachedIndex) {
+            cachedIndex= false;
+            return index;
+        }
+        return index = iterator.next();
     }
 
     @Override
-    public int currentSlot() {
-        return current;
+    public void init(int size) {
+        super.init(size);
+        index = nextSlot();
+        cachedIndex = true;
     }
 
     @Override

@@ -57,6 +57,19 @@ public interface ButtonDistribution extends Iterable<Integer> {
      */
     ButtonDistribution copy();
 
+    /**
+     * Create a multidimensional array representing how a menu would look when using this distribution.
+     * Depending on the implementation, this method may consume all the indexes in the distribution,
+     * so should only be used for debugging.
+     * <p>
+     * The array format follows a simple coordinate system. For example, toArray()[1][3]
+     * returns the 4th element in the 2nd row.
+     * The values are the order that they were placed into the array by the distribution to help
+     * visualise the output of one. For example, in {@link SimpleButtonDistribution}
+     * the array is ordered as [0,1,2,3,4] etc.
+     *
+     * @return a multidimensional array representing the output of this distribution
+     */
     int[][] toArray();
 
 
