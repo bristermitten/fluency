@@ -15,21 +15,20 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 class ButtonBuilderImpl implements ButtonBuilder {
-    private final Fluency fluency;
     private final MenuBuilder parent;
     private ButtonHolder button;
     private HandlerBuilder handlerBuilder;
 
     public ButtonBuilderImpl(Fluency fluency, MenuBuilder parent) {
-        this.fluency = fluency;
         this.parent = parent;
         this.button = new ButtonHolder(new MenuButton());
-        amount(1);
         this.handlerBuilder = fluency.buildHandler(this);
         button.get().handler(handlerBuilder.build());
+        amount(1);
     }
 
     @Override
@@ -58,7 +57,12 @@ class ButtonBuilderImpl implements ButtonBuilder {
 
     @Override
     public ButtonBuilder name(String name) {
-        transformMeta(m -> m.setDisplayName(Util.color(name)));
+        Objects.requireNonNull(name);
+        transformMeta(m -> {
+            m.setDisplayName(
+                    Util.color(name)
+            );
+        });
         return this;
     }
 

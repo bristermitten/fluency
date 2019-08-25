@@ -26,9 +26,9 @@ public class ManualTest {
 
     @Before
     public void init() {
+        BukkitMock.init();
         slots = Arrays.asList(1, 2, 3, 4, 5, 6);
         distribution = new ManualButtonDistribution(slots);
-        BukkitMock.init();
         fluency = Fluency.create(null);
     }
 
