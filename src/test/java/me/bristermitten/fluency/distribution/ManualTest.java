@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class ManualTest {
@@ -24,6 +25,13 @@ public class ManualTest {
         for (int slot : slots) {
             assertEquals(slot, distribution.nextSlot());
         }
+    }
+
+    @Test
+    public void testToArray() {
+        distribution.init(9);
+        int[][] ints = distribution.toArray();
+        assertArrayEquals(new int[]{-1, 0, 1, 2, 3, 4, 5, -1, -1}, ints[0]);
     }
 
 }

@@ -87,6 +87,7 @@ public abstract class AbstractButtonDistribution implements ButtonDistribution {
 
         int[] arr = new int[maxSize];
         Arrays.fill(arr, -1);
+
         int x = 0;
         while (copy.hasNext()) {
             int i = copy.nextSlot();

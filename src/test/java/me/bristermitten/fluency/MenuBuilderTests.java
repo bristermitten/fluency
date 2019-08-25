@@ -3,6 +3,7 @@ package me.bristermitten.fluency;
 import me.bristermitten.fluency.button.MenuButton;
 import me.bristermitten.fluency.button.click.MenuClickEvent;
 import me.bristermitten.fluency.menu.Menu;
+import me.bristermitten.fluency.menu.MenuBuilder;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.junit.After;
@@ -83,14 +84,15 @@ public class MenuBuilderTests {
 
     @Test
     public void testBackground() {
-        Menu build = fluency.buildMenu().size(36).title("Test Menu")
-                .buildButton().type(STONE).amount(12).onClick().sendMessage("Clicked").done().done()
-                .buildBackground().type(REDSTONE).onClick().cancel().done().done()
-                .build();
+        MenuBuilder builder = fluency.buildMenu().size(36).title("Test Menu")
+                .buildButton().type(STONE).amount(12).onClick().sendMessage("Clicked").done().done();
+        MenuButton background = builder.buildBackground().type(REDSTONE).onClick().cancel().done().build();
+
+        Menu menu = builder.build();
 
         MenuClickEvent e = mock(MenuClickEvent.class);
 
-        System.out.println(build.button(3));
+        assertEquals(background, menu.button(3));
     }
 
     @Test
