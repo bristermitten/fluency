@@ -9,6 +9,7 @@ import me.bristermitten.fluency.data.PageList;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,6 +21,7 @@ import static org.bukkit.Material.AIR;
 public class Menu {
     private static final int MENU_WIDTH = 9;
     private final PageList pages;
+    @NotNull
     protected ButtonHolder background;
     Inventory inventory;
     private ButtonHolder[] buttons;
@@ -52,18 +54,18 @@ public class Menu {
         inventory.setMaxStackSize(maxStackSize);
         for (int i = 0; i < buttons.length; i++) {
             ButtonHolder button = buttons[i];
-            if (button == null) continue;
+            if (button == null) button = background;
             if (!button.has() && !background.has()) continue;
             MenuButton b = button.get();
-            if (b == null || b.getType() == AIR && !background.has()) continue;
-            if (b.getType() == AIR) b = background.get();
+            if ((b == null || b.getType() == AIR) && !background.has()) continue;
+            if (b == null || b.getType() == AIR) b = background.get();
 
-            if (b.getAmount() >=
-                    b.getMaxStackSize()) {
+            if (b.getAmount() >= b.getMaxStackSize()) {
                 inventory.setMaxStackSize(maxStackSize);
             }
             inventory.setItem(i, b);
         }
+
         pages.forEachPage(p -> p.updateMenu(false));
     }
 
@@ -206,6 +208,10 @@ public class Menu {
                 ", size=" + size +
                 ", distribution=" + distribution +
                 '}';
+    }
+
+    public ButtonHolder background() {
+        return background;
     }
 }
 

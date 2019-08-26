@@ -2,10 +2,12 @@ package me.bristermitten.fluency;
 
 import me.bristermitten.fluency.button.MenuButton;
 import me.bristermitten.fluency.button.click.MenuClickEvent;
+import me.bristermitten.fluency.button.distribution.ManualButtonDistribution;
 import me.bristermitten.fluency.menu.Menu;
 import me.bristermitten.fluency.menu.MenuBuilder;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -91,8 +93,35 @@ public class MenuBuilderTests {
         Menu menu = builder.build();
 
         MenuClickEvent e = mock(MenuClickEvent.class);
-
         assertEquals(background, menu.button(3));
+    }
+
+    @Test
+    public void testBackground2() {
+        MenuBuilder builder = fluency.buildMenu().size(36).title("Test Menu")
+                .distributed(new ManualButtonDistribution(1))
+                .buildButton().type(STONE).amount(12).onClick().sendMessage("Clicked").done().done();
+        MenuButton background = builder.buildBackground().type(REDSTONE).onClick().cancel().done().build();
+
+        Menu menu = builder.build();
+
+        assertEquals(background, menu.background().get());
+
+        for (int i = 0; i < 36; i++) {
+            if(i == 1)continue;
+            assertEquals(background, menu.button(i));
+        }
+
+        Player p = mock(Player.class);
+        when(p.openInventory(any(Inventory.class))).then(invocation -> {
+            Inventory argument = (Inventory) invocation.getArguments()[0];
+
+            for (ItemStack itemStack : argument) {
+                System.out.println(itemStack);
+            }
+            return null;
+        });
+        menu.open(p);
     }
 
     @Test
