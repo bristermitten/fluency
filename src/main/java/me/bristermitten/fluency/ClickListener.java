@@ -18,7 +18,7 @@ public class ClickListener implements Listener {
             e.setCancelled(true);
             return;
         }
-        
+
         if (!(e.getClickedInventory().getHolder() instanceof MenuHolder)) return;
 
 

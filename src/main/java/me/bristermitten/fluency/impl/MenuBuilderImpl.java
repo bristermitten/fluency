@@ -45,7 +45,7 @@ class MenuBuilderImpl implements MenuBuilder {
     @Override
     public MenuBuilder maxStackSize(int maxStackSize) {
         menu.maxStackSize(maxStackSize);
-        return this;jit
+        return this;
     }
 
     @Override
