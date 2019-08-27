@@ -18,8 +18,8 @@ dependencies {
     implementation 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
     implementation 'com.github.knightzmc:jui:4aec24a9fb'
 
-    testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile 'com.github.knightzmc:MockBukkit:93d0bc30c74894d0e127808d80ea1df93061701b'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
     testImplementation "org.junit.jupiter:junit-jupiter-engine:5.2.0"
     testImplementation "org.mockito:mockito-core:2.26.0"
 }
