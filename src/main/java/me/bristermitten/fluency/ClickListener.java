@@ -14,7 +14,7 @@ public class ClickListener implements Listener {
         if (e instanceof MenuClickEvent) return;
         if (!(e.getWhoClicked() instanceof Player)) return;
         if (e.getClickedInventory() == null) return;
-        if (!(e.getWhoClicked().getOpenInventory().getTopInventory() instanceof MenuHolder)) return;
+        if (!(e.getView().getTopInventory() instanceof MenuHolder)) return;
         if (e.getClickedInventory().equals(e.getWhoClicked().getInventory())) {
             e.setCancelled(true);
             return;
