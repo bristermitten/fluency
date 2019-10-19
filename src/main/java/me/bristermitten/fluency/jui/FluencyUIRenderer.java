@@ -33,6 +33,9 @@ public class FluencyUIRenderer implements UIRenderer<Menu, Object> {
         if (e.isComplexType()) {
             buttonBuilder.onClick().openMenu(forElement(e));
         }
+        else {
+            buttonBuilder.lore("&c&lValue: &7");
+        }
     }
 
     private Menu forElement(Element e) {
