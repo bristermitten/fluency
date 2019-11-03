@@ -17,12 +17,17 @@ public class HandlerBuilderImpl implements HandlerBuilder {
     private final ActionList actions;
     private ClickAction current;
 
-    private boolean hasHadAction;
-
     public HandlerBuilderImpl(Fluency fluency, ButtonBuilder parent) {
         this.fluency = fluency;
         this.parent = parent;
         actions = new ActionList();
+    }
+
+    @Override
+    public HandlerBuilder cancel() {
+        addIfNecessary();
+        current.addRun(Handlers.CANCEL);
+        return this;
     }
 
     private void addIfNecessary() {
@@ -33,39 +38,43 @@ public class HandlerBuilderImpl implements HandlerBuilder {
     }
 
     @Override
-    public HandlerBuilder cancel() {
-        return action(Handlers.CANCEL);
-    }
-
-    @Override
     public HandlerBuilder closeMenu() {
-        return action(e -> e.getWhoClicked().closeInventory());
+        addIfNecessary();
+        current.addRun(e -> e.getWhoClicked().closeInventory());
+        return this;
     }
 
     @Override
     public HandlerBuilder openMenu(Menu m) {
-        return action(e -> m.open(e.getWhoClicked()));
+        addIfNecessary();
+        current.addRun(e -> m.open(e.getWhoClicked()));
+        return this;
     }
 
     @Override
     public HandlerBuilder openMenu(Supplier<Menu> m) {
-        return action(e -> m.get().open(e.getWhoClicked()));
+        addIfNecessary();
+        current.addRun(e -> m.get().open(e.getWhoClicked()));
+        return this;
     }
 
     @Override
     public HandlerBuilder sendMessage(String message) {
-        return action(e -> e.getWhoClicked().sendMessage(Util.color(message)));
+        addIfNecessary();
+        current.addRun(e -> e.getWhoClicked().sendMessage(Util.color(message)));
+        return this;
     }
 
     @Override
     public HandlerBuilder sendMessage(Function<MenuClickEvent, String> message) {
-        return action(e -> e.getWhoClicked().sendMessage(Util.color(message.apply(e))));
+        addIfNecessary();
+        current.addRun(e -> e.getWhoClicked().sendMessage(Util.color(message.apply(e))));
+        return this;
     }
 
     @Override
     public HandlerBuilder action(ClickHandler event) {
         addIfNecessary();
-        hasHadAction = true;
         current.addRun(event);
         return this;
     }
@@ -102,15 +111,9 @@ public class HandlerBuilderImpl implements HandlerBuilder {
 
     @Override
     public HandlerBuilder when(Predicate<MenuClickEvent> condition) {
-        if (hasHadAction) {
-            current = new ClickAction();
-            current.addCondition(condition);
-            actions.add(current);
-            hasHadAction = false;
-        } else {
-            addIfNecessary();
-            current.addCondition(condition);
-        }
+        current = new ClickAction();
+        current.addCondition(condition);
+        actions.add(current);
         return this;
     }
 

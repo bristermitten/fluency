@@ -3,6 +3,7 @@ package me.bristermitten.fluency;
 import me.bristermitten.fluency.button.ButtonBuilder;
 import me.bristermitten.fluency.button.MenuButton;
 import me.bristermitten.fluency.button.click.HandlerBuilder;
+import me.bristermitten.fluency.button.template.TemplateBuilder;
 import me.bristermitten.fluency.impl.BuilderFactory;
 import me.bristermitten.fluency.menu.MenuBuilder;
 import org.bukkit.Bukkit;
@@ -49,4 +50,7 @@ public class Fluency {
         return factory.buildHandler(parent);
     }
 
+    public <T>TemplateBuilder<T> buildTemplate(MenuBuilder parent){
+        return factory.buildTemplate(parent);
+    }
 }

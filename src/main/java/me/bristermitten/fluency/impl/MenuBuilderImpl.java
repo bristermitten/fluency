@@ -4,9 +4,13 @@ import me.bristermitten.fluency.Fluency;
 import me.bristermitten.fluency.button.ButtonBuilder;
 import me.bristermitten.fluency.button.MenuButton;
 import me.bristermitten.fluency.button.distribution.ButtonDistribution;
+import me.bristermitten.fluency.button.template.TemplateBuilder;
+import me.bristermitten.fluency.data.ButtonHolder;
 import me.bristermitten.fluency.menu.Menu;
 import me.bristermitten.fluency.menu.MenuBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 class MenuBuilderImpl implements MenuBuilder {
@@ -56,7 +60,31 @@ class MenuBuilderImpl implements MenuBuilder {
     }
 
     @Override
+    public <T> TemplateBuilder<T> buildTemplate() {
+        TemplateBuilder<T> templateBuilder = fluency.buildTemplate(this);
+        menu.addButton(templateBuilder.build());
+        return templateBuilder;
+    }
+
+    @Override
+    public <T> TemplateBuilder<T> buildTemplatesForEach(Iterable<T> iterable) {
+        List<TemplateBuilder<T>> list = new ArrayList<>();
+        for (T t : iterable) {
+            TemplateBuilder<T> template = buildTemplate();
+            template.withObject(t);
+            list.add(template);
+        }
+        return new LinkedTemplateBuilder<>(fluency, this, list);
+    }
+
+    @Override
     public MenuBuilder addButton(MenuButton button) {
+        menu.addButton(button);
+        return this;
+    }
+
+    @Override
+    public MenuBuilder addButton(ButtonHolder button) {
         menu.addButton(button);
         return this;
     }

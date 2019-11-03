@@ -4,6 +4,7 @@ import me.bristermitten.fluency.Fluency;
 import me.bristermitten.fluency.Util;
 import me.bristermitten.fluency.button.MenuButton;
 import me.bristermitten.fluency.button.distribution.ButtonDistribution;
+import me.bristermitten.fluency.button.template.ButtonTemplate;
 import me.bristermitten.fluency.data.ButtonHolder;
 import me.bristermitten.fluency.data.PageList;
 import org.bukkit.Bukkit;
@@ -52,6 +53,7 @@ public class Menu {
     private void updateMenu(boolean updatePages) {
         inventory = Bukkit.createInventory(new MenuHolder(this), size, Util.color(title));
         inventory.setMaxStackSize(maxStackSize);
+
         for (int i = 0; i < buttons.length; i++) {
             ButtonHolder button = buttons[i];
             if (button == null) button = background;
@@ -212,6 +214,10 @@ public class Menu {
 
     public ButtonHolder background() {
         return background;
+    }
+
+    public <T> void addButton(ButtonTemplate<T> template) {
+        addButton((ButtonHolder) template);
     }
 }
 
