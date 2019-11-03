@@ -36,6 +36,11 @@ public interface HandlerBuilder extends FluentBuilder<ClickHandler, ButtonBuilde
 
     HandlerBuilder when(Predicate<MenuClickEvent> condition);
 
+    /**
+     * Set the working condition to the inverse of the previous condition
+     * This inverses the directly previous condition, and that condition only!
+     * @return
+     */
     HandlerBuilder otherwise();
 
 //    <T> HandlerBuilder handlePlaceholder(String key, Consumer<T> consumer);
