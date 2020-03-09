@@ -21,17 +21,14 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    testCompile 'com.github.knightzmc:MockBukkit:93d0bc30c74894d0e127808d80ea1df93061701b'
-    testCompile "junit:junit:4.12"
-    testCompile "org.jetbrains.kotlin:kotlin-test"
-    testCompile "org.jetbrains.kotlin:kotlin-test-junit"
-    testCompile "org.mockito:mockito-core:2.26.0"
+    testImplementation 'com.github.knightzmc:MockBukkit:93d0bc30c74894d0e127808d80ea1df93061701b'
+    testImplementation "junit:junit:4.13"
+    testImplementation "org.jetbrains.kotlin:kotlin-test"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit"
+    testImplementation "org.mockito:mockito-core:2.26.0"
+
 }
 
-
-test {
-    useJUnitPlatform()
-}
 
 buildscript {
     ext.kotlin_version = '1.3.70'
