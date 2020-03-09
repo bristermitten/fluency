@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'kotlin'
 
 group = 'me.bristermitten'
 version = '1.0'
@@ -18,13 +19,37 @@ dependencies {
     implementation 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
     implementation 'com.github.knightzmc:jui:4aec24a9fb'
 
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
     testCompile 'com.github.knightzmc:MockBukkit:93d0bc30c74894d0e127808d80ea1df93061701b'
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    testImplementation "org.junit.jupiter:junit-jupiter-engine:5.2.0"
-    testImplementation "org.mockito:mockito-core:2.26.0"
+    testCompile "junit:junit:4.12"
+    testCompile "org.jetbrains.kotlin:kotlin-test"
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit"
+    testCompile "org.mockito:mockito-core:2.26.0"
 }
 
 
 test {
     useJUnitPlatform()
+}
+
+buildscript {
+    ext.kotlin_version = '1.3.70'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }

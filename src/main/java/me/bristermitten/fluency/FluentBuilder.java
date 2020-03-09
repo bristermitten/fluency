@@ -4,15 +4,19 @@ import me.bristermitten.fluency.button.ButtonBuilder;
 import me.bristermitten.fluency.button.MenuButton;
 import me.bristermitten.fluency.menu.MenuBuilder;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
  * A fluent builder is a design pattern similar to a builder, with a few differences:
- *
+ * <p>
  * 1. A fluent builder holds a reference to the object it is building, and delegates its methods to that object,
- * rather than storing the values and then creating a new object. Because of this, it is not recommended to build an
- * immutable type with a fluent builder. Essentially, a fluent builder is 1 way binding to the object.
+ * rather than storing the values and then creating a new object. Because of this, it is not possible to build an
+ * immutable type with a fluent builder.
  * <p>
  * 2. Given that a fluent builder is already "built", callers should do something with the result immediately.
- * For example, {@link MenuBuilder#buildButton()} immediately adds the button to the menu, and THEN returns the new builder
+ * For example, {@link MenuBuilder#buildButton()} immediately adds the button to the menu, and THEN returns the new
+ * builder
  * utilising the mutability, allowing changes to be made at any time and all objects using the result
  * of {@link FluentBuilder#build()} are seamlessly updated.
  * <p>
@@ -30,9 +34,16 @@ import me.bristermitten.fluency.menu.MenuBuilder;
  */
 public interface FluentBuilder<T, P extends FluentBuilder<?, ?>> {
 
-    void invalidate();
 
-    T build();
+	/**
+	 * @return the object being built
+	 */
+	@Nonnull
+	T build();
 
-    P done();
+	/**
+	 * @return the parent builder, if applicable, otherwise null
+	 */
+	@Nullable
+	P done();
 }

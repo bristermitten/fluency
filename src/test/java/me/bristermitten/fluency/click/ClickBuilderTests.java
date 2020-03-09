@@ -4,7 +4,6 @@ import me.bristermitten.fluency.BukkitMock;
 import me.bristermitten.fluency.Fluency;
 import me.bristermitten.fluency.button.ButtonBuilder;
 import me.bristermitten.fluency.button.MenuButton;
-import me.bristermitten.fluency.button.click.ActionList;
 import me.bristermitten.fluency.button.click.ClickHandler;
 import me.bristermitten.fluency.button.click.MenuClickEvent;
 import org.bukkit.event.inventory.ClickType;
@@ -19,52 +18,56 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ClickBuilderTests {
-    private Fluency fluency;
+	private Fluency fluency;
 
-    @Before
-    public void init() {
-        BukkitMock.init();
-        fluency = Fluency.create(null);
-    }
+	@Before
+	public void init() {
+		BukkitMock.init();
+		fluency = Fluency.create(null);
+	}
 
-    @Test
-    public void testTwoHandlers() {
-        ButtonBuilder buttonBuilder = fluency.buildButton();
-        StringWriter writer = new StringWriter();
-        buttonBuilder.onClick().action(e -> writer.write(1)).done();
-        buttonBuilder.onClick(ClickType.RIGHT).action(e -> writer.write(2));
+	@Test
+	public void testTwoHandlers() {
+		ButtonBuilder buttonBuilder = fluency.buildButton();
+		StringWriter writer = new StringWriter();
+		buttonBuilder.onClick().action(e -> writer.write(1)).done();
+		buttonBuilder.onClick(ClickType.RIGHT).action(e -> writer.write(2));
 
-        MenuClickEvent mock = mock(MenuClickEvent.class);
-        when(mock.getClick()).thenReturn(ClickType.RIGHT);
+		MenuClickEvent mock = mock(MenuClickEvent.class);
+		when(mock.getClick()).thenReturn(ClickType.RIGHT);
 
-        ClickHandler handler = buttonBuilder.build().handler();
-        handler.accept(mock);
-        assertEquals(String.valueOf(new char[]{(char) 1, (char) 2}), writer.toString());
+		ClickHandler handler = buttonBuilder.build().handler();
+		handler.accept(mock);
+		assertEquals(String.valueOf(new char[]{(char) 1, (char) 2}), writer.toString());
 
-        writer.getBuffer().delete(0, writer.getBuffer().capacity());
-
-
-        mock = mock(MenuClickEvent.class);
-        when(mock.getClick()).thenReturn(LEFT);
-        handler.accept(mock);
-
-        assertEquals(String.valueOf((char) 1), writer.toString());
-    }
+		writer.getBuffer().delete(0, writer.getBuffer().capacity());
 
 
-    @Test
-    public void testConditionalAndOtherwise() {
-        boolean test = false;
-        StringWriter writer = new StringWriter();
-        MenuButton button = fluency.buildButton().onClick().when(test).action(e -> writer.write(1))
-                .otherwise().action(e -> writer.write(2)).done().build();
+		mock = mock(MenuClickEvent.class);
+		when(mock.getClick()).thenReturn(LEFT);
+		handler.accept(mock);
 
-        MenuClickEvent mock = mock(MenuClickEvent.class);
-        ClickHandler handler = button.handler();
-        ActionList actions = (ActionList) handler;
+		assertEquals(String.valueOf((char) 1), writer.toString());
+	}
 
-        handler.accept(mock);
 
-        assertEquals(String.valueOf(new char[]{(char) 2}), writer.toString());
-    }
+	@Test
+	public void testConditionalAndOtherwise() {
+		StringWriter writer = new StringWriter();
+
+		@SuppressWarnings("ConstantConditions")
+		MenuButton button = fluency.buildButton()
+				.onClick()
+				.when(false)
+				.action(e -> writer.write(Boolean.TRUE.toString()))
+				.otherwise().action(e -> writer.write(Boolean.FALSE.toString())).done()
+				.build();
+
+		MenuClickEvent mock = mock(MenuClickEvent.class);
+		ClickHandler handler = button.handler();
+
+		handler.accept(mock);
+
+		assertEquals(Boolean.FALSE.toString(), writer.toString());
+	}
 }

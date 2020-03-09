@@ -7,33 +7,55 @@ import me.bristermitten.fluency.menu.MenuBuilder;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.ClickType;
+import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 
 public interface ButtonBuilder extends FluentBuilder<MenuButton, MenuBuilder> {
-    ButtonBuilder amount(int amount);
+	@NotNull ButtonBuilder amount(int amount);
 
-    ButtonBuilder type(Material type);
+	int amount();
 
-    ButtonBuilder data(short data);
+	@NotNull ButtonBuilder type(Material type);
 
-    ButtonBuilder name(String name);
+	@Nonnull
+	Material type();
 
-    ButtonBuilder lore(String... lore);
+	@NotNull ButtonBuilder data(short data);
 
-    ButtonBuilder lore(List<String> lore);
+	short data();
 
-    ButtonBuilder addLore(String lore);
+	@NotNull ButtonBuilder name(String name);
 
-    ButtonBuilder unbreakable();
+	@Nullable
+	String name();
 
-    ButtonBuilder enchant(Enchantment e, int level);
+	@NotNull ButtonBuilder lore(String... lore);
 
-    HandlerBuilder onClick();
+	@NotNull ButtonBuilder lore(List<String> lore);
 
-    HandlerBuilder onClick(ClickType type);
+	@NotNull ButtonBuilder addLore(String lore);
 
-    MenuButton build();
+	@NotNull List<String> lore();
 
-    ButtonHolder buildHolder();
+	@NotNull ButtonBuilder unbreakable();
+
+	@NotNull ButtonBuilder breakable();
+
+	boolean isUnbreakable();
+
+	@NotNull ButtonBuilder enchant(Enchantment e, int level);
+
+	@NotNull Map<Enchantment, Integer> enchantments();
+
+	@NotNull HandlerBuilder onClick();
+
+	@NotNull HandlerBuilder onClick(ClickType type);
+
+	@NotNull MenuButton build();
+
+	@NotNull ButtonHolder getHolder();
 }

@@ -63,13 +63,15 @@ public class ComplexClickHandlerTest {
     @Test
     public void testComplexClickHandling_3() {
         StringBuilder builder = new StringBuilder();
+
         MenuButton button = fluency.buildButton()
                 .onClick(ClickType.LEFT)
-                .when(true)
+                .when(false)
                 .action((e) -> builder.append(true))
                 .whenClickType(RIGHT)
                 .action(e -> builder.append(false))
-                .done().build();
+                .done()
+                .build();
 
         MenuClickEvent mock = mock(MenuClickEvent.class);
         when(mock.getClick()).thenReturn(RIGHT);

@@ -16,6 +16,6 @@ public class Handlers {
         int newIndex = i + change;
         if (newIndex < 0 || newIndex >= pages.size()) return;
         Menu menu = pages.get(newIndex);
-        menu.open(e.getWhoClicked());
+        menu.open(e.clicker());
     }
 }

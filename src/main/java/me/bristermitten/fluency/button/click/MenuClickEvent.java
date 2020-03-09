@@ -15,11 +15,12 @@ public class MenuClickEvent extends InventoryClickEvent {
     }
 
     @Override
+    @Deprecated
     public Player getWhoClicked() {
-        return whoClicked;
+        return clicker();
     }
 
-    public Player whoClicked() {
+    public Player clicker() {
         return whoClicked;
     }
 

@@ -4,7 +4,7 @@ import me.bristermitten.fluency.button.ButtonBuilder;
 import me.bristermitten.fluency.button.MenuButton;
 import me.bristermitten.fluency.button.click.HandlerBuilder;
 import me.bristermitten.fluency.button.template.TemplateBuilder;
-import me.bristermitten.fluency.impl.BuilderFactory;
+import me.bristermitten.fluency.implementation.BuilderFactory;
 import me.bristermitten.fluency.menu.MenuBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

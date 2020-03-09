@@ -6,38 +6,57 @@ import me.bristermitten.fluency.button.MenuButton;
 import me.bristermitten.fluency.button.distribution.ButtonDistribution;
 import me.bristermitten.fluency.button.template.TemplateBuilder;
 import me.bristermitten.fluency.data.ButtonHolder;
+import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
 public interface MenuBuilder extends FluentBuilder<Menu, MenuBuilder> {
-    MenuBuilder distributed(ButtonDistribution distribution);
+	@Nonnull
+	MenuBuilder distributed(ButtonDistribution distribution);
 
-    MenuBuilder distributed(Supplier<ButtonDistribution> distribution);
+	@Nonnull
+	MenuBuilder distributed(Supplier<ButtonDistribution> distribution);
 
-    MenuBuilder title(String title);
+	ButtonDistribution distribution();
 
-    MenuBuilder size(int size);
+	@Nonnull
+	MenuBuilder title(String title);
 
-    MenuBuilder maxStackSize(int maxStackSize);
+	@Nonnull
+	String title();
 
-    ButtonBuilder buildButton();
+	@Nonnull
+	MenuBuilder size(int size);
 
-    <T> TemplateBuilder<T> buildTemplate();
+	int size();
 
-    <T> TemplateBuilder<T> buildTemplatesForEach(Iterable<T> iterable);
+	@Nonnull
+	ButtonBuilder buildButton();
 
-    MenuBuilder addButton(MenuButton button);
+	@Nonnull
+	<T> TemplateBuilder<T> buildTemplate();
 
-    MenuBuilder addButton(ButtonHolder button);
+	@Nonnull
+	<T> TemplateBuilder<T> buildTemplatesForEach(Iterable<T> iterable);
 
-    MenuBuilder background(MenuButton button);
+	@Nonnull
+	MenuBuilder addButton(MenuButton button);
 
-    MenuBuilder skip();
+	@Nonnull
+	MenuBuilder addButton(ButtonHolder button);
 
-    ButtonBuilder buildBackground();
+	@Nonnull
+	MenuBuilder background(MenuButton button);
 
-    @Override
-    default MenuBuilder done() {
-        return this;
-    }
+	@Nonnull
+	MenuBuilder skip();
+
+	@Nonnull
+	ButtonBuilder buildBackground();
+
+	@Override
+	default MenuBuilder done() {
+		return this;
+	}
 }

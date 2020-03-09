@@ -1,4 +1,4 @@
-package me.bristermitten.fluency.impl;
+package me.bristermitten.fluency.implementation;
 
 import me.bristermitten.fluency.Fluency;
 import me.bristermitten.fluency.button.ButtonBuilder;
@@ -26,7 +26,7 @@ public class BuilderFactory {
     }
 
     public HandlerBuilder buildHandler(ButtonBuilder parent) {
-        return new HandlerBuilderImpl(fluency, parent);
+        return new HandlerBuilderImpl(parent);
     }
 
     public <T> TemplateBuilder<T> buildTemplate(MenuBuilder parent) {

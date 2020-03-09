@@ -1,10 +1,11 @@
-package me.bristermitten.fluency.impl;
+package me.bristermitten.fluency.implementation;
 
 import me.bristermitten.fluency.Fluency;
 import me.bristermitten.fluency.button.template.ButtonTemplate;
 import me.bristermitten.fluency.button.template.TemplateBuilder;
 import me.bristermitten.fluency.menu.MenuBuilder;
 import org.bukkit.Material;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -57,15 +58,16 @@ public class TemplateBuilderImpl<T> implements TemplateBuilder<T> {
         return withObject(() -> object);
     }
 
-    @Override
-    public void invalidate() {
-        template = null;
-    }
-
-    @Override
+    @NotNull
+	@Override
     public ButtonTemplate<T> build() {
         return template;
     }
+
+//    @Override
+//    public void invalidate() {
+//        template = null;
+//    }
 
     @Override
     public MenuBuilder done() {

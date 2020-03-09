@@ -12,7 +12,7 @@ public class MenuHolder implements InventoryHolder {
 
     @Override
     public Inventory getInventory() {
-        return menu.inventory;
+        return menu.inventory();
     }
 
     public Menu menu() {

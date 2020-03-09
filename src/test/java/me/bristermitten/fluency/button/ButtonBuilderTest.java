@@ -3,11 +3,13 @@ package me.bristermitten.fluency.button;
 import me.bristermitten.fluency.BukkitMock;
 import me.bristermitten.fluency.Fluency;
 import me.bristermitten.fluency.menu.MenuBuilder;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.junit.Before;
 import org.junit.Test;
 
-import static me.bristermitten.fluency.button.distribution.ButtonDistribution.SIMPLE;
+import static me.bristermitten.fluency.button.distribution.ButtonDistribution.simple;
 import static org.junit.Assert.assertEquals;
 
 public class ButtonBuilderTest {
@@ -36,9 +38,11 @@ public class ButtonBuilderTest {
 
     @Test
     public void testChaining() {
-        MenuBuilder builder = fluency.buildMenu().size(3 * 9).title("Test Menu").distributed(SIMPLE);
+        MenuBuilder builder = fluency.buildMenu().size(3 * 9).title("Test Menu").distributed(simple);
+
 
         MenuButton hello = builder.buildButton().name("Hello").build();
-        System.out.println(hello);
+        //TODO implement
+//        System.out.println(hello);
     }
 }

@@ -11,16 +11,16 @@ public interface ButtonDistribution extends Iterable<Integer> {
     /**
      * Iterates in direct order
      */
-    Supplier<ButtonDistribution> SIMPLE = SimpleButtonDistribution::new;
+    Supplier<ButtonDistribution> simple = SimpleButtonDistribution::new;
     /**
      * Iterates down in columns rather than rows
      */
-    Supplier<ButtonDistribution> COLUMNS = ColumnButtonDistribution::new;
+    Supplier<ButtonDistribution> columns = ColumnButtonDistribution::new;
 
     /**
      * Iterates starting from the center and expanding outwards
      */
-    Supplier<ButtonDistribution> CENTERED = CenteredButtonDistribution::new;
+    Supplier<ButtonDistribution> centered = CenteredButtonDistribution::new;
 
     /**
      * Initialize the distribution with the size of the menu it must distribute buttons for

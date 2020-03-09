@@ -18,7 +18,6 @@ public interface TemplateBuilder<T> extends FluentBuilder<ButtonTemplate<T>, Men
 
     TemplateBuilder<T> type(Material type);
 
-
     TemplateBuilder<T> withObject(Supplier<T> objectSupplier);
 
     TemplateBuilder<T> withObject(T object);
