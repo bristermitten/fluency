@@ -8,9 +8,8 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +20,7 @@ public interface ButtonBuilder extends FluentBuilder<MenuButton, MenuBuilder> {
 
 	@NotNull ButtonBuilder type(Material type);
 
-	@Nonnull
+	@NotNull
 	Material type();
 
 	@NotNull ButtonBuilder data(short data);

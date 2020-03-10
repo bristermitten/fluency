@@ -3,9 +3,8 @@ package me.bristermitten.fluency;
 import me.bristermitten.fluency.button.ButtonBuilder;
 import me.bristermitten.fluency.button.MenuButton;
 import me.bristermitten.fluency.menu.MenuBuilder;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A fluent builder is a design pattern similar to a builder, with a few differences:
@@ -38,7 +37,7 @@ public interface FluentBuilder<T, P extends FluentBuilder<?, ?>> {
 	/**
 	 * @return the object being built
 	 */
-	@Nonnull
+	@NotNull
 	T build();
 
 	/**

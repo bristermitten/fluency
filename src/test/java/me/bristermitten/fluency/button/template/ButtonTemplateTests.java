@@ -2,9 +2,9 @@ package me.bristermitten.fluency.button.template;
 
 import me.bristermitten.fluency.BukkitMock;
 import me.bristermitten.fluency.Fluency;
+import me.bristermitten.fluency.SimpleDataClass;
 import me.bristermitten.fluency.menu.Menu;
 import me.bristermitten.fluency.menu.MenuBuilder;
-import me.bristermitten.reflector.examples.simple.SimpleDataClass;
 import org.bukkit.Material;
 import org.junit.Before;
 import org.junit.Test;

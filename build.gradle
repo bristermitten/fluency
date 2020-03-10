@@ -20,6 +20,7 @@ dependencies {
     api 'org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT'
 
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    api "org.jetbrains:annotations:19.0.0"
 
     testImplementation 'com.github.knightzmc:MockBukkit:93d0bc30c74894d0e127808d80ea1df93061701b'
     testImplementation "junit:junit:4.13"

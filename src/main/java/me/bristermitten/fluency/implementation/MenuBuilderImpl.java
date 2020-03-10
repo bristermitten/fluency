@@ -10,7 +10,6 @@ import me.bristermitten.fluency.menu.Menu;
 import me.bristermitten.fluency.menu.MenuBuilder;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -50,7 +49,7 @@ class MenuBuilderImpl implements MenuBuilder {
         return this;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public String title() {
         return menu.title();

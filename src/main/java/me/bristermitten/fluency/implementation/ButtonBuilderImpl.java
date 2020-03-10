@@ -12,9 +12,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -54,7 +53,7 @@ class ButtonBuilderImpl implements ButtonBuilder {
 		return this;
 	}
 
-	@Nonnull
+	@NotNull
 	@Override
 	public Material type() {
 		return button.get().getType();
