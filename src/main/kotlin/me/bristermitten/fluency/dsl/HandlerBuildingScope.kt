@@ -46,9 +46,8 @@ class HandlerBuildingScope(private val builder: HandlerBuilder) {
 		scope(HandlerBuildingScope(builder.`when`(condition)))
 	}
 
-	@JvmName("whenPlayer")
-	fun `when`(condition: (Player) -> Boolean, scope: HandlerBuildingScope.() -> Unit) {
-		return `when`({ it: MenuClickEvent ->
+	fun whenPlayer(condition: Player.() -> Boolean, scope: HandlerBuildingScope.() -> Unit) {
+		return `when`({
 			condition(it.clicker())
 		}, scope)
 	}

@@ -39,7 +39,7 @@ class DSLTests {
 						sendMessage("You died for clicking on the background!")
 					}
 
-					`when`(Player::isOp) {
+					whenPlayer(Player::isOp) {
 						sendMessage("You are OP!")
 					}
 					otherwise {
