@@ -3,7 +3,7 @@ package me.bristermitten.fluency.dsl
 import me.bristermitten.fluency.button.ButtonBuilder
 import org.bukkit.event.inventory.ClickType
 
-class ButtonBuildingScope(private val builder: ButtonBuilder) {
+class ButtonBuildingScope(val builder: ButtonBuilder) {
 
 	var amount
 		get() = builder.amount()
@@ -55,11 +55,11 @@ class ButtonBuildingScope(private val builder: ButtonBuilder) {
 	fun unbreakable() = builder.unbreakable()
 	fun breakable() = builder.breakable()
 
-	fun onClick(clickType: ClickType, function: HandlerBuildingScope.() -> Unit) {
+	inline fun onClick(clickType: ClickType, function: HandlerBuildingScope.() -> Unit) {
 		function(HandlerBuildingScope(builder.onClick(clickType)))
 	}
 
-	fun onClick(function: HandlerBuildingScope.() -> Unit) {
+	inline fun onClick(function: HandlerBuildingScope.() -> Unit) {
 		function(HandlerBuildingScope(builder.onClick()))
 	}
 }

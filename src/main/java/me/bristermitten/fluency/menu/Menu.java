@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,11 +59,8 @@ public class Menu {
 			ButtonHolder button = buttons[i];
 			if (button == null) button = background;
 			if (!button.has() && !background.has()) continue;
-			MenuButton b = button.get();
-			if ((b == null || b.getType() == AIR) && !background.has()) continue;
-			if (b == null || b.getType() == AIR) b = background.get();
 
-			inventory.setItem(i, b);
+			placeButton(button, i);
 		}
 
 		if (updatePages)
@@ -137,8 +135,22 @@ public class Menu {
 			last.addButton(button);
 			return;
 		}
-		buttons[distribution.nextSlot()] = button;
-		updateMenu();
+
+		placeButton(button, distribution.nextSlot());
+	}
+
+	private void placeButton(ButtonHolder button, int slot) {
+		buttons[slot] = button;
+
+		MenuButton b = button.get();
+
+		if ((b == null || b.getType() == AIR)) {
+			if (!background.has())
+				return;
+			b = background.get();
+		}
+
+		inventory.setItem(slot, b);
 	}
 
 	public boolean isFull() {
@@ -171,8 +183,8 @@ public class Menu {
 		return page;
 	}
 
-	public MenuButton button(int i) {
-		ButtonHolder button = buttons[i];
+	public MenuButton button(int index) {
+		ButtonHolder button = buttons[index];
 		if (!button.has() && background.has()) return background.get();
 		return button.get();
 	}
@@ -182,7 +194,14 @@ public class Menu {
 	}
 
 	public List<MenuButton> buttons() {
-		return Arrays.stream(buttons).map(ButtonHolder::get).collect(Collectors.toList());
+		List<MenuButton> list = new ArrayList<>();
+
+		for (ButtonHolder button : buttons) {
+			MenuButton menuButton = button.get();
+			list.add(menuButton);
+		}
+
+		return list;
 	}
 
 	public void open(Player whoClicked) {

@@ -4,7 +4,7 @@ import me.bristermitten.fluency.button.MenuButton
 import me.bristermitten.fluency.button.distribution.ButtonDistribution
 import me.bristermitten.fluency.menu.MenuBuilder
 
-class MenuBuildingScope(private val builder: MenuBuilder) {
+class MenuBuildingScope(val builder: MenuBuilder) {
 
 	var title: String
 		get() = builder.title()
@@ -32,7 +32,7 @@ class MenuBuildingScope(private val builder: MenuBuilder) {
 		}
 
 
-	fun background(function: ButtonBuildingScope.() -> Unit) {
+	inline fun background(function: ButtonBuildingScope.() -> Unit) {
 		val button = builder.buildBackground()
 		function(ButtonBuildingScope(button))
 	}
@@ -41,9 +41,14 @@ class MenuBuildingScope(private val builder: MenuBuilder) {
 		builder.addButton(button)
 	}
 
-	fun addButton(function: ButtonBuildingScope.() -> Unit) {
+	inline fun addButton(function: ButtonBuildingScope.() -> Unit) {
 		val button = builder.buildButton()
 		function(ButtonBuildingScope(button))
+	}
+
+	inline fun <T> addTemplate(function: TemplateBuildingScope<T>.() -> Unit) {
+		val template = builder.buildTemplate<T>()
+		function(TemplateBuildingScope(template))
 	}
 
 	fun skip() = builder.skip()

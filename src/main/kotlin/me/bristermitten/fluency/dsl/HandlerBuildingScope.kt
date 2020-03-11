@@ -6,7 +6,7 @@ import me.bristermitten.fluency.button.click.MenuClickEvent
 import me.bristermitten.fluency.menu.Menu
 import org.bukkit.entity.Player
 
-class HandlerBuildingScope(private val builder: HandlerBuilder) {
+class HandlerBuildingScope(val builder: HandlerBuilder) {
 
 	fun cancel() {
 		builder.cancel()
@@ -32,7 +32,7 @@ class HandlerBuildingScope(private val builder: HandlerBuilder) {
 		builder.sendMessage(message)
 	}
 
-	fun action(action: Player.() -> Unit) {
+	inline fun action(crossinline action: Player.() -> Unit) {
 		action(ClickHandler {
 			action(it.clicker())
 		})
@@ -42,17 +42,17 @@ class HandlerBuildingScope(private val builder: HandlerBuilder) {
 		builder.action(action)
 	}
 
-	fun `when`(condition: (MenuClickEvent) -> Boolean, scope: HandlerBuildingScope.() -> Unit) {
+	inline fun `when`(noinline condition: (MenuClickEvent) -> Boolean, scope: HandlerBuildingScope.() -> Unit) {
 		scope(HandlerBuildingScope(builder.`when`(condition)))
 	}
 
-	fun whenPlayer(condition: Player.() -> Boolean, scope: HandlerBuildingScope.() -> Unit) {
+	inline fun whenPlayer(crossinline condition: Player.() -> Boolean, scope: HandlerBuildingScope.() -> Unit) {
 		return `when`({
 			condition(it.clicker())
 		}, scope)
 	}
 
-	fun otherwise(scope: HandlerBuildingScope.() -> Unit) {
+	inline fun otherwise(scope: HandlerBuildingScope.() -> Unit) {
 		scope(HandlerBuildingScope(builder.otherwise()))
 	}
 }

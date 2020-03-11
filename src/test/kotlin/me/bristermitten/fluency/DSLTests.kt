@@ -21,7 +21,7 @@ class DSLTests {
 	}
 
 	@Test
-	fun testBuilding() {
+	fun `Test DSL Building`() {
 		val menu = fluency.createMenu {
 			title = "Menu"
 			size = 36
@@ -66,5 +66,35 @@ class DSLTests {
 		assertEquals(0.0, player.health)
 		assertEquals("You died for clicking on the background!", player.nextMessage())
 		assertEquals("You are not OP!", player.nextMessage())
+	}
+
+	@Test
+	fun `Test DSL Templates`() {
+		val data = SimpleDataClass(30, "John Smith", null)
+		val menu = fluency.createMenu {
+			title = "Menu"
+			size = 36
+
+			addTemplate<SimpleDataClass> {
+				type = Material.STONE
+
+				name {
+					it.name
+				}
+
+				loreString {
+					"""
+						Age: ${it.age}
+						Parent: ${it.parent?.name}
+					""".trimIndent()
+				}
+
+				source(data)
+			}
+		}
+
+		val button = menu.button(0)
+		assertEquals(Material.STONE, button.type)
+		assertEquals("John Smith", button.itemMeta.displayName)
 	}
 }

@@ -5,7 +5,6 @@ import me.bristermitten.fluency.Fluency;
 import me.bristermitten.fluency.SimpleDataClass;
 import me.bristermitten.fluency.menu.Menu;
 import me.bristermitten.fluency.menu.MenuBuilder;
-import org.bukkit.Material;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,7 +41,7 @@ public class ButtonTemplateTests {
 		for (int i = 0; i < 3; i++) {
 			assertEquals(
 					fluency.buildButton()
-							.type(Material.STONE).name(String.valueOf(i + 1))
+							.name(String.valueOf(i + 1))
 							.build(),
 					build.button(i));
 		}

@@ -85,9 +85,10 @@ class MenuBuilderImpl implements MenuBuilder {
 
     @NotNull
     @Override
-    public <T> TemplateBuilder<T> buildTemplatesForEach(Iterable<T> iterable) {
+    public <T> TemplateBuilder<T> buildTemplatesForEach(Iterable<T> sources) {
         List<TemplateBuilder<T>> list = new ArrayList<>();
-        for (T t : iterable) {
+
+        for (T t : sources) {
             TemplateBuilder<T> template = buildTemplate();
             template.withObject(t);
             list.add(template);

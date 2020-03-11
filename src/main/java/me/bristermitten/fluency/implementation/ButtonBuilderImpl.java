@@ -108,11 +108,11 @@ class ButtonBuilderImpl implements ButtonBuilder {
 	@NotNull
 	@Override
 	public ButtonBuilder addLore(@NotNull String lore) {
-		transformMeta(m -> {
-			List<String> l = m.getLore();
-			if (l == null) l = new ArrayList<>();
-			l.add(Util.color(lore));
-			m.setLore(l);
+		transformMeta(meta -> {
+			List<String> loreList = new ArrayList<>();
+			if (meta.hasLore()) loreList = meta.getLore();
+			loreList.add(Util.color(lore));
+			meta.setLore(loreList);
 		});
 		return this;
 	}
