@@ -6,4 +6,6 @@ Note that Fluency is currently in beta and any API components are subject to cha
 
 
 # TODO
-* Player based Templates
+* Nothing major at the moment, bugfixes.
+* Some significant refactors need to be made internally. The amount of spaghetti is
+disturbing. 
