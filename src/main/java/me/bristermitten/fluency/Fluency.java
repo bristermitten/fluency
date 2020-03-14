@@ -8,15 +8,16 @@ import me.bristermitten.fluency.implementation.BuilderFactory;
 import me.bristermitten.fluency.menu.MenuBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 public class Fluency {
 	public static MenuButton PAGE_NEXT;
 	public static MenuButton PAGE_PREVIOUS;
-    private final BuilderFactory factory;
+	private final BuilderFactory factory;
 
 	private Fluency(Plugin plugin) {
-        this.factory = new BuilderFactory(this);
+		this.factory = new BuilderFactory(this);
 
 		Bukkit.getPluginManager().registerEvents(new ClickListener(), plugin);
 
@@ -50,5 +51,9 @@ public class Fluency {
 
 	public <T> TemplateBuilder<T> buildTemplate(MenuBuilder parent) {
 		return factory.buildTemplate(parent);
+	}
+
+	public TemplateBuilder<Player> buildViewerTemplate(MenuBuilder parent) {
+		return factory.buildViewerTemplate(parent);
 	}
 }

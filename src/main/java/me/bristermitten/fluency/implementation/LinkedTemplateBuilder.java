@@ -5,6 +5,7 @@ import me.bristermitten.fluency.button.template.ButtonTemplate;
 import me.bristermitten.fluency.button.template.TemplateBuilder;
 import me.bristermitten.fluency.menu.MenuBuilder;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -58,19 +59,21 @@ public class LinkedTemplateBuilder<T> implements TemplateBuilder<T> {
 	}
 
 	@Override
-	public TemplateBuilder<T> withObject(Supplier<T> objectSupplier) {
-		for (TemplateBuilder<T> sub : children) {
-			sub.withObject(objectSupplier);
+	public TemplateBuilder<T> withSource(Supplier<T> sourceSupplier) {
+		return withSource(p -> sourceSupplier.get());
+	}
+
+	@Override
+	public TemplateBuilder<T> withSource(Function<Player, T> sourceFunction) {
+		for (TemplateBuilder<T> child : children) {
+			child.withSource(sourceFunction);
 		}
 		return this;
 	}
 
 	@Override
-	public TemplateBuilder<T> withObject(T object) {
-		for (TemplateBuilder<T> child : children) {
-			child.withObject(object);
-		}
-		return this;
+	public TemplateBuilder<T> withSource(T object) {
+		return withSource(() -> object);
 	}
 
 //    @Override

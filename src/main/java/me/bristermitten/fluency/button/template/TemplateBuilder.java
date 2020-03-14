@@ -3,6 +3,7 @@ package me.bristermitten.fluency.button.template;
 import me.bristermitten.fluency.FluentBuilder;
 import me.bristermitten.fluency.menu.MenuBuilder;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.function.Function;
@@ -18,8 +19,11 @@ public interface TemplateBuilder<T> extends FluentBuilder<ButtonTemplate<T>, Men
 
 	TemplateBuilder<T> type(Material type);
 
-	TemplateBuilder<T> withObject(Supplier<T> objectSupplier);
+	TemplateBuilder<T> withSource(Supplier<T> sourceSupplier);
 
-	TemplateBuilder<T> withObject(T object);
+	TemplateBuilder<T> withSource(Function<Player, T> sourceFunction);
+
+	TemplateBuilder<T> withSource(T source);
+
 
 }

@@ -15,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static me.bristermitten.fluency.button.distribution.ButtonDistribution.simple;
 import static org.bukkit.Material.AIR;
@@ -33,6 +32,7 @@ public class Menu {
 	private String title;
 	private int size;
 	private ButtonDistribution distribution;
+	private Player viewer;
 
 	public Menu() {
 		title = DEFAULT_TITLE;
@@ -142,7 +142,14 @@ public class Menu {
 	private void placeButton(ButtonHolder button, int slot) {
 		buttons[slot] = button;
 
-		MenuButton b = button.get();
+		MenuButton b;
+
+		if (button instanceof ButtonTemplate) {
+			ButtonTemplate<?> template = (ButtonTemplate<?>) button;
+			if (template.requiresPlayer() && viewer != null)
+				b = template.getFromViewer(viewer);
+			else b = button.get();
+		} else b = button.get();
 
 		if ((b == null || b.getType() == AIR)) {
 			if (!background.has())
@@ -186,6 +193,9 @@ public class Menu {
 	public MenuButton button(int index) {
 		ButtonHolder button = buttons[index];
 		if (!button.has() && background.has()) return background.get();
+		if (viewer != null && button instanceof ButtonTemplate) {
+			return ((ButtonTemplate<?>) button).getFromViewer(viewer);
+		}
 		return button.get();
 	}
 
@@ -205,6 +215,7 @@ public class Menu {
 	}
 
 	public void open(Player whoClicked) {
+		viewer = whoClicked;
 		updateMenu();
 		whoClicked.openInventory(inventory);
 	}

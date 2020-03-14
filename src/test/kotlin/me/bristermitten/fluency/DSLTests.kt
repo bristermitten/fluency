@@ -97,4 +97,31 @@ class DSLTests {
 		assertEquals(Material.STONE, button.type)
 		assertEquals("John Smith", button.itemMeta.displayName)
 	}
+
+	@Test
+	fun `Test DSL Player Templates`() {
+		val menu = fluency.createMenu {
+			title = "Menu"
+			size = 36
+
+			addPlayerTemplate {
+				type = Material.STONE
+
+				name {
+					it.name
+				}
+
+				loreString {
+					"${it.health}"
+				}
+			}
+		}
+		val player = MockBukkit.getMock().addPlayer()
+		menu.open(player)
+
+		val button = player.openInventory.topInventory.getItem(0)
+		assertEquals(Material.STONE, button.type)
+		assertEquals(player.name, button.itemMeta.displayName)
+		assertEquals(player.health.toString(), button.itemMeta.lore[0])
+	}
 }

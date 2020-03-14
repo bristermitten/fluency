@@ -6,6 +6,7 @@ import me.bristermitten.fluency.button.MenuButton;
 import me.bristermitten.fluency.button.distribution.ButtonDistribution;
 import me.bristermitten.fluency.button.template.TemplateBuilder;
 import me.bristermitten.fluency.data.ButtonHolder;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
@@ -34,6 +35,8 @@ public interface MenuBuilder extends FluentBuilder<Menu, MenuBuilder> {
 	ButtonBuilder buildButton();
 
 	@NotNull <T> TemplateBuilder<T> buildTemplate();
+
+	@NotNull TemplateBuilder<Player> buildPlayerTemplate();
 
 	@NotNull <T> TemplateBuilder<T> buildTemplatesForEach(Iterable<T> iterable);
 

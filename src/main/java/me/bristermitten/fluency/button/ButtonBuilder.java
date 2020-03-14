@@ -27,7 +27,7 @@ public interface ButtonBuilder extends FluentBuilder<MenuButton, MenuBuilder> {
 
 	short data();
 
-	@NotNull ButtonBuilder name(String name);
+	@NotNull ButtonBuilder name(@Nullable String name);
 
 	@Nullable
 	String name();

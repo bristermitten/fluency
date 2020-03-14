@@ -5,20 +5,22 @@ import me.bristermitten.fluency.button.ButtonBuilder;
 import me.bristermitten.fluency.button.MenuButton;
 import me.bristermitten.fluency.data.ButtonHolder;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class ButtonTemplate<T> extends ButtonHolder {
 	public static final Material DEFAULT_TYPE = Material.AIR;
 
 	private final Fluency fluency;
+	private boolean requiresPlayer;
 	private Function<T, String> nameFunction;
 	private Function<T, Material> typeFunction;
 	private Function<T, List<String>> loreFunction;
-	private Supplier<T> sourceSupplier;
+	private Function<Player, T> sourceFunction;
 
 	public ButtonTemplate(Fluency fluency) {
 		this.fluency = fluency;
@@ -27,22 +29,13 @@ public class ButtonTemplate<T> extends ButtonHolder {
 		typeFunction = any -> DEFAULT_TYPE;
 	}
 
-	public ButtonTemplate(Fluency fluency, Function<T, String> nameFunction,
-	                      Function<T, Material> typeFunction,
-	                      Function<T, List<String>> loreFunction) {
-		this(fluency);
-
-		this.nameFunction = nameFunction;
-		this.typeFunction = typeFunction;
-		this.loreFunction = loreFunction;
+	@Nullable
+	public Function<Player, T> sourceFunction() {
+		return sourceFunction;
 	}
 
-	public Supplier<T> supplier() {
-		return sourceSupplier;
-	}
-
-	public void supplier(Supplier<T> supplier) {
-		this.sourceSupplier = supplier;
+	public void sourceFunction(Function<Player, T> sourceFunction) {
+		this.sourceFunction = sourceFunction;
 	}
 
 	public MenuButton create(Fluency f, T t) {
@@ -82,10 +75,28 @@ public class ButtonTemplate<T> extends ButtonHolder {
 		this.typeFunction = typeFunction;
 	}
 
+	public void requiresPlayer(boolean requiresPlayer) {
+		this.requiresPlayer = requiresPlayer;
+	}
+
+	public boolean requiresPlayer() {
+		return requiresPlayer;
+	}
 
 	@Override
 	public MenuButton get() {
-		if (sourceSupplier == null) return null;
-		return create(fluency, sourceSupplier.get());
+		if (requiresPlayer) {
+			return null;
+		}
+		return create(fluency, sourceFunction.apply(null));
+	}
+
+	public MenuButton getFromViewer(Player viewer) {
+		return create(fluency, sourceFunction.apply(viewer));
+	}
+
+	@Override
+	public boolean has() {
+		return true;
 	}
 }

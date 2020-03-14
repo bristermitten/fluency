@@ -73,8 +73,7 @@ class ButtonBuilderImpl implements ButtonBuilder {
 
 	@NotNull
 	@Override
-	public ButtonBuilder name(String name) {
-		Objects.requireNonNull(name);
+	public ButtonBuilder name(@Nullable String name) {
 		transformMeta(m -> m.setDisplayName(Util.color(name)));
 		return this;
 	}

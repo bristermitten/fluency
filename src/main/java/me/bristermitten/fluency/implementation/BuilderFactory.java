@@ -5,31 +5,36 @@ import me.bristermitten.fluency.button.ButtonBuilder;
 import me.bristermitten.fluency.button.click.HandlerBuilder;
 import me.bristermitten.fluency.button.template.TemplateBuilder;
 import me.bristermitten.fluency.menu.MenuBuilder;
+import org.bukkit.entity.Player;
 
 public class BuilderFactory {
-    private final Fluency fluency;
+	private final Fluency fluency;
 
-    public BuilderFactory(Fluency fluency) {
-        this.fluency = fluency;
-    }
+	public BuilderFactory(Fluency fluency) {
+		this.fluency = fluency;
+	}
 
-    public MenuBuilder buildMenu() {
-        return new MenuBuilderImpl(fluency);
-    }
+	public MenuBuilder buildMenu() {
+		return new MenuBuilderImpl(fluency);
+	}
 
-    public ButtonBuilder buildButton() {
-        return buildButton(null);
-    }
+	public ButtonBuilder buildButton() {
+		return buildButton(null);
+	}
 
-    public ButtonBuilder buildButton(MenuBuilder parent) {
-        return new ButtonBuilderImpl(fluency, parent);
-    }
+	public ButtonBuilder buildButton(MenuBuilder parent) {
+		return new ButtonBuilderImpl(fluency, parent);
+	}
 
-    public HandlerBuilder buildHandler(ButtonBuilder parent) {
-        return new HandlerBuilderImpl(parent);
-    }
+	public HandlerBuilder buildHandler(ButtonBuilder parent) {
+		return new HandlerBuilderImpl(parent);
+	}
 
-    public <T> TemplateBuilder<T> buildTemplate(MenuBuilder parent) {
-        return new TemplateBuilderImpl<>(fluency, parent);
-    }
+	public <T> TemplateBuilder<T> buildTemplate(MenuBuilder parent) {
+		return new TemplateBuilderImpl<>(fluency, parent);
+	}
+
+	public TemplateBuilder<Player> buildViewerTemplate(MenuBuilder parent) {
+		return new PlayerTemplateBuilder(fluency, parent);
+	}
 }

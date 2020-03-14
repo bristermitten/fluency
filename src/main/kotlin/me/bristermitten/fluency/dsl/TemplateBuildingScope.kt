@@ -31,7 +31,7 @@ class TemplateBuildingScope<T>(val builder: TemplateBuilder<T>) {
 
 	var source: T? = null
 		set(value) {
-			builder.withObject(value)
+			builder.withSource(value)
 			field = value
 		}
 
@@ -52,11 +52,11 @@ class TemplateBuildingScope<T>(val builder: TemplateBuilder<T>) {
 	}
 
 	fun source(it: T) {
-		builder.withObject(it)
+		builder.withSource(it)
 	}
 
 	fun source(function: () -> T) {
-		builder.withObject(function)
+		builder.withSource(function)
 	}
 
 

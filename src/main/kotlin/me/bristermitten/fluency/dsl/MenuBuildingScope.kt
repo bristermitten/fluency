@@ -3,6 +3,7 @@ package me.bristermitten.fluency.dsl
 import me.bristermitten.fluency.button.MenuButton
 import me.bristermitten.fluency.button.distribution.ButtonDistribution
 import me.bristermitten.fluency.menu.MenuBuilder
+import org.bukkit.entity.Player
 
 class MenuBuildingScope(val builder: MenuBuilder) {
 
@@ -49,6 +50,10 @@ class MenuBuildingScope(val builder: MenuBuilder) {
 	inline fun <T> addTemplate(function: TemplateBuildingScope<T>.() -> Unit) {
 		val template = builder.buildTemplate<T>()
 		function(TemplateBuildingScope(template))
+	}
+
+	inline fun addPlayerTemplate(function: TemplateBuildingScope<Player>.() -> Unit) {
+		function(TemplateBuildingScope(builder.buildPlayerTemplate()))
 	}
 
 	fun skip() = builder.skip()

@@ -1,10 +1,15 @@
 package me.bristermitten.fluency.button.template;
 
+import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.entity.PlayerMock;
 import me.bristermitten.fluency.BukkitMock;
 import me.bristermitten.fluency.Fluency;
 import me.bristermitten.fluency.SimpleDataClass;
 import me.bristermitten.fluency.menu.Menu;
 import me.bristermitten.fluency.menu.MenuBuilder;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,5 +50,23 @@ public class ButtonTemplateTests {
 							.build(),
 					build.button(i));
 		}
+	}
+
+	@Test
+	public void testPlayerTemplate() {
+
+		MenuBuilder menuBuilder = fluency.buildMenu()
+				.buildPlayerTemplate()
+				.type(Material.STONE)
+				.nameFrom(Player::getName)
+				.done();
+
+		Menu menu = menuBuilder.build();
+
+		PlayerMock player = MockBukkit.getMock().addPlayer();
+		menu.open(player);
+
+		ItemStack item = player.getOpenInventory().getTopInventory().getItem(0);
+		assertEquals(player.getName(), item.getItemMeta().getDisplayName());
 	}
 }
