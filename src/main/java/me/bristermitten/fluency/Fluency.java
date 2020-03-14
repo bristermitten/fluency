@@ -45,7 +45,7 @@ public class Fluency {
 		return factory.buildButton();
 	}
 
-	public HandlerBuilder buildHandler(ButtonBuilder parent) {
+	public <P extends FluentBuilder<?, ?>> HandlerBuilder<P> buildHandler(P parent) {
 		return factory.buildHandler(parent);
 	}
 

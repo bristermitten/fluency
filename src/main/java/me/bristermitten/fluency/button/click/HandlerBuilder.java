@@ -1,7 +1,6 @@
 package me.bristermitten.fluency.button.click;
 
 import me.bristermitten.fluency.FluentBuilder;
-import me.bristermitten.fluency.button.ButtonBuilder;
 import me.bristermitten.fluency.menu.Menu;
 import org.bukkit.event.inventory.ClickType;
 
@@ -9,34 +8,34 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public interface HandlerBuilder extends FluentBuilder<ClickHandler, ButtonBuilder> {
-    HandlerBuilder cancel();
+public interface HandlerBuilder<R extends FluentBuilder<?, ?>> extends FluentBuilder<ClickHandler, R> {
+	HandlerBuilder<R> cancel();
 
-    HandlerBuilder closeMenu();
+	HandlerBuilder<R> closeMenu();
 
-    HandlerBuilder openMenu(Menu m);
+	HandlerBuilder<R> openMenu(Menu m);
 
-    HandlerBuilder openMenu(Supplier<Menu> m);
+	HandlerBuilder<R> openMenu(Supplier<Menu> m);
 
-    HandlerBuilder sendMessage(String message);
+	HandlerBuilder<R> sendMessage(String message);
 
-    HandlerBuilder sendMessage(Function<MenuClickEvent, String> message);
+	HandlerBuilder<R> sendMessage(Function<MenuClickEvent, String> message);
 
-    HandlerBuilder action(ClickHandler event);
+	HandlerBuilder<R> action(ClickHandler event);
 
-    HandlerBuilder nextPage();
+	HandlerBuilder<R> nextPage();
 
-    HandlerBuilder previousPage();
+	HandlerBuilder<R> previousPage();
 
-    HandlerBuilder whenClickType(ClickType type);
+	HandlerBuilder<R> whenClickType(ClickType type);
 
-    HandlerBuilder when(boolean condition);
+	HandlerBuilder<R> when(boolean condition);
 
-    HandlerBuilder when(Supplier<Boolean> condition);
+	HandlerBuilder<R> when(Supplier<Boolean> condition);
 
-    HandlerBuilder when(Predicate<MenuClickEvent> condition);
+	HandlerBuilder<R> when(Predicate<MenuClickEvent> condition);
 
-    HandlerBuilder otherwise();
+	HandlerBuilder<R> otherwise();
 
 //    <T> HandlerBuilder handlePlaceholder(String key, Consumer<T> consumer);
 }

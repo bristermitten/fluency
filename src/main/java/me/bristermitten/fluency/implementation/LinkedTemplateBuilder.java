@@ -1,6 +1,7 @@
 package me.bristermitten.fluency.implementation;
 
 import me.bristermitten.fluency.Fluency;
+import me.bristermitten.fluency.button.click.HandlerBuilder;
 import me.bristermitten.fluency.button.template.ButtonTemplate;
 import me.bristermitten.fluency.button.template.TemplateBuilder;
 import me.bristermitten.fluency.menu.MenuBuilder;
@@ -74,6 +75,11 @@ public class LinkedTemplateBuilder<T> implements TemplateBuilder<T> {
 	@Override
 	public TemplateBuilder<T> withSource(T object) {
 		return withSource(() -> object);
+	}
+
+	@Override
+	public HandlerBuilder<TemplateBuilder<T>> onClick() {
+		return internal.onClick();
 	}
 
 //    @Override

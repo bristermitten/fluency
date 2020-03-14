@@ -1,6 +1,7 @@
 package me.bristermitten.fluency.button.template;
 
 import me.bristermitten.fluency.FluentBuilder;
+import me.bristermitten.fluency.button.click.HandlerBuilder;
 import me.bristermitten.fluency.menu.MenuBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -24,6 +25,8 @@ public interface TemplateBuilder<T> extends FluentBuilder<ButtonTemplate<T>, Men
 	TemplateBuilder<T> withSource(Function<Player, T> sourceFunction);
 
 	TemplateBuilder<T> withSource(T source);
+
+	HandlerBuilder<TemplateBuilder<T>> onClick();
 
 
 }

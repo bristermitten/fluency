@@ -59,6 +59,9 @@ class TemplateBuildingScope<T>(val builder: TemplateBuilder<T>) {
 		builder.withSource(function)
 	}
 
-
+	inline fun onClick(function: HandlerBuildingScope.() -> Unit) {
+		val click = builder.onClick()
+		function(HandlerBuildingScope(click))
+	}
 }
 

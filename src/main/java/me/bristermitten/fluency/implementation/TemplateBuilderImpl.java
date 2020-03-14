@@ -1,6 +1,7 @@
 package me.bristermitten.fluency.implementation;
 
 import me.bristermitten.fluency.Fluency;
+import me.bristermitten.fluency.button.click.HandlerBuilder;
 import me.bristermitten.fluency.button.template.ButtonTemplate;
 import me.bristermitten.fluency.button.template.TemplateBuilder;
 import me.bristermitten.fluency.menu.MenuBuilder;
@@ -16,10 +17,13 @@ import java.util.function.Supplier;
 public class TemplateBuilderImpl<T> implements TemplateBuilder<T> {
 	@Nullable
 	private final MenuBuilder parent;
+	private final HandlerBuilder<TemplateBuilder<T>> handlerBuilder;
 	protected ButtonTemplate<T> template;
 
 	public TemplateBuilderImpl(Fluency fluency, MenuBuilder parent) {
 		template = new ButtonTemplate<>(fluency);
+		this.handlerBuilder = fluency.buildHandler(this);
+		template.handler(handlerBuilder.build());
 		this.parent = parent;
 	}
 
@@ -61,6 +65,11 @@ public class TemplateBuilderImpl<T> implements TemplateBuilder<T> {
 	@Override
 	public TemplateBuilder<T> withSource(T source) {
 		return withSource(() -> source);
+	}
+
+	@Override
+	public HandlerBuilder<TemplateBuilder<T>> onClick() {
+		return handlerBuilder;
 	}
 
 	@NotNull

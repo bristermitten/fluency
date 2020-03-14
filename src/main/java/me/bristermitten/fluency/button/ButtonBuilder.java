@@ -50,9 +50,9 @@ public interface ButtonBuilder extends FluentBuilder<MenuButton, MenuBuilder> {
 
 	@NotNull Map<Enchantment, Integer> enchantments();
 
-	@NotNull HandlerBuilder onClick();
+	@NotNull HandlerBuilder<ButtonBuilder> onClick();
 
-	@NotNull HandlerBuilder onClick(ClickType type);
+	@NotNull HandlerBuilder<ButtonBuilder> onClick(ClickType type);
 
 	@NotNull MenuButton build();
 

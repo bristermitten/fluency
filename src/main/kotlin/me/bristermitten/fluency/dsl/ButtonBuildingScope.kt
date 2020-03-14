@@ -56,10 +56,12 @@ class ButtonBuildingScope(val builder: ButtonBuilder) {
 	fun breakable() = builder.breakable()
 
 	inline fun onClick(clickType: ClickType, function: HandlerBuildingScope.() -> Unit) {
-		function(HandlerBuildingScope(builder.onClick(clickType)))
+		val click = builder.onClick(clickType)
+		function(HandlerBuildingScope(click))
 	}
 
 	inline fun onClick(function: HandlerBuildingScope.() -> Unit) {
-		function(HandlerBuildingScope(builder.onClick()))
+		val click = builder.onClick()
+		function(HandlerBuildingScope(click))
 	}
 }

@@ -1,6 +1,7 @@
 package me.bristermitten.fluency
 
 import be.seeseemelk.mockbukkit.MockBukkit
+import me.bristermitten.fluency.button.MenuButton
 import me.bristermitten.fluency.button.click.MenuClickEvent
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -114,6 +115,15 @@ class DSLTests {
 				loreString {
 					"${it.health}"
 				}
+
+				onClick {
+					whenPlayer(Player::isOp) {
+						sendMessage("You're OP")
+					}
+					otherwise {
+						sendMessage("Boo...")
+					}
+				}
 			}
 		}
 		val player = MockBukkit.getMock().addPlayer()
@@ -123,5 +133,11 @@ class DSLTests {
 		assertEquals(Material.STONE, button.type)
 		assertEquals(player.name, button.itemMeta.displayName)
 		assertEquals(player.health.toString(), button.itemMeta.lore[0])
+
+		val event = mock(MenuClickEvent::class.java)
+		`when`(event.clicker()).thenReturn(player)
+
+		(button as MenuButton).handler().accept(event)
+		assertEquals("Boo...", player.nextMessage())
 	}
 }

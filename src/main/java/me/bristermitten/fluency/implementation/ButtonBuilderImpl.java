@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 class ButtonBuilderImpl implements ButtonBuilder {
 	private final MenuBuilder parent;
 	private final ButtonHolder button;
-	private HandlerBuilder handlerBuilder;
+	private HandlerBuilder<ButtonBuilder> handlerBuilder;
 	private List<Consumer<ItemMeta>> modifierQueue;
 
 	public ButtonBuilderImpl(Fluency fluency, MenuBuilder parent) {
@@ -158,7 +158,7 @@ class ButtonBuilderImpl implements ButtonBuilder {
 
 	@NotNull
 	@Override
-	public HandlerBuilder onClick() {
+	public HandlerBuilder<ButtonBuilder> onClick() {
 //        HandlerBuilder handlerBuilder = fluency.buildHandler(this);
 //        transform(b -> {
 //            ClickHandler build = handlerBuilder.build();
@@ -172,7 +172,7 @@ class ButtonBuilderImpl implements ButtonBuilder {
 
 	@NotNull
 	@Override
-	public HandlerBuilder onClick(ClickType type) {
+	public HandlerBuilder<ButtonBuilder> onClick(ClickType type) {
 //        HandlerBuilder handlerBuilder = fluency.buildHandler(this);
 		handlerBuilder.whenClickType(type);
 //        transform(b -> {
