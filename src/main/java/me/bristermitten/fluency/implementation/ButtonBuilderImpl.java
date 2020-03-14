@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -34,6 +35,7 @@ class ButtonBuilderImpl implements ButtonBuilder {
 		button.handler(handlerBuilder.build());
 		this.button = new ButtonHolder(button);
 		amount(1);
+		lore(new ArrayList<>());
 	}
 
 	@NotNull
@@ -91,28 +93,31 @@ class ButtonBuilderImpl implements ButtonBuilder {
 	@NotNull
 	@Override
 	public ButtonBuilder lore(@NotNull String... lore) {
-		for (String s : lore) {
-			addLore(s);
-		}
-		return this;
+		return lore(Arrays.asList(lore));
 	}
 
 	@NotNull
 	@Override
 	public ButtonBuilder lore(@NotNull List<String> lore) {
-		for (String s : lore) {
-			addLore(s);
-		}
+		transformMeta(meta -> {
+			List<String> loreList = new ArrayList<>();
+			for (String s : lore) {
+				loreList.add(Util.color(s));
+			}
+			meta.setLore(loreList);
+		});
 		return this;
 	}
 
 	@NotNull
 	@Override
-	public ButtonBuilder addLore(@NotNull String lore) {
+	public ButtonBuilder addLore(String... lore) {
 		transformMeta(meta -> {
 			List<String> loreList = new ArrayList<>();
 			if (meta.hasLore()) loreList = meta.getLore();
-			loreList.add(Util.color(lore));
+			for (String s : lore) {
+				loreList.add(Util.color(s));
+			}
 			meta.setLore(loreList);
 		});
 		return this;
@@ -122,10 +127,8 @@ class ButtonBuilderImpl implements ButtonBuilder {
 	@NotNull
 	public List<String> lore() {
 		ItemMeta itemMeta = button.get().getItemMeta();
-		if (itemMeta == null) return new ArrayList<>();
-		List<String> lore = itemMeta.getLore();
-		if (lore == null) lore = new ArrayList<>();
-		return lore;
+		if (itemMeta == null || !itemMeta.hasLore()) return new ArrayList<>();
+		return itemMeta.getLore();
 	}
 
 	@NotNull

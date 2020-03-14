@@ -32,11 +32,24 @@ public interface ButtonBuilder extends FluentBuilder<MenuButton, MenuBuilder> {
 	@Nullable
 	String name();
 
+	/**
+	 * Set the lore of this Button
+	 * @param lore the new lore
+	 * @return this builder
+	 */
 	@NotNull ButtonBuilder lore(String... lore);
-
-	@NotNull ButtonBuilder lore(List<String> lore);
-
-	@NotNull ButtonBuilder addLore(String lore);
+	/**
+	 * Set the lore of this Button
+	 * @param lore the new lore
+	 * @return this builder
+	 */
+	@NotNull ButtonBuilder lore(@NotNull List<String> lore);
+	/**
+	 * Add to the lore of this Button
+	 * @param lore the lore to add
+	 * @return this builder
+	 */
+	@NotNull ButtonBuilder addLore(String... lore);
 
 	@NotNull List<String> lore();
 

@@ -9,6 +9,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static me.bristermitten.fluency.button.distribution.ButtonDistribution.simple;
 import static org.junit.Assert.assertEquals;
 
@@ -30,6 +32,7 @@ public class ButtonBuilderTest {
         expected.setAmount(1);
         ItemMeta itemMeta = expected.getItemMeta();
         itemMeta.setDisplayName("Hello");
+        itemMeta.setLore(new ArrayList<>());
         expected.setItemMeta(itemMeta);
 
         MenuButton actual = builder.name("Hello").build();

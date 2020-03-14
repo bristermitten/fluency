@@ -18,9 +18,6 @@ public class MenuButton extends ItemStack {
         this.handler = handler;
     }
 
-    public MenuButton(ItemStack stack, ClickHandler handler) throws IllegalArgumentException {
-        this.handler = handler;
-    }
 
     public void handler(ClickHandler handler) {
         this.handler = handler;
@@ -29,4 +26,6 @@ public class MenuButton extends ItemStack {
     public ClickHandler handler() {
         return handler;
     }
+
+
 }

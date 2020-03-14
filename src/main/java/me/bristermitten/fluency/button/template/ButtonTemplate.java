@@ -5,15 +5,13 @@ import me.bristermitten.fluency.button.ButtonBuilder;
 import me.bristermitten.fluency.button.MenuButton;
 import me.bristermitten.fluency.button.click.ClickHandler;
 import me.bristermitten.fluency.button.click.Handlers;
-import me.bristermitten.fluency.button.click.MenuClickEvent;
 import me.bristermitten.fluency.data.ButtonHolder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class ButtonTemplate<T> extends ButtonHolder {
@@ -30,7 +28,7 @@ public class ButtonTemplate<T> extends ButtonHolder {
 	public ButtonTemplate(Fluency fluency) {
 		this.fluency = fluency;
 		nameFunction = any -> null;
-		loreFunction = any -> Collections.emptyList();
+		loreFunction = any -> new ArrayList<>();
 		typeFunction = any -> DEFAULT_TYPE;
 		handler = Handlers.DO_NOTHING;
 	}
