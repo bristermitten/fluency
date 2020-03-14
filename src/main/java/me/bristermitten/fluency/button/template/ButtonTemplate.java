@@ -85,7 +85,7 @@ public class ButtonTemplate<T> extends ButtonHolder {
 
 	@Override
 	public MenuButton get() {
-		if (requiresPlayer) {
+		if (requiresPlayer || sourceFunction == null) {
 			return null;
 		}
 		return create(fluency, sourceFunction.apply(null));
