@@ -15,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -123,8 +122,10 @@ class ButtonBuilderImpl implements ButtonBuilder {
 	@NotNull
 	public List<String> lore() {
 		ItemMeta itemMeta = button.get().getItemMeta();
-		if (itemMeta == null || !itemMeta.hasLore()) return new ArrayList<>();
-		return itemMeta.getLore();
+		if (itemMeta == null) return new ArrayList<>();
+		List<String> lore = itemMeta.getLore();
+		if (lore == null) lore = new ArrayList<>();
+		return lore;
 	}
 
 	@NotNull

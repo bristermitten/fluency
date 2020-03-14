@@ -32,6 +32,7 @@ class DSLTests {
 				data = 7
 
 				name = "Background"
+				lore += "Background Lore"
 				onClick {
 					cancel()
 

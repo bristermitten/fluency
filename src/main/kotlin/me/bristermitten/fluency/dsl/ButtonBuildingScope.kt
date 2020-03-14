@@ -29,12 +29,11 @@ class ButtonBuildingScope(val builder: ButtonBuilder) {
 			builder.name(value)
 		}
 
-	val lore: LoreList
-		get() {
-			val loreList = LoreList(builder.lore())
-			builder.lore(loreList)
-			return loreList
-		}
+	val lore: LoreList by lazy {
+		val loreList = LoreList(builder.lore())
+		builder.lore(loreList)
+		loreList
+	}
 
 	fun lore(vararg lore: String) {
 		builder.lore(*lore)
