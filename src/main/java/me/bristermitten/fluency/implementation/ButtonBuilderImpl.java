@@ -14,7 +14,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 class ButtonBuilderImpl implements ButtonBuilder {
@@ -120,7 +123,7 @@ class ButtonBuilderImpl implements ButtonBuilder {
 	@NotNull
 	public List<String> lore() {
 		ItemMeta itemMeta = button.get().getItemMeta();
-		if (itemMeta == null) return Collections.emptyList();
+		if (itemMeta == null || !itemMeta.hasLore()) return new ArrayList<>();
 		return itemMeta.getLore();
 	}
 
