@@ -48,9 +48,9 @@ public class ButtonTemplate<T> extends ButtonHolder {
 
 	public MenuButton create(ButtonBuilder builder, T t) {
 		return builder
+				.type(typeFunction.apply(t))
 				.name(nameFunction.apply(t))
 				.lore(loreFunction.apply(t))
-				.type(typeFunction.apply(t))
 				.onClick().action(handler).done()
 				.build();
 	}
