@@ -17,9 +17,11 @@ class TemplateBuildingScope<T>(val builder: TemplateBuilder<T>) {
 			field = value
 		}
 
+	init {
+		builder.loreFrom { lore }
+	}
 
-	val lore: LoreList = LoreList(mutableListOf())
-
+	private val lore: MutableList<String> = ArrayList()
 	fun lore(vararg lore: String) {
 		this.lore.clear()
 		this.lore.addAll(lore)

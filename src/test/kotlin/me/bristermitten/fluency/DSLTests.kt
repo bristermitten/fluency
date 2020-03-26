@@ -12,17 +12,21 @@ import org.mockito.Mockito.mock
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-class DSLTests {
+class DSLTests
+{
 	private lateinit var fluency: Fluency
 
 	@Before
-	fun init() {
+	fun init()
+	{
 		BukkitMock.init()
 		fluency = Fluency.create(null)
 	}
 
 	@Test
-	fun `Test DSL Building`() {
+	fun `Test DSL Building`()
+	{
+		val loreString = "Background Lore"
 		val menu = fluency.createMenu {
 			title = "Menu"
 			size = 36
@@ -32,7 +36,7 @@ class DSLTests {
 				data = 7
 
 				name = "Background"
-				lore += "Background Lore"
+				lore += loreString
 				onClick {
 					cancel()
 
@@ -68,10 +72,12 @@ class DSLTests {
 		assertEquals(0.0, player.health)
 		assertEquals("You died for clicking on the background!", player.nextMessage())
 		assertEquals("You are not OP!", player.nextMessage())
+		assertEquals(loreString, background.itemMeta.lore[0])
 	}
 
 	@Test
-	fun `Test DSL Templates`() {
+	fun `Test DSL Templates`()
+	{
 		val data = SimpleDataClass(30, "John Smith", null)
 		val menu = fluency.createMenu {
 			title = "Menu"
@@ -101,7 +107,8 @@ class DSLTests {
 	}
 
 	@Test
-	fun `Test DSL Player Templates`() {
+	fun `Test DSL Player Templates`()
+	{
 		val menu = fluency.createMenu {
 			title = "Menu"
 			size = 36
