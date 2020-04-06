@@ -180,15 +180,7 @@ class ButtonBuilderImpl implements ButtonBuilder {
 	@NotNull
 	@Override
 	public HandlerBuilder<ButtonBuilder> onClick(ClickType type) {
-//        HandlerBuilder handlerBuilder = fluency.buildHandler(this);
 		handlerBuilder.whenClickType(type);
-//        transform(b -> {
-//            ClickHandler build = handlerBuilder.build();
-//            if (b.handler() instanceof ActionList && build instanceof ActionList) {
-//                ((ActionList) b.handler()).addAll((ActionList) build);
-//            } else
-//                b.handler(build);
-//        });
 		return handlerBuilder;
 	}
 

@@ -22,6 +22,7 @@ class TemplateBuildingScope<T>(val builder: TemplateBuilder<T>) {
 	}
 
 	private val lore: MutableList<String> = ArrayList()
+
 	fun lore(vararg lore: String) {
 		this.lore.clear()
 		this.lore.addAll(lore)
