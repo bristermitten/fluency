@@ -4,7 +4,12 @@ import java.util.function.Supplier;
 
 /**
  * Determines how buttons are distributed
- * Essentially, used for iterating over the slots in a menu, however not necessarily in direct order
+ * This does away with direct slot setting in favour of a more abstract approach.
+ * A {@link ButtonDistribution} defines the order that buttons are placed onto a Menu.
+ * They should respect the size of the menu, and expect {@link ButtonDistribution#init(int)} and {@link ButtonDistribution#copy()} to be called
+ * frequently.
+ *
+ * @apiNote Implementations of this class should appropriately override {@link ButtonDistribution#copy()}
  */
 public interface ButtonDistribution extends Iterable<Integer> {
 
