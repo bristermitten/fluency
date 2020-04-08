@@ -42,7 +42,7 @@ class ButtonBuildingScope(val builder: ButtonBuilder) {
         }
 
     var flags: MutableSet<ItemFlag>
-        get() = builder.flags()
+        get() = FlagsSet(builder)
         set(value) {
             for (flag in value) {
                 builder.addFlags(flag)
