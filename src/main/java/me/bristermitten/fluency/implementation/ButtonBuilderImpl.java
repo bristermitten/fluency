@@ -153,7 +153,7 @@ class ButtonBuilderImpl implements ButtonBuilder {
     @NotNull
     @Override
     public ButtonBuilder enchant(Enchantment enchantment, int level) {
-        transformItem(b -> b.addEnchantment(enchantment, level));
+        transformItem(b -> b.addUnsafeEnchantment(enchantment, level));
         return this;
     }
 
