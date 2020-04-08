@@ -7,11 +7,13 @@ import me.bristermitten.fluency.menu.MenuBuilder;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.inventory.ItemFlag;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface ButtonBuilder extends FluentBuilder<MenuButton, MenuBuilder> {
 	@NotNull ButtonBuilder amount(int amount);
@@ -59,9 +61,13 @@ public interface ButtonBuilder extends FluentBuilder<MenuButton, MenuBuilder> {
 
 	boolean isUnbreakable();
 
-	@NotNull ButtonBuilder enchant(Enchantment e, int level);
+	@NotNull ButtonBuilder enchant(Enchantment enchantment, int level);
 
 	@NotNull Map<Enchantment, Integer> enchantments();
+
+	@NotNull ButtonBuilder addFlags(ItemFlag... flags);
+
+	@NotNull Set<ItemFlag> flags();
 
 	@NotNull HandlerBuilder<ButtonBuilder> onClick();
 

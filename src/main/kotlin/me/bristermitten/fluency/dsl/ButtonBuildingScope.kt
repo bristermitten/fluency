@@ -1,8 +1,12 @@
 package me.bristermitten.fluency.dsl
 
 import me.bristermitten.fluency.button.ButtonBuilder
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.event.inventory.ClickType
+import org.bukkit.inventory.ItemFlag
+import org.jetbrains.annotations.NotNull
 
+@Suppress("unused")
 class ButtonBuildingScope(val builder: ButtonBuilder) {
 
     var amount
@@ -27,6 +31,22 @@ class ButtonBuildingScope(val builder: ButtonBuilder) {
         get() = builder.name() ?: ""
         set(value) {
             builder.name(value)
+        }
+
+    var enchants: MutableMap<Enchantment, Int>
+        get() = builder.enchantments()
+        set(value) {
+            for ((k, v) in value) {
+                builder.enchant(k, v)
+            }
+        }
+
+    var flags: MutableSet<ItemFlag>
+        get() = builder.flags()
+        set(value) {
+            for (flag in value) {
+                builder.addFlags(flag)
+            }
         }
 
     val lore: LoreList = LoreList(builder)

@@ -13,7 +13,6 @@ class MenuBuildingScope(val builder: MenuBuilder) {
             builder.title(value)
         }
 
-
     var size: Int
         get() = builder.size()
         set(value) {

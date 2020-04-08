@@ -4,7 +4,9 @@ import be.seeseemelk.mockbukkit.MockBukkit
 import me.bristermitten.fluency.button.MenuButton
 import me.bristermitten.fluency.button.click.MenuClickEvent
 import org.bukkit.Material
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemFlag
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.`when`
