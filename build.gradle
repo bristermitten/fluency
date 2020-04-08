@@ -42,6 +42,7 @@ buildscript {
     }
 }
 
+
 compileKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
@@ -52,3 +53,24 @@ compileTestKotlin {
         jvmTarget = "1.8"
     }
 }
+
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+javadoc {
+    options.tags = ["apiNote", "implNote"]
+}
+
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+

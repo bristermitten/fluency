@@ -9,7 +9,7 @@ import java.util.function.Supplier;
  * They should respect the size of the menu, and expect {@link ButtonDistribution#init(int)} and {@link ButtonDistribution#copy()} to be called
  * frequently.
  *
- * @apiNote Implementations of this class should appropriately override {@link ButtonDistribution#copy()}
+ * @implNote Implementations of this class should appropriately override {@link ButtonDistribution#copy()}
  */
 public interface ButtonDistribution extends Iterable<Integer> {
 
@@ -30,6 +30,8 @@ public interface ButtonDistribution extends Iterable<Integer> {
     /**
      * Initialize the distribution with the size of the menu it must distribute buttons for
      * This method must be called before any others
+     *
+     * @param size The size of the menu
      */
     void init(int size);
 
