@@ -1,5 +1,6 @@
 package me.bristermitten.fluency.implementation;
 
+import com.google.common.collect.ImmutableMap;
 import me.bristermitten.fluency.Fluency;
 import me.bristermitten.fluency.Util;
 import me.bristermitten.fluency.button.ButtonBuilder;
@@ -167,16 +168,16 @@ class ButtonBuilderImpl implements ButtonBuilder {
         return this;
     }
 
-	@Override
-	public @NotNull Set<ItemFlag> flags() {
-		ItemMeta meta = button.get().getItemMeta();
-		if(meta == null) {
-			return Collections.emptySet();
-		}
-		return meta.getItemFlags();
-	}
+    @Override
+    public @NotNull Set<ItemFlag> flags() {
+        ItemMeta meta = button.get().getItemMeta();
+        if (meta == null) {
+            return Collections.emptySet();
+        }
+        return meta.getItemFlags();
+    }
 
-	@NotNull
+    @NotNull
     @Override
     public HandlerBuilder<ButtonBuilder> onClick() {
 //        HandlerBuilder handlerBuilder = fluency.buildHandler(this);

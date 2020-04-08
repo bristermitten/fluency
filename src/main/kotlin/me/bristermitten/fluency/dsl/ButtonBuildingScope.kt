@@ -34,7 +34,7 @@ class ButtonBuildingScope(val builder: ButtonBuilder) {
         }
 
     var enchants: MutableMap<Enchantment, Int>
-        get() = builder.enchantments()
+        get() = EnchantmentMap(builder)
         set(value) {
             for ((k, v) in value) {
                 builder.enchant(k, v)

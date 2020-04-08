@@ -4,9 +4,7 @@ import be.seeseemelk.mockbukkit.MockBukkit
 import me.bristermitten.fluency.button.MenuButton
 import me.bristermitten.fluency.button.click.MenuClickEvent
 import org.bukkit.Material
-import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemFlag
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.`when`
@@ -31,8 +29,7 @@ class DSLTests {
             size = 36
 
             background {
-                type = Material.STAINED_GLASS_PANE
-                data = 7
+                type = Material.BLACK_STAINED_GLASS_PANE
 
                 name = "Background"
                 lore += loreString
@@ -58,7 +55,7 @@ class DSLTests {
         assertNotNull(background)
 
 
-        assertEquals(Material.STAINED_GLASS_PANE, background.type)
+        assertEquals(Material.BLACK_STAINED_GLASS_PANE, background.type)
         assertEquals(7.toShort(), background.durability)
 
 
@@ -71,7 +68,7 @@ class DSLTests {
         assertEquals(0.0, player.health)
         assertEquals("You died for clicking on the background!", player.nextMessage())
         assertEquals("You are not OP!", player.nextMessage())
-        assertEquals(loreString, background.itemMeta.lore[0])
+        assertEquals(loreString, background.itemMeta?.lore?.get(0))
     }
 
     @Test
@@ -101,7 +98,7 @@ class DSLTests {
 
         val button = menu.button(0)
         assertEquals(Material.STONE, button.type)
-        assertEquals("John Smith", button.itemMeta.displayName)
+        assertEquals("John Smith", button.itemMeta?.displayName)
     }
 
     @Test
@@ -134,10 +131,10 @@ class DSLTests {
         val player = MockBukkit.getMock().addPlayer()
         menu.open(player)
 
-        val button = player.openInventory.topInventory.getItem(0)
+        val button = player.openInventory.topInventory.getItem(0)!!
         assertEquals(Material.STONE, button.type)
-        assertEquals(player.name, button.itemMeta.displayName)
-        assertEquals(player.health.toString(), button.itemMeta.lore[0])
+        assertEquals(player.name, button.itemMeta?.displayName)
+        assertEquals(player.health.toString(), button.itemMeta?.lore?.get(0))
 
         val event = mock(MenuClickEvent::class.java)
         `when`(event.clicker()).thenReturn(player)
@@ -159,9 +156,9 @@ class DSLTests {
         }
 
         assertEquals(Material.STONE, button.type)
-        assertEquals("Hello", button.itemMeta.displayName)
+        assertEquals("Hello", button.itemMeta?.displayName)
         assertEquals(3, button.amount)
-        assertEquals("This is a Test", button.itemMeta.lore[0])
-        assertEquals("Button", button.itemMeta.lore[1])
+        assertEquals("This is a Test", button.itemMeta?.lore?.get(0))
+        assertEquals("Button", button.itemMeta?.lore?.get(1))
     }
 }
