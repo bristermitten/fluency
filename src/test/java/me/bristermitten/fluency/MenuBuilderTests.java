@@ -44,28 +44,28 @@ public class MenuBuilderTests {
 
 	@Test
 	public void testAddButton() {
-		Menu build = fluency.buildMenu()
+		Menu menu = fluency.buildMenu()
 				.buildButton().done()
 				.build();
-		MenuButton button = build.button(0);
+		MenuButton button = menu.button(0);
 		assertEquals(AIR, button.getType());
-		assertNull(build.button(1));
+		assertNull(menu.button(1));
 	}
 
 	@Test
 	public void testAddButtonWithData() {
-		Menu build = fluency.buildMenu()
+		Menu menu = fluency.buildMenu()
 				.buildButton()
 				.amount(30).type(STONE)
 				.done()
 				.build();
-		assertEquals(STONE, build.button(0).getType());
-		assertEquals(30, build.button(0).getAmount());
+		assertEquals(STONE, menu.button(0).getType());
+		assertEquals(30, menu.button(0).getAmount());
 	}
 
 	@Test
 	public void testChaining() {
-		Menu build = fluency.buildMenu().size(36).title("Test Menu")
+		Menu menu = fluency.buildMenu().size(36).title("Test Menu")
 				.buildButton().type(STONE).amount(12).onClick().sendMessage("Clicked").done().done()
 				.build();
 
@@ -73,7 +73,7 @@ public class MenuBuilderTests {
 
 		Player p = mock(Player.class);
 		when(e.clicker()).thenReturn(p);
-		build.button(0).handler().accept(e);
+		menu.button(0).handler().accept(e);
 		Mockito.verify(p).sendMessage("Clicked");
 		when(p.openInventory(any(Inventory.class))).then(a -> {
 			Object argument = a.getArguments()[0];
@@ -81,7 +81,7 @@ public class MenuBuilderTests {
 			assertEquals(STONE, i.getItem(0).getType());
 			return null;
 		});
-		build.open(p);
+		menu.open(p);
 	}
 
 	@Test
@@ -92,7 +92,6 @@ public class MenuBuilderTests {
 
 		Menu menu = builder.build();
 
-		MenuClickEvent e = mock(MenuClickEvent.class);
 		assertEquals(background, menu.button(3));
 	}
 
@@ -139,11 +138,11 @@ public class MenuBuilderTests {
 
 	@Test
 	public void testAddPredefinedButton() {
-		MenuButton build = fluency.buildButton().type(STONE).build();
+		MenuButton button = fluency.buildButton().type(STONE).build();
 		Menu menu = fluency.buildMenu().size(9).title("Test Menu")
-				.addButton(build).build();
+				.addButton(button).build();
 
-		assertEquals(build, menu.button(0));
+		assertEquals(button, menu.button(0));
 
 		menu.addPage();
 		assertEquals(Fluency.PAGE_NEXT, menu.button(8));
