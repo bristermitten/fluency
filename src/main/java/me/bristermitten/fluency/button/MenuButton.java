@@ -4,6 +4,8 @@ import me.bristermitten.fluency.button.click.ClickHandler;
 import me.bristermitten.fluency.button.click.Handlers;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.Nullable;
 
 public class MenuButton extends ItemStack {
     private ClickHandler handler;
@@ -26,6 +28,4 @@ public class MenuButton extends ItemStack {
     public ClickHandler handler() {
         return handler;
     }
-
-
 }

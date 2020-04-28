@@ -26,15 +26,11 @@ import static org.mockito.Mockito.when;
 public class MenuBuilderTests {
 	private Fluency fluency;
 
+
 	@Before
-	public void init() {
+	public void setUp() {
 		BukkitMock.init();
 		fluency = Fluency.create(null);
-	}
-
-	@After
-	public void tearDown() {
-		BukkitMock.stop();
 	}
 
 	@Test()

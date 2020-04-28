@@ -19,11 +19,6 @@ public class ManualTest {
     private Iterable<Integer> slots;
     private Fluency fluency;
 
-    @After
-    public void tearDown() {
-        BukkitMock.stop();
-    }
-
     @Before
     public void init() {
         BukkitMock.init();

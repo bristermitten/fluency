@@ -1,6 +1,5 @@
 package me.bristermitten.fluency.implementation;
 
-import com.google.common.collect.ImmutableMap;
 import me.bristermitten.fluency.Fluency;
 import me.bristermitten.fluency.Util;
 import me.bristermitten.fluency.button.ButtonBuilder;
@@ -222,18 +221,18 @@ class ButtonBuilderImpl implements ButtonBuilder {
         button.set(menuButton);
     }
 
-    private void transformMeta(Consumer<ItemMeta> f) {
+    private void transformMeta(Consumer<ItemMeta> transformer) {
         transformItem(b -> {
             ItemMeta itemMeta = b.getItemMeta();
 
             if (itemMeta == null) {
-                modifierQueue.add(f);
+                modifierQueue.add(transformer);
                 return;
             }
 
             modifierQueue.forEach(q -> q.accept(itemMeta));
             modifierQueue.clear();
-            f.accept(itemMeta);
+            transformer.accept(itemMeta);
             b.setItemMeta(itemMeta);
         });
     }

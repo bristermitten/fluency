@@ -24,7 +24,7 @@ dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     api "org.jetbrains:annotations:19.0.0"
 
-    testImplementation 'com.github.knightzmc:MockBukkit:701a5c416cab5a3942a3f8b6711293651a1b8d85'
+    testImplementation 'com.github.knightzmc:MockBukkit:8fb3f8a0f5ffa2edac8495247ca6b138fac34922'
     testImplementation "junit:junit:4.13"
     testImplementation "org.jetbrains.kotlin:kotlin-test"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit"

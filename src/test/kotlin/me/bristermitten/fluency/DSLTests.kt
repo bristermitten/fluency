@@ -5,6 +5,7 @@ import me.bristermitten.fluency.button.MenuButton
 import me.bristermitten.fluency.button.click.MenuClickEvent
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.`when`
@@ -16,7 +17,7 @@ class DSLTests {
     private lateinit var fluency: Fluency
 
     @Before
-    fun init() {
+    fun setUp() {
         BukkitMock.init()
         fluency = Fluency.create(null)
     }
@@ -56,7 +57,6 @@ class DSLTests {
 
 
         assertEquals(Material.BLACK_STAINED_GLASS_PANE, background.type)
-        assertEquals(7.toShort(), background.durability)
 
 
         val event = mock(MenuClickEvent::class.java)

@@ -10,8 +10,9 @@ import kotlin.test.assertEquals
 class ButtonDSLTests {
     private lateinit var fluency: Fluency
 
+
     @Before
-    fun init() {
+    fun setUp() {
         BukkitMock.init()
         fluency = Fluency.create(null)
     }
