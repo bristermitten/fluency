@@ -62,11 +62,6 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
 }
 
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-}
-
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -82,8 +77,6 @@ publishing {
             url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
 
             credentials {
-
-                println project.hasProperty('mavenUser') ? mavenUser : System.env["MAVEN_USER"]
                 username project.hasProperty('mavenUser') ? mavenUser : System.env["MAVEN_USER"]
                 password project.hasProperty('mavenPassword') ? mavenPassword : System.env["MAVEN_PASSWORD"]
             }
