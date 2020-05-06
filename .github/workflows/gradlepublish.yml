@@ -7,6 +7,8 @@ name: Gradle Package
 on:
   watch:
     types: [started]
+  push:
+    types: [created]
   release:
     types: [created]
 
