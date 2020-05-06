@@ -7,6 +7,8 @@ name: Gradle Package
 on:
   watch:
     types: [started]
+  push:
+    types: [created]
   release:
     types: [created]
 
@@ -17,7 +19,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up JDK 1.8
+      - name: Set up JDK 1.9
         uses: actions/setup-java@v1
         with:
           java-version: 1.9
@@ -29,7 +31,8 @@ jobs:
 
       # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
       # the publishing section of your build.gradle
-      - name: Publish to Sonatype Nexus
+      - name: Publish to Nexus
         run: gradle publish
         env:
-          USERNAME: deploy
+          MAVEN_USER: deploy
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
