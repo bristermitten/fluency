@@ -1,6 +1,5 @@
 package me.bristermitten.fluency.dsl
 
-import me.bristermitten.fluency.FluentBuilder
 import me.bristermitten.fluency.button.click.ClickHandler
 import me.bristermitten.fluency.button.click.HandlerBuilder
 import me.bristermitten.fluency.button.click.MenuClickEvent

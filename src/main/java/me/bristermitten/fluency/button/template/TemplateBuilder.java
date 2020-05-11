@@ -9,24 +9,29 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.ToIntFunction;
 
-public interface TemplateBuilder<T> extends FluentBuilder<ButtonTemplate<T>, MenuBuilder> {
+public interface TemplateBuilder<T> extends FluentBuilder<ButtonTemplate<T>, MenuBuilder>
+{
 
-	TemplateBuilder<T> nameFrom(Function<T, String> nameFunction);
+    TemplateBuilder<T> nameFrom(Function<T, String> nameFunction);
 
-	TemplateBuilder<T> loreFrom(Function<T, List<String>> loreFunction);
+    TemplateBuilder<T> loreFrom(Function<T, List<String>> loreFunction);
 
-	TemplateBuilder<T> typeFrom(Function<T, Material> typeFunction);
+    TemplateBuilder<T> typeFrom(Function<T, Material> typeFunction);
 
-	TemplateBuilder<T> type(Material type);
+    TemplateBuilder<T> type(Material type);
 
-	TemplateBuilder<T> withSource(Supplier<T> sourceSupplier);
+    TemplateBuilder<T> amount(int amount);
 
-	TemplateBuilder<T> withSource(Function<Player, T> sourceFunction);
+    TemplateBuilder<T> amountFrom(ToIntFunction<T> amountFunction);
 
-	TemplateBuilder<T> withSource(T source);
+    TemplateBuilder<T> withSource(Supplier<T> sourceSupplier);
 
-	HandlerBuilder<TemplateBuilder<T>> onClick();
+    TemplateBuilder<T> withSource(Function<Player, T> sourceFunction);
 
+    TemplateBuilder<T> withSource(T source);
+
+    HandlerBuilder<TemplateBuilder<T>> onClick();
 
 }
